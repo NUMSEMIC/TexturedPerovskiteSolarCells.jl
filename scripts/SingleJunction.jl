@@ -1045,12 +1045,14 @@ function main(;plotting = false, test = false,
 
 end #  main
 
-function test()
-      testval1 = -0.6162695397900051 # all reco
-      testval2 = -0.6236278584408826 # all reco
-    main(gridDim = 1, test = true, demo_run = false) ≈ testval1 && main(gridDim = 1, test = true, demo_run = true) ≈ testval2
+function test(;demo_run = false)
+    if demo_run
+        testval = -0.6236278584408826 # all reco
+    else
+        testval = -0.6162695397900051 # all reco
+    end
+    return main(gridDim = 1, test = true, demo_run = demo_run) ≈ testval
 end
-
 
 end # module
 

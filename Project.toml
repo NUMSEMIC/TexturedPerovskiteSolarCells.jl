@@ -19,6 +19,7 @@ Triangulate = "f7e6ffb2-c36d-4f8f-a77e-16e897189344"
 VoronoiFVM = "82b139dc-5afc-11e9-35da-9b9bdfd336f3"
 
 [compat]
+Aqua = "0.8.12"
 ChargeTransport = "0.3.0"
 DelimitedFiles = "1.9.1"
 DrWatson = "2.18.0"
@@ -30,5 +31,14 @@ NPZ = "0.4.3"
 PyPlot = "2.11.6"
 Roots = "2.2.7"
 SimplexGridFactory = "2.4.0"
+Test = "1.11.0"
 Triangulate = "2.4.0"
 VoronoiFVM = "2.10.1"
+julia = "1.10"
+
+[extras]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Aqua", "Test"]
