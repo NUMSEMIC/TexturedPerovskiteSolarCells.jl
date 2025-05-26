@@ -9,6 +9,7 @@ To Do:
       ```julia
       julia> include("scripts/SingleJunction.jl"); SingleJunction.main(demo_run = true)
       ```
+- [ ] demo_run und test zusammenführen (test in demo_run ändern)
 - [ ] Dilara: 1D Beispiel Gitter gröber machen, wenn demo_run für Tests
 - [ ] Patrick: Add CI
 - [ ] Patrick: JF, CM kontaktieren wegen constants
