@@ -21,7 +21,10 @@ using SimplexGridFactory
 using Triangulate
 using VoronoiFVM
 using Roots
-using DrWatson
+
+# for convenience
+datadir = TexturedPerovskiteSolarCells.datadir
+scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 
 ###########################################################
 ###########################################################
