@@ -9,6 +9,8 @@ To Do:
       ```julia
       julia> include("scripts/SingleJunction.jl"); SingleJunction.main(demo_run = true)
       ```
+- [ ] in allen PostProcess files DrWatson durch TexturedPerovskiteSolarCells ersetzen
+- [ ] DrWatson und NPZ rausnehmen als Paketabhängigkeitem
 - [ ] demo_run und test zusammenführen (test in demo_run ändern)
 - [ ] Dilara: 1D Beispiel Gitter gröber machen, wenn demo_run für Tests
 - [ ] Patrick: Add CI
