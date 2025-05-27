@@ -11,7 +11,11 @@ using DelimitedFiles
 using PyCall
 using ChargeTransport
 using ExtendableGrids
-using DrWatson
+using TexturedPerovskiteSolarCells
+
+# for convenience
+datadir = TexturedPerovskiteSolarCells.datadir
+scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 
 # https://stackoverflow.com/questions/29443369/how-to-make-a-custom-colormap-using-pyplot-not-matplotlib-proper
 @pyimport matplotlib.colors as matcolors
@@ -144,7 +148,7 @@ function main(;saveFig          = false,
     tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-planar-G-generation-Maxwell.pdf"))
+        savefig(datadir("2D-planar-G-generation-Maxwell.pdf"))
     end
 
     #####################
@@ -157,7 +161,7 @@ function main(;saveFig          = false,
     tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-nanotextured-ampl-$textampl-G-generation-Maxwell.pdf"))
+        savefig(datadir("2D-nanotextured-ampl-$textampl-G-generation-Maxwell.pdf"))
     end
 
     #####################
@@ -170,7 +174,7 @@ function main(;saveFig          = false,
     tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-nanotextured-ampl-$textampl2-G-generation-Maxwell.pdf"))
+        savefig(datadir("2D-nanotextured-ampl-$textampl2-G-generation-Maxwell.pdf"))
     end
 
     #####################
@@ -183,7 +187,7 @@ function main(;saveFig          = false,
     tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-nanotextured-ampl-$textampl3-G-generation-Maxwell.pdf"))
+        savefig(datadir("2D-nanotextured-ampl-$textampl3-G-generation-Maxwell.pdf"))
     end
 
     #########################################################################################################
