@@ -3,8 +3,6 @@
 
 ## 2D grid
 
-using PyPlot
-
 function generate_grid2D_planar(;parameter_file, demo_run)
 
     include(parameter_file)

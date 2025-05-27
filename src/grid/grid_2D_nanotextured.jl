@@ -3,8 +3,6 @@
 
 ## 2D grid
 
-using PyPlot
-
 function generate_grid2D_nanotextured(;amplitude = 4.0e-7, parameter_file, demo_run)
 
     include(parameter_file)
