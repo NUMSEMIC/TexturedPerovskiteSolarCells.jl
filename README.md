@@ -2,6 +2,7 @@
 
 **TexturedPerovskiteSolarCells.jl** contains all scripts and data needed to reproduce the numerical results and figures from the manuscript:
 > *Unraveling the mystery of enhanced open-circuit voltages in nanotextured perovskite solar cells*
+> 
 > Dilara Abdel, Jacob Relle, Thomas Kirchartz, Patrick Jaap, Jürgen Fuhrmann, Sven Burger, Christiane Becker, Klaus Jäger, and Patricio Farrell.
 
 ## Overview
