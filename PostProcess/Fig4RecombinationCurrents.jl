@@ -10,7 +10,11 @@ using PyPlot
 using DelimitedFiles
 using ChargeTransport
 using PyCall
-using DrWatson
+using TexturedPerovskiteSolarCells
+
+# for convenience
+datadir = TexturedPerovskiteSolarCells.datadir
+scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 
 # https://stackoverflow.com/questions/29443369/how-to-make-a-custom-colormap-using-pyplot-not-matplotlib-proper
 @pyimport matplotlib.colors as matcolors
@@ -108,7 +112,7 @@ function main(;saveFig   = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "J-reco-SRH-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("J-reco-SRH-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
     figure()
@@ -137,7 +141,7 @@ function main(;saveFig   = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "J-reco-SRH-zoom-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("J-reco-SRH-zoom-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
     ############################################################
@@ -169,7 +173,7 @@ function main(;saveFig   = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "J-reco-rad-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("J-reco-rad-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
     ############################################################
@@ -202,7 +206,7 @@ function main(;saveFig   = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "J-reco-SR-ETL-generation-$generation-params-$paramsname-scanrate-$scanrate.pdf"))
+        savefig(datadir("J-reco-SR-ETL-generation-$generation-params-$paramsname-scanrate-$scanrate.pdf"))
     end
 
     ############################################################
@@ -235,7 +239,7 @@ function main(;saveFig   = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "J-reco-SR-HTL-generation-$generation-params-$paramsname-scanrate-$scanrate.pdf"))
+        savefig(datadir("J-reco-SR-HTL-generation-$generation-params-$paramsname-scanrate-$scanrate.pdf"))
     end
 
 end

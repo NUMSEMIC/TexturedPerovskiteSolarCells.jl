@@ -9,7 +9,11 @@ module Fig3CharacteristicsStudy
 using PyPlot
 using DelimitedFiles
 using ChargeTransport
-using DrWatson
+using TexturedPerovskiteSolarCells
+
+# for convenience
+datadir = TexturedPerovskiteSolarCells.datadir
+scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 
 function main(;saveFig = false,
             scanrate =  "1000p0", # "0p001", #  "10p0", # "1000p0", #
@@ -174,7 +178,7 @@ function main(;saveFig = false,
     println("Ideal:     Maximum PCE is $(Max1Rad) %, reached at $(ampl[Max2Rad]./nm) nm.")
 
     if saveFig
-        savefig(datadir("fig", "ampl-efficiency-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("ampl-efficiency-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     end
     #####################
 
@@ -200,7 +204,7 @@ function main(;saveFig = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "ampl-efficiency-difference-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("ampl-efficiency-difference-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
     ampl2 = collect(0.5:0.5:7.5) .* 1.0e-7; ampl = vcat(0.0, ampl2)
@@ -246,7 +250,7 @@ function main(;saveFig = false,
     PyPlot.xticks([0.6, 1.0, 1.4])
 
     if saveFig
-        savefig(datadir("fig", "IV-planar-nanotexture-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("IV-planar-nanotexture-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
     figure()
@@ -286,7 +290,7 @@ function main(;saveFig = false,
     PyPlot.xticks([1.1, 1.3])
 
     if saveFig
-        savefig(datadir("fig", "IV-planar-nanotexture-zoom-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("IV-planar-nanotexture-zoom-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
     # figure()
@@ -296,7 +300,7 @@ function main(;saveFig = false,
     # colorbar(ticks = [0.0, 0.25, 0.5, 0.75, 1.0])
 
     # if saveFig
-    #     savefig(datadir("fig", "colorbar-grey.pdf"))
+    #     savefig(datadir("colorbar-grey.pdf"))
     # end
 
     #################################################################
@@ -321,7 +325,7 @@ function main(;saveFig = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "ampl-JSC-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("ampl-JSC-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
     println(".................................................")
@@ -348,7 +352,7 @@ function main(;saveFig = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "ampl-FF-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("ampl-FF-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
     println(".................................................")
@@ -377,7 +381,7 @@ function main(;saveFig = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "ampl-VOC-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("ampl-VOC-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
     println(".................................................")
@@ -414,7 +418,7 @@ function main(;saveFig = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "ampl-VOC-difference-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("ampl-VOC-difference-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
     # #################################
@@ -442,7 +446,7 @@ function main(;saveFig = false,
     # PyPlot.tight_layout()
 
     # if saveFig
-    #     savefig(datadir("fig", "ampl-JMP-VMP-JSC-VOC-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+    #     savefig(datadir("ampl-JMP-VMP-JSC-VOC-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     # end
 
 end

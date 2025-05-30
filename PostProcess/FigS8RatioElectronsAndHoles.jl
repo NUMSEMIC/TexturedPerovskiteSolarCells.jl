@@ -9,7 +9,11 @@ using PyPlot
 using DelimitedFiles
 using ChargeTransport
 using ExtendableGrids
-using DrWatson
+using TexturedPerovskiteSolarCells
+
+# for convenience
+datadir = TexturedPerovskiteSolarCells.datadir
+scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 
 color_map = "seismic"
 
@@ -144,7 +148,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-planar-ratio-nn-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-planar-ratio-nn-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
     end
 
     #####################
@@ -159,7 +163,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-nanotextured-ampl-$textampl-ratio-nn-np-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-nanotextured-ampl-$textampl-ratio-nn-np-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
     end
 
     #####################
@@ -174,7 +178,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-nanotextured-ampl-$textampl2-ratio-nn-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-nanotextured-ampl-$textampl2-ratio-nn-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
     end
 
     #####################
@@ -189,7 +193,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-nanotextured-ampl-$textampl3-ratio-nn-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-nanotextured-ampl-$textampl3-ratio-nn-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
     end
 
 end # main

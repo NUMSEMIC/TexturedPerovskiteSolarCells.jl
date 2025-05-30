@@ -9,7 +9,11 @@ using PyPlot
 using DelimitedFiles
 using ChargeTransport
 using ExtendableGrids
-using DrWatson
+using TexturedPerovskiteSolarCells
+
+# for convenience
+datadir = TexturedPerovskiteSolarCells.datadir
+scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 
 include(scriptsdir("SingleJunction.jl"))
 
@@ -115,7 +119,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "1D-dens-Ca-1p0e21-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
+        savefig(datadir("1D-dens-Ca-1p0e21-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
     end
 
     #########################################
@@ -141,7 +145,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "1D-dens-Ca-1p0e22-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
+        savefig(datadir("1D-dens-Ca-1p0e22-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
     end
 
     #########################################
@@ -167,7 +171,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "1D-dens-Ca-1p0e23-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
+        savefig(datadir( "1D-dens-Ca-1p0e23-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
     end
 
     #########################################################################################
@@ -276,7 +280,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig("data/fig/1D-energy-Ca-1p0e21-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf")
+        savefig(datadir("1D-energy-Ca-1p0e21-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
     end
 
     #########################################
@@ -301,7 +305,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "1D-energy-Ca-1p0e22-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
+        savefig(datadir("1D-energy-Ca-1p0e22-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
     end
 
     #########################################
@@ -326,7 +330,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "1D-energy-Ca-1p0e23-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
+        savefig(datadir("1D-energy-Ca-1p0e23-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
     end
 
 

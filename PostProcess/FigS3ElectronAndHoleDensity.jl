@@ -15,7 +15,11 @@ using ExtendableGrids
 using Roots
 using GridVisualize
 using VoronoiFVM
-using DrWatson
+using TexturedPerovskiteSolarCells
+
+# for convenience
+datadir = TexturedPerovskiteSolarCells.datadir
+scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 
 # https://stackoverflow.com/questions/29443369/how-to-make-a-custom-colormap-using-pyplot-not-matplotlib-proper
 @pyimport matplotlib.colors as matcolors
@@ -240,7 +244,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("fig", "2D-planar-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-planar-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
         end
 
         #####################
@@ -254,7 +258,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("fig", "2D-nanotextured-ampl-$textampl-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-nanotextured-ampl-$textampl-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
         end
 
         #####################
@@ -268,7 +272,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("fig", "2D-nanotextured-ampl-$textampl2-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-nanotextured-ampl-$textampl2-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
         end
 
         #####################
@@ -282,7 +286,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("fig", "2D-nanotextured-ampl-$textampl3-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-nanotextured-ampl-$textampl3-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
         end
 
     end # plotElectrons
@@ -302,7 +306,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("fig", "2D-planar-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-planar-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
         end
 
         #####################
@@ -316,7 +320,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("fig", "2D-nanotextured-ampl-$textampl-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-nanotextured-ampl-$textampl-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
         end
 
         #####################
@@ -330,7 +334,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("fig", "2D-nanotextured-ampl-$textampl2-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-nanotextured-ampl-$textampl2-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
         end
 
         #####################
@@ -344,7 +348,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("fig", "2D-nanotextured-ampl-$textampl3-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-nanotextured-ampl-$textampl3-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
         end
 
 

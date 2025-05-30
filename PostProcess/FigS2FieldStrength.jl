@@ -13,7 +13,11 @@ using PyCall
 using ExtendableGrids
 using VoronoiFVM
 using LinearAlgebra
-using DrWatson
+using TexturedPerovskiteSolarCells
+
+# for convenience
+datadir = TexturedPerovskiteSolarCells.datadir
+scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 
 # thx https://discourse.julialang.org/t/meshgrid-function-in-julia/48679/4?u=j-fu
 function meshgrid(rc)
@@ -238,7 +242,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-planar-E-field-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-planar-E-field-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
     end
 
     #####################
@@ -252,7 +256,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-nanotextured-ampl-$textampl-E-field-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-nanotextured-ampl-$textampl-E-field-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
     end
 
     #####################
@@ -266,7 +270,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-nanotextured-ampl-$textampl2-E-field-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-nanotextured-ampl-$textampl2-E-field-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
     end
 
     #####################
@@ -280,7 +284,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-nanotextured-ampl-$textampl3-E-field-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-nanotextured-ampl-$textampl3-E-field-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
     end
 
 end

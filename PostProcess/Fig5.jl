@@ -10,7 +10,11 @@ using PyPlot
 using DelimitedFiles
 using ChargeTransport
 using ExtendableGrids
-using DrWatson
+using TexturedPerovskiteSolarCells
+
+# for convenience
+datadir = TexturedPerovskiteSolarCells.datadir
+scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 
 include(scriptsdir("SingleJunction.jl"))
 
@@ -323,7 +327,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-density-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-density-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
     end
 
     ###### planar plot -- all energies
@@ -355,7 +359,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-band-diagram-planar-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-band-diagram-planar-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
     end
 
     #########################################################
@@ -389,7 +393,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-Ec-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-Ec-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
     end
 
     #########################################################
@@ -416,7 +420,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-EFn-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-EFn-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
     end
 
     #########################################################
@@ -443,7 +447,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-EFp-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-EFp-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
     end
 
     #########################################################
@@ -476,7 +480,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "2D-Ep-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-Ep-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
     end
 
     #########################################################
@@ -502,7 +506,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "Injection-barrier-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("Injection-barrier-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
     #########################################################
@@ -528,7 +532,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("fig", "Energy-difference-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("Energy-difference-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
 end
