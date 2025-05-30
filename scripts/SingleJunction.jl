@@ -29,7 +29,7 @@ scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 ###########################################################
 ###########################################################
 
-function main(;plotting = false, test = false,
+function main(;plotting = false, printText = true,
                ########################
                parameter_file = scriptsdir("params_single_junction.jl"),
                ########################
@@ -70,7 +70,7 @@ function main(;plotting = false, test = false,
         typeGrid = "planar"
     end
     ################################################################################
-    if test == false
+    if printText
         println("Set up grid and regions")
     end
     ################################################################################
@@ -89,12 +89,12 @@ function main(;plotting = false, test = false,
     ## nanotexture (ampl = 6.5e-7): 118 557 nodes
     ## nanotexture (ampl = 8.0e-7): 170 590 nodes
 
-    if test == false
+    if printText
         println("*** done\n")
     end
 
     ################################################################################
-    if test == false
+    if printText
         println("Define physical parameters and model")
     end
     ################################################################################
@@ -202,7 +202,7 @@ function main(;plotting = false, test = false,
     end
 
     # For all other parameters, we refer to the parameters template
-    if test == false
+    if printText
         println("*** done\n")
     end
 
@@ -210,7 +210,7 @@ function main(;plotting = false, test = false,
     textSR = join(helpSR)
 
     ################################################################################
-    if test == false
+    if printText
         println("Define System and fill in information about model")
     end
     ################################################################################
@@ -314,12 +314,12 @@ function main(;plotting = false, test = false,
         data.generationModel = GenerationUserDefined
     end
 
-    if test == false
+    if printText
         println("*** done\n")
     end
 
     ################################################################################
-    if test == false
+    if printText
         println("Define Params and fill in physical parameters")
     end
     ################################################################################
@@ -419,21 +419,22 @@ function main(;plotting = false, test = false,
     end
 
 
-    if test == false
+    if printText
         println("*** done\n")
     end
 
     ################################################################################
-    if test == false
+    if printText
         println("Define control parameters for Newton solver")
     end
     ################################################################################
 
     control              = SolverControl()
-    if test == false
-        control.verbose      = "d"
+    if printText
+        control.verbose  = "e"
+    else
+        control.verbose  = "d"
     end
-    control.verbose      = "e"
     control.method_linear = UMFPACKFactorization()
     control.damp_initial = damp_initial
     control.damp_growth  = damp_growth
@@ -460,12 +461,12 @@ function main(;plotting = false, test = false,
         control.Δt_grow  = 1.005
     end
 
-    if test == false
+    if printText
         println("*** done\n")
     end
 
     ################################################################################
-    if test == false
+    if printText
         println("Compute solution in thermodynamic equilibrium")
     end
     ################################################################################
@@ -491,12 +492,12 @@ function main(;plotting = false, test = false,
 
     end
 
-    if test == false
+    if printText
         println("*** done\n")
     end
 
     ################################################################################
-     if test == false && generation
+     if printText  && generation
         println("Loop for generation")
     end
     ################################################################################
@@ -529,7 +530,7 @@ function main(;plotting = false, test = false,
             ## turn slowly generation on
             ctsys.data.λ2   = LAMBDA[istep + 1]
 
-            if test == false
+            if printText
                 println("increase generation with λ2 = $(data.λ2)")
             end
 
@@ -540,7 +541,7 @@ function main(;plotting = false, test = false,
 
         inival  = solEQ
 
-        if test == false
+        if printText
             println("*** done\n")
         end
 
@@ -551,7 +552,7 @@ function main(;plotting = false, test = false,
     end
 
     ################################################################################
-    if test == false
+    if printText
         println("Loop for increasing bias")
     end
     ################################################################################
@@ -574,9 +575,9 @@ function main(;plotting = false, test = false,
         ## turn slowly voltage on
         set_contact!(ctsys, bregionRight, Δu = biasLoop[istep])
 
-        #if test == false
+        if printText
             println(" bias =" , biasLoop[istep])
-        #end
+        end
 
         if amplitude == 8.0e-7 && typeReco == "all"
 
@@ -604,12 +605,12 @@ function main(;plotting = false, test = false,
 
     end
 
-    if test == false
+    if printText
         println("*** done\n")
     end
 
     ################################################################################
-    if test == false
+    if printText
         println("Preconditioning")
     end
     ################################################################################
@@ -621,12 +622,12 @@ function main(;plotting = false, test = false,
     end
     solPrecond      = ChargeTransport.solve(ctsys, inival = inival, times=(0.0, tPrecond), control = control)
 
-    if test == false
+    if printText
         println("*** done\n")
     end
 
     ################################################################################
-    if test == false
+    if printText
         println("Reverse IV Measurement loop")
     end
     ################################################################################
@@ -636,14 +637,14 @@ function main(;plotting = false, test = false,
     else
         control.Δt_grow = 1.005
     end
-    solRev          = ChargeTransport.solve(ctsys, inival = solPrecond[end], times=(tPrecond, tPrecond + tend),   control = control)
+    solRev          = ChargeTransport.solve(ctsys, inival = solPrecond.u[end], times=(tPrecond, tPrecond + tend),   control = control)
 
-    if test == false
+    if printText
         println("*** done\n")
     end
 
     ################################################################################
-    if test == false
+    if printText
         println("Reverse IV curve calculation")
     end
     ################################################################################
@@ -668,8 +669,8 @@ function main(;plotting = false, test = false,
     for istep = 2:number_tsteps
 
         Δt       = tvaluesRev[istep] - tvaluesRev[istep-1] # Time step size
-        inival   = solRev[istep-1]
-        solution = solRev[istep]
+        inival   = solRev.u[istep-1]
+        solution = solRev.u[istep]
 
         I        = integrate(ctsys, tf, solution, inival, Δt)
 
@@ -710,21 +711,21 @@ function main(;plotting = false, test = false,
 
     end
 
-    if test == false
+    if printText
         println("*** done\n")
     end
 
     ################################################################################
-    if test == false
+    if printText
         println("Forward IV Measurement loop")
     end
     ################################################################################
 
-    solForw = ChargeTransport.solve(ctsys, inival = solRev[end], times=(tPrecond + tend, tPrecond + 2*tend),   control = control)
+    solForw = ChargeTransport.solve(ctsys, inival = solRev.u[end], times=(tPrecond + tend, tPrecond + 2*tend),   control = control)
 
     subg = subgrid(grid, [regionPero])
     ## calculate the integral of each carrier for each region
-    intncc = ChargeTransport.integrate(ctsys, storage!, solForw[end])./q
+    intncc = ChargeTransport.integrate(ctsys, storage!, solForw.u[end])./q
 
     ## calculate the measure of the perovskite region
     mOmega = 0.0
@@ -745,12 +746,12 @@ function main(;plotting = false, test = false,
 
     end
 
-    if test == false
+    if printText
         println("*** done\n")
     end
 
     ################################################################################
-    if test == false
+    if printText
         println("Forward IV curve calculation")
     end
     ################################################################################
@@ -777,8 +778,8 @@ function main(;plotting = false, test = false,
     for istep = 2:number_tsteps
 
         Δt       = tvalues[istep] - tvalues[istep-1] # Time step size
-        inival   = solForw[istep-1]
-        solution = solForw[istep]
+        inival   = solForw.u[istep-1]
+        solution = solForw.u[istep]
 
         I        = integrate(ctsys, tf, solution, inival, Δt)
 
@@ -822,12 +823,12 @@ function main(;plotting = false, test = false,
 
     end
 
-    if test == false
+    if printText
         println("*** done\n")
     end
 
     ################################################################################
-    if test == false
+    if printText
         println("Plotting and saving")
     end
     ################################################################################
@@ -887,12 +888,14 @@ function main(;plotting = false, test = false,
             JSC = IV[1]./heightDev.*(0.01)^(2).*1.0e3
         end
 
-        println(" ")
-        println("The JSC                  is $JSC mAcm^{-2}.")
-        println("The fill factor          is $fillfactor %.")
-        println("The efficiency           is $efficiency %.")
-        println("The open circuit voltage is $open_circuit V.")
-        println(" ")
+        if printText
+            println(" ")
+            println("The JSC                  is $JSC mAcm^{-2}.")
+            println("The fill factor          is $fillfactor %.")
+            println("The efficiency           is $efficiency %.")
+            println("The open circuit voltage is $open_circuit V.")
+            println(" ")
+        end
 
         IV = -IV
 
@@ -918,13 +921,14 @@ function main(;plotting = false, test = false,
             JSC = IVR[1]./heightDev.*(0.01)^(2).*1.0e3
         end
 
-        println(" ")
-        println("Reverse curve:")
-        println("The JSC                  is $JSC mAcm^{-2}.")
-        println("The fill factor          is $fillfactor %.")
-        println("The efficiency           is $efficiency %.")
-        println("The open circuit voltage is $open_circuit V.")
-        println(" ")
+        if printText
+            println(" ")
+            println("The JSC                  is $JSC mAcm^{-2}.")
+            println("The fill factor          is $fillfactor %.")
+            println("The efficiency           is $efficiency %.")
+            println("The open circuit voltage is $open_circuit V.")
+            println(" ")
+        end
 
     end
 
@@ -1039,7 +1043,7 @@ function main(;plotting = false, test = false,
 
     end
 
-    if test == false
+    if printText
         println("*** done\n")
     end
 
@@ -1054,7 +1058,7 @@ function test(;demo_run = false)
     else
         testval = -0.6162695397900051 # all reco
     end
-    return main(gridDim = 1, test = true, demo_run = demo_run) ≈ testval
+    return main(gridDim = 1, printText = false, demo_run = demo_run) ≈ testval
 end
 
 end # module
