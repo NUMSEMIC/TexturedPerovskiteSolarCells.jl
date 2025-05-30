@@ -6,7 +6,7 @@ using TexturedPerovskiteSolarCells
 @testset "Aqua - Quality Test" begin
     Aqua.test_all(
         TexturedPerovskiteSolarCells;
-        stale_deps = (ignore = [:DelimitedFiles, :DrWatson],),
+        stale_deps = (ignore = [:DelimitedFiles, :PyPlot],),
     )
 end
 
