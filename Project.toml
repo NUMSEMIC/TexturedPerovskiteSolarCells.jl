@@ -19,7 +19,7 @@ VoronoiFVM = "82b139dc-5afc-11e9-35da-9b9bdfd336f3"
 
 [compat]
 Aqua = "0.8.12"
-ChargeTransport = "0.3.0"
+ChargeTransport = "^0.4"
 DelimitedFiles = "1.9.1"
 ExtendableGrids = "1.13.1"
 Interpolations = "0.15.1"

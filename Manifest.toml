@@ -2,7 +2,7 @@
 
 julia_version = "1.10.0"
 manifest_format = "2.0"
-project_hash = "6483ab71e54b6f2e7dc3868f3b1186d623645769"
+project_hash = "dd245be0d45dde92faabdde7084bf8483f31c5f6"
 
 [[deps.ADTypes]]
 git-tree-sha1 = "e2478490447631aedba0823d4d7a80b2cc8cdb32"
@@ -172,9 +172,9 @@ weakdeps = ["SparseArrays"]
 
 [[deps.ChargeTransport]]
 deps = ["DocStringExtensions", "ExtendableGrids", "ForwardDiff", "GridVisualize", "Interpolations", "Printf", "PyPlot", "Roots", "SparseArrays", "Test", "VoronoiFVM"]
-git-tree-sha1 = "8d7d91bd62ee0e939547a34acb2bcb2dd435d2b5"
+git-tree-sha1 = "5526ec93a4d98fd3d564161716931ad28a7b88d8"
 uuid = "25c3eafe-d88c-11e9-3031-f396758f002a"
-version = "0.3.0"
+version = "0.4.0"
 
 [[deps.CloseOpenIntervals]]
 deps = ["Static", "StaticArrayInterface"]
