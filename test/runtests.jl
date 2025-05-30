@@ -15,7 +15,8 @@ end
 
     include(joinpath("..", "scripts", "SingleJunction.jl"))
 
-    @test SingleJunction.test(demo_run = true) == true
+    @test SingleJunction.test(gridDim =1, demo_run = true) == true
+    @test SingleJunction.test(gridDim = 2, typeGrid = "nanotextured", amplitude = 2.0e-7, demo_run = true) == true
 
 end
 
