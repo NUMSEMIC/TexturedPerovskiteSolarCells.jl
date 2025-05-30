@@ -1,4 +1,7 @@
 
+# for convenience
+datadir = TexturedPerovskiteSolarCells.datadir
+scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 
 function MaxwellPhotogeneration(;gridDim = 1,
                                 ########################
@@ -59,9 +62,9 @@ function calc_interpol_photogen(;typeGrid = "nanotextured", # "planar", #
         typeGridText = "planar"
     end
 
-    X = npzread("data/optics/$(typeGrid)/X_Coords-$(typeGridText).npy")
-    Y = npzread("data/optics/$(typeGrid)/Y_Coords-$(typeGridText).npy") .- 1.0e-7
-    G = npzread("data/optics/$(typeGrid)/Photogeneration-$(typeGridText).npy")
+    X = npzread(datadir("optics", "$(typeGrid)/X_Coords-$(typeGridText).npy"))
+    Y = npzread(datadir("optics", "$(typeGrid)/Y_Coords-$(typeGridText).npy")) .- 1.0e-7
+    G = npzread(datadir("optics", "$(typeGrid)/Photogeneration-$(typeGridText).npy"))
     G = real.(G[:, :, 1])
 
     G_interpol = Interpolations.interpolate((X, Y), G, Gridded(Linear()))
@@ -90,8 +93,8 @@ function test(;gridDim = 2, typeGrid = "planar", # "nanotextured", #
     PyPlot.rc("mathtext", fontset="dejavuserif")
     PyPlot.close("all")
 
-    grid = generate_grid(gridDim = gridDim, type = typeGrid, amplitude = amplitude, demo_run)
-    G    = MaxwellPhotogeneration(gridDim = gridDim, typeGrid = typeGrid, amplitude = amplitude, parameter_file, demo_run)
+    grid = generate_grid(gridDim = gridDim, type = typeGrid, amplitude = amplitude, parameter_file = parameter_file, demo_run = demo_run)
+    G    = MaxwellPhotogeneration(gridDim = gridDim, typeGrid = typeGrid, amplitude = amplitude, parameter_file = parameter_file, demo_run = demo_run)
 
     if gridDim == 1
         coord = grid[Coordinates]'
