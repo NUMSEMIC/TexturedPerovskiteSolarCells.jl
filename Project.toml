@@ -32,7 +32,7 @@ SimplexGridFactory = "2.4.0"
 Test = "1.11.0"
 Triangulate = "2.4.0"
 VoronoiFVM = "2.10.1"
-julia = "1.10"
+julia = "^1.10"
 
 [extras]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
