@@ -12,30 +12,49 @@ function generate_grid2D_nanotextured(;amplitude = 4.0e-7, parameter_file, demo_
     heightLayers = [h_ETL1, h_ETL1 + h_active, h_ETL1 + h_active + h_HTL]
     h_total      = heightLayers[end]
 
-    maxvolume    = 5.0e-17
+    if demo_run
+        maxvolume    = 4.0e-16
+    else
+        maxvolume    = 5.0e-17
+    end
     eps          = 2.0e-10
 
     ## ETL1  C60
     heightETL1Bottom     = 0.0             + 2.0e1 * eps
 
     heightETL1Top        = heightLayers[1] - 1.0  * eps
-    heightETL1Top2       = heightLayers[1] - 2.0  * eps
-    heightETL1Top3       = heightLayers[1] - 4.0  * eps
+    if demo_run
+        heightETL1Top2   = heightLayers[1] - 6.0  * eps
+        heightETL1Top3   = heightLayers[1] - 8.0  * eps
+    else
+        heightETL1Top2   = heightLayers[1] - 2.0  * eps
+        heightETL1Top3   = heightLayers[1] - 4.0  * eps
+    end
     heightETL1Top4       = heightLayers[1] - 6.0  * eps
     heightETL1Top5       = heightLayers[1] - 10.0 * eps
     heightETL1Top6       = heightLayers[1] - 14.0 * eps
 
     ## pero
     heightPeroBottom     = heightLayers[1] + 1.0  * eps
-    heightPeroBottom2    = heightLayers[1] + 2.0  * eps
-    heightPeroBottom3    = heightLayers[1] + 4.0  * eps
+    if demo_run
+        heightPeroBottom2 = heightLayers[1] + 6.0  * eps
+        heightPeroBottom3 = heightLayers[1] + 6.0  * eps
+    else
+        heightPeroBottom2 = heightLayers[1] + 2.0  * eps
+        heightPeroBottom3 = heightLayers[1] + 4.0  * eps
+    end
     heightPeroBottom4    = heightLayers[1] + 6.0  * eps
     heightPeroBottom5    = heightLayers[1] + 10.0 * eps
     heightPeroBottom6    = heightLayers[1] + 14.0 * eps
 
     heightPeroTop        = heightLayers[2] - 1.0  * eps
-    heightPeroTop2       = heightLayers[2] - 2.0  * eps
-    heightPeroTop3       = heightLayers[2] - 4.0  * eps
+    if demo_run
+        heightPeroTop2   = heightLayers[2] - 6.0  * eps
+        heightPeroTop3   = heightLayers[2] - 6.0  * eps
+    else
+        heightPeroTop2   = heightLayers[2] - 2.0  * eps
+        heightPeroTop3   = heightLayers[2] - 4.0  * eps
+    end
     heightPeroTop4       = heightLayers[2] - 6.0  * eps
     heightPeroTop5       = heightLayers[2] - 10.0 * eps
     heightPeroTop6       = heightLayers[2] - 14.0 * eps
@@ -49,8 +68,13 @@ function generate_grid2D_nanotextured(;amplitude = 4.0e-7, parameter_file, demo_
 
     # HTL
     heightHTLBottom   = heightLayers[2] + 1.0  * eps
-    heightHTLBottom2  = heightLayers[2] + 2.0  * eps
-    heightHTLBottom3  = heightLayers[2] + 4.0  * eps
+    if demo_run
+        heightHTLBottom2  = heightLayers[2] + 6.0  * eps
+        heightHTLBottom3  = heightLayers[2] + 6.0  * eps
+    else
+        heightHTLBottom2  = heightLayers[2] + 2.0  * eps
+        heightHTLBottom3  = heightLayers[2] + 4.0  * eps
+    end
     heightHTLBottom4  = heightLayers[2] + 6.0  * eps
     heightHTLBottom5  = heightLayers[2] + 10.0 * eps
     heightHTLBottom6  = heightLayers[2] + 14.0 * eps
@@ -105,13 +129,13 @@ function generate_grid2D_nanotextured(;amplitude = 4.0e-7, parameter_file, demo_
         facetregion!(b, 0); facet!(b, A, B)
     end
 
-    ## top
-
-    ## top
-    for ix in 2:length(XFine)
-        A = point!(b, XFine[ix-1], fPlanar(XFine[ix-1], heightETL1Top))
-        B = point!(b, XFine[ix],   fPlanar(XFine[ix],   heightETL1Top))
-        facetregion!(b, 0); facet!(b, A, B)
+    if !demo_run
+        ## top
+        for ix in 2:length(XFine)
+            A = point!(b, XFine[ix-1], fPlanar(XFine[ix-1], heightETL1Top))
+            B = point!(b, XFine[ix],   fPlanar(XFine[ix],   heightETL1Top))
+            facetregion!(b, 0); facet!(b, A, B)
+        end
     end
 
     ## top
@@ -142,10 +166,12 @@ function generate_grid2D_nanotextured(;amplitude = 4.0e-7, parameter_file, demo_
         facetregion!(b, 0); facet!(b, A, B)
     end
 
-    for ix in 2:length(XFine)
-        A = point!(b, XFine[ix-1], fPlanar(XFine[ix-1], heightETL1Top6))
-        B = point!(b, XFine[ix],   fPlanar(XFine[ix],   heightETL1Top6))
-        facet!(b, A, B)
+    if !demo_run
+        for ix in 2:length(XFine)
+            A = point!(b, XFine[ix-1], fPlanar(XFine[ix-1], heightETL1Top6))
+            B = point!(b, XFine[ix],   fPlanar(XFine[ix],   heightETL1Top6))
+            facet!(b, A, B)
+        end
     end
 
     ## regions
@@ -189,11 +215,13 @@ function generate_grid2D_nanotextured(;amplitude = 4.0e-7, parameter_file, demo_
         facetregion!(b, 0); facet!(b, A, B)
     end
 
-    ## bottom
-    for ix in 2:length(XFine)
-        A = point!(b, XFine[ix-1], fPlanar(XFine[ix-1], heightPeroBottom2))
-        B = point!(b, XFine[ix],   fPlanar(XFine[ix],   heightPeroBottom2))
-        facetregion!(b, 0); facet!(b, A, B)
+    if !demo_run
+        ## bottom
+         for ix in 2:length(XFine)
+            A = point!(b, XFine[ix-1], fPlanar(XFine[ix-1], heightPeroBottom2))
+            B = point!(b, XFine[ix],   fPlanar(XFine[ix],   heightPeroBottom2))
+            facetregion!(b, 0); facet!(b, A, B)
+        end
     end
 
     ## bottom
@@ -217,11 +245,13 @@ function generate_grid2D_nanotextured(;amplitude = 4.0e-7, parameter_file, demo_
         facet!(b, A, B)
     end
 
-    ## bottom
-    for ix in 2:length(XFine)
-        A = point!(b, XFine[ix-1], fPlanar(XFine[ix-1], heightPeroBottom6))
-        B = point!(b, XFine[ix],   fPlanar(XFine[ix],   heightPeroBottom6))
-        facet!(b, A, B)
+    if !demo_run
+        ## bottom
+        for ix in 2:length(XFine)
+            A = point!(b, XFine[ix-1], fPlanar(XFine[ix-1], heightPeroBottom6))
+            B = point!(b, XFine[ix],   fPlanar(XFine[ix],   heightPeroBottom6))
+            facet!(b, A, B)
+        end
     end
 
     ## top
@@ -267,44 +297,6 @@ function generate_grid2D_nanotextured(;amplitude = 4.0e-7, parameter_file, demo_
         B = point!(b, XFine[ix],   fCos(XFine[ix],   heightPeroTop6))
         facet!(b, A, B)
     end
-
-    #  ## maxima
-
-    #  for ix in 2:length(XFine)
-    #     A = point!(b, XFine[ix-1], fPlanar(XFine[ix-1], heightPero1MaxBottom))
-    #     B = point!(b, XFine[ix],   fPlanar(XFine[ix],   heightPero1MaxBottom))
-    #     facet!(b, A, B)
-    # end
-
-    # for ix in 2:length(XFine)
-    #     A = point!(b, XFine[ix-1], fPlanar(XFine[ix-1], heightPero1MaxTop))
-    #     B = point!(b, XFine[ix],   fPlanar(XFine[ix],   heightPero1MaxTop))
-    #     facet!(b, A, B)
-    # end
-
-    # for ix in 2:length(XFine)
-    #     A = point!(b, XFine[ix-1], fPlanar(XFine[ix-1], heightPero2MaxBottom))
-    #     B = point!(b, XFine[ix],   fPlanar(XFine[ix],   heightPero2MaxBottom))
-    #     facet!(b, A, B)
-    # end
-
-    # for ix in 2:length(XFine)
-    #     A = point!(b, XFine[ix-1], fPlanar(XFine[ix-1], heightPero2MaxTop))
-    #     B = point!(b, XFine[ix],   fPlanar(XFine[ix],   heightPero2MaxTop))
-    #     facet!(b, A, B)
-    # end
-
-    # for ix in 2:length(XFine)
-    #     A = point!(b, XFine[ix-1], fPlanar(XFine[ix-1], heightPero3MaxBottom))
-    #     B = point!(b, XFine[ix],   fPlanar(XFine[ix],   heightPero3MaxBottom))
-    #     facet!(b, A, B)
-    # end
-
-    # for ix in 2:length(XFine)
-    #     A = point!(b, XFine[ix-1], fPlanar(XFine[ix-1], heightPero3MaxTop))
-    #     B = point!(b, XFine[ix],   fPlanar(XFine[ix],   heightPero3MaxTop))
-    #     facet!(b, A, B)
-    # end
 
     ## regions
     cellregion!(b, regionPero)
@@ -362,11 +354,13 @@ function generate_grid2D_nanotextured(;amplitude = 4.0e-7, parameter_file, demo_
         facetregion!(b, 0); facet!(b, A, B)
     end
 
-    ## bottom
-    for ix in 2:length(XFine)
-        A = point!(b, XFine[ix-1], fCos(XFine[ix-1], heightHTLBottom2))
-        B = point!(b, XFine[ix],   fCos(XFine[ix],   heightHTLBottom2))
-        facet!(b, A, B)
+    if !demo_run
+        ## bottom
+        for ix in 2:length(XFine)
+            A = point!(b, XFine[ix-1], fCos(XFine[ix-1], heightHTLBottom2))
+            B = point!(b, XFine[ix],   fCos(XFine[ix],   heightHTLBottom2))
+            facet!(b, A, B)
+        end
     end
 
     ## bottom
@@ -390,11 +384,13 @@ function generate_grid2D_nanotextured(;amplitude = 4.0e-7, parameter_file, demo_
         facet!(b, A, B)
     end
 
-    ## bottom
-    for ix in 2:length(XFine)
-        A = point!(b, XFine[ix-1], fCos(XFine[ix-1], heightHTLBottom6))
-        B = point!(b, XFine[ix],   fCos(XFine[ix],   heightHTLBottom6))
-        facet!(b, A, B)
+    if !demo_run
+        ## bottom
+        for ix in 2:length(XFine)
+            A = point!(b, XFine[ix-1], fCos(XFine[ix-1], heightHTLBottom6))
+            B = point!(b, XFine[ix],   fCos(XFine[ix],   heightHTLBottom6))
+            facet!(b, A, B)
+        end
     end
 
     ## top

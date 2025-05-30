@@ -480,6 +480,14 @@ function main(;plotting = false, printText = true,
 
     inival  = solEQ
 
+    if demo_run && gridDim == 2 && generation && MaxwellSol
+        if typeGrid == "planar"
+            return testval = sum(filter(!isnan, inival))/length(inival) # when using sparse storage, we get NaN values in solution
+        elseif typeGrid == "nanotextured" && amplitude == 2.0e-7
+            return testval = sum(filter(!isnan, inival))/length(inival) # when using sparse storage, we get NaN values in solution
+        end
+    end
+
     if plotting
 
         label_solution, label_density, label_energy, label_BEE = set_plotting_labels(data)
@@ -733,7 +741,9 @@ function main(;plotting = false, printText = true,
         mOmega = mOmega + icellVol
     end
 
-    println("Average vacancy density ", intncc[iphia, regionPero]/mOmega)
+    if printText
+        println("Average vacancy density ", intncc[iphia, regionPero]/mOmega)
+    end
 
     if plotting
 
@@ -1052,13 +1062,23 @@ function main(;plotting = false, printText = true,
 
 end #  main
 
-function test(;demo_run = false)
+function test(;gridDim=1, typeGrid = "planar", amplitude = 2.0e-7, demo_run = false)
     if demo_run
-        testval = -0.6236278584408826 # all reco
+        if gridDim == 1
+            testval = -0.6236278584408826 # all reco
+        elseif gridDim == 2
+            if typeGrid == "planar"
+                testval = -1.1597613291016444 # all reco
+            elseif typeGrid == "nanotextured" && amplitude == 2.0e-7
+                testval = -1.1880359433451766 # all reco
+            end
+        end
     else
-        testval = -0.6162695397900051 # all reco
+        if gridDim == 1
+            testval = -0.6162695397900051 # all reco
+        end
     end
-    return main(gridDim = 1, printText = false, demo_run = demo_run) ≈ testval
+    return main(gridDim = gridDim, typeGrid = typeGrid, amplitude = amplitude, printText = false, demo_run = demo_run, generation = true, generationUniform = false, MaxwellSol = true) ≈ testval
 end
 
 end # module
