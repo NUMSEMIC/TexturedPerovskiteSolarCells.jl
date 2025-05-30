@@ -61,17 +61,17 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     helpampl3 = collect(string(amplitude3));  helpampl3[ findall(x -> x == '.', helpampl3)[1] ] = 'p'
     textampl3 = join(helpampl3)
 
-    grid1, ctsys1 = SingleJunction.main(gridDim = 2, typeGrid = "planar", generation = true, generationUniform = generationUniform, plotPostProcess = true, test = true, plotting = false)
+    grid1, ctsys1 = SingleJunction.main(gridDim = 2, typeGrid = "planar", generation = true, generationUniform = generationUniform, plotPostProcess = true, printText = false, plotting = false)
     subg1        = subgrid(grid1, [regionPero]); subgn1 = subgrid(grid1, [regionETL1]); subgp1 = subgrid(grid1, [regionHTL])
     ########
-    grid2, ctsys2 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude, generation = true, generationUniform = generationUniform, plotPostProcess = true, test = true, plotting = false)
+    grid2, ctsys2 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude, generation = true, generationUniform = generationUniform, plotPostProcess = true, printText = false, plotting = false)
     subg2        = subgrid(grid2, [regionPero]); subgn2 = subgrid(grid2, [regionETL1]); subgp2 = subgrid(grid2, [regionHTL])
     ########
-    grid3, ctsys3 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude2, generation = true, generationUniform = generationUniform, plotPostProcess = true, test = true, plotting = false)
+    grid3, ctsys3 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude2, generation = true, generationUniform = generationUniform, plotPostProcess = true, printText = false, plotting = false)
     subg3        = subgrid(grid3, [regionPero]); subgn3 = subgrid(grid3, [regionETL1]); subgp3 = subgrid(grid3, [regionHTL])
     ########
     ########
-    grid4, ctsys4 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude3, generation = true, generationUniform = generationUniform, plotPostProcess = true, test = true, plotting = false)
+    grid4, ctsys4 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude3, generation = true, generationUniform = generationUniform, plotPostProcess = true, printText = false, plotting = false)
     subg4         = subgrid(grid4, [regionPero]); subgn4 = subgrid(grid4, [regionETL1]); subgp4 = subgrid(grid4, [regionHTL])
     #################################################################
     #################################################################

@@ -40,7 +40,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     ## grid
     #################################################################
 
-    grid, ctsys = SingleJunction.main(gridDim = 1, typeGrid = "planar", generation = true, plotPostProcess = true, test = true, plotting = false)
+    grid, ctsys = SingleJunction.main(gridDim = 1, typeGrid = "planar", generation = true, plotPostProcess = true, printText = false, plotting = false)
     subg        = subgrid(grid, [regionPero]); subgn = subgrid(grid, [regionETL1]); subgp = subgrid(grid, [regionHTL])
     data        = ctsys.fvmsys.physics.data
 

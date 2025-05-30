@@ -131,19 +131,19 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     helpampl3 = collect(string(amplitude3));  helpampl3[ findall(x -> x == '.', helpampl3)[1] ] = 'p'
     textampl3 = join(helpampl3)
 
-    grid1, ctsys1 = SingleJunction.main(gridDim = 2, typeGrid = "planar", generation = true, generationUniform = generationUniform, plotPostProcess = true, test = true, plotting = false)
+    grid1, ctsys1 = SingleJunction.main(gridDim = 2, typeGrid = "planar", generation = true, generationUniform = generationUniform, plotPostProcess = true, printText = false, plotting = false)
     subg1        = subgrid(grid1, [regionPero])
     data1        = ctsys1.fvmsys.physics.data
     ########
-    grid2, ctsys2 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude, generation = true, generationUniform = generationUniform, plotPostProcess = true, test = true, plotting = false)
+    grid2, ctsys2 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude, generation = true, generationUniform = generationUniform, plotPostProcess = true, printText = false, plotting = false)
     subg2        = subgrid(grid2, [regionPero])
     data2        = ctsys2.fvmsys.physics.data
     ########
-    grid3, ctsys3 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude2, generation = true, generationUniform = generationUniform, plotPostProcess = true, test = true, plotting = false)
+    grid3, ctsys3 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude2, generation = true, generationUniform = generationUniform, plotPostProcess = true, printText = false, plotting = false)
     subg3        = subgrid(grid3, [regionPero])
     data3        = ctsys3.fvmsys.physics.data
     ########
-    grid4, ctsys4 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude3, generation = true, generationUniform = generationUniform, plotPostProcess = true, test = true, plotting = false)
+    grid4, ctsys4 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude3, generation = true, generationUniform = generationUniform, plotPostProcess = true, printText = false, plotting = false)
     subg4         = subgrid(grid4, [regionPero])
     data4         = ctsys4.fvmsys.physics.data
 
