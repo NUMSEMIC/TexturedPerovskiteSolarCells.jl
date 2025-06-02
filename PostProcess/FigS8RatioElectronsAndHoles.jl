@@ -139,8 +139,8 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     end
 
     tripcolor(tridata(subg1)..., vcat(nn1./np1...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = color_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("Ratio nn/np -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "\$ n_{\\mathrm{n}}/ n_{\\mathrm{p}} \$", extend="both", spacing = "proportional")
@@ -154,8 +154,8 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg2)..., vcat(nn2./np2...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = color_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel("\$ x\$ [nm]", fontsize=17)
+    ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("Ratio nn/np -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "\$ n_{\\mathrm{n}}/ n_{\\mathrm{p}} \$", extend="both", spacing = "proportional")
@@ -169,8 +169,8 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg3)..., vcat(nn3./np3...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = color_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("Ratio nn/np -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "\$ n_{\\mathrm{n}}/ n_{\\mathrm{p}} \$", extend="both", spacing = "proportional")
@@ -184,8 +184,8 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg4)..., vcat(nn4./np4...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = color_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("Ratio nn/np -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "\$ n_{\\mathrm{n}}/ n_{\\mathrm{p}} \$", extend="both", spacing = "proportional")

@@ -241,8 +241,8 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     vmin = 7.5e18; vmax = 7.0e23
 
     tripcolor(tridata(subg1)..., vcat(na1...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel("\$ x\$ [nm]", fontsize=17)
+    ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("na -- V = $V")
     cbar = colorbar(orientation = "vertical", label = " \$ n_\\mathrm{a} \$  [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
@@ -255,8 +255,8 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg2)..., vcat(na2...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud",  cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel(" \$y \$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("na -- V = $V")
     cbar = colorbar(orientation = "vertical", label = " \$ n_\\mathrm{a} \$  [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
@@ -269,8 +269,8 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg3)..., vcat(na3...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel("\$ x\$ [nm]", fontsize=17)
+    ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("na -- V = V")
     cbar = colorbar(orientation = "vertical", label = " \$ n_\\mathrm{a} \$  [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
@@ -283,8 +283,8 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg4)..., vcat(na4...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("na -- V = $V")
     cbar = colorbar(orientation = "vertical", label = " \$ n_\\mathrm{a} \$  [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")

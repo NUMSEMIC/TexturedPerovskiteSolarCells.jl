@@ -109,7 +109,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
 
     semilogy(coord',  na1,  linewidth = 5, color = Gold(201))
 
-    PyPlot.xlabel("Height [nm]", fontsize=18)
+    PyPlot.xlabel("\$ y\$  [nm]", fontsize=18)
     PyPlot.ylabel("Density [\$\\frac{1}{\\mathrm{m}^3}\$]", fontsize=18)
     PyPlot.xlim(-5, 455)
     PyPlot.ylim(1.0e14, 5.0e24)
@@ -135,7 +135,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
 
     semilogy(coord',  na2,  linewidth = 5, color = Gold(201))
 
-    PyPlot.xlabel("Height [nm]", fontsize=18)
+    PyPlot.xlabel("\$ y\$ [nm]", fontsize=18)
     PyPlot.ylabel("Density [\$\\frac{1}{\\mathrm{m}^3}\$]", fontsize=18)
     PyPlot.xlim(-5, 455)
     PyPlot.ylim(1.0e14, 5.0e24)
@@ -161,7 +161,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
 
     semilogy(coord', na4, linewidth = 5, color = Gold(201))
 
-    PyPlot.xlabel("Height [nm]", fontsize=18)
+    PyPlot.xlabel("\$ y\$  [nm]", fontsize=18)
     PyPlot.ylabel("Density [\$\\frac{1}{\\mathrm{m}^3}\$]", fontsize=18)
     PyPlot.xlim(-5, 455)
     PyPlot.ylim(1.0e14, 5.0e24)

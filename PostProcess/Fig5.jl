@@ -319,7 +319,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
 
     PyPlot.xlim(0, 440)
     PyPlot.xticks([0, 200, 400])
-    PyPlot.xlabel("y [nm]", fontsize=18)
+    PyPlot.xlabel("\$y\$ [nm]", fontsize=18)
     PyPlot.ylim(1.0e14, 1.0e25)
     PyPlot.ylabel("Density [\$\\frac{1}{\\mathrm{m}^3}\$]", fontsize=18)
     PyPlot.title("x = $XVal nm")
@@ -350,7 +350,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
 
     PyPlot.xlim(0, 440)
     PyPlot.xticks([0, 200, 400])
-    PyPlot.xlabel("y [nm]", fontsize=18)
+    PyPlot.xlabel("\$y \$ [nm]", fontsize=18)
     PyPlot.ylim(-3.0, 2.0)
     PyPlot.yticks([-2, -1, 0, 1])
     PyPlot.ylabel("Energy [eV] ", fontsize=18)
@@ -384,7 +384,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
 
     PyPlot.xlim(0, 430)
     PyPlot.xticks([0, 200, 400])
-    PyPlot.xlabel("y [nm]", fontsize=18)
+    PyPlot.xlabel("\$y\$ [nm]", fontsize=18)
     PyPlot.ylim(0.07, 0.3)
     PyPlot.yticks([0.1, 0.2, 0.3])
     PyPlot.ylabel("Energy [eV] ", fontsize=18)
@@ -411,7 +411,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
 
     PyPlot.xlim(0, 430)
     PyPlot.xticks([0, 200, 400])
-    PyPlot.xlabel("y [nm]", fontsize=18)
+    PyPlot.xlabel("\$y\$ [nm]", fontsize=18)
     PyPlot.ylim(-0.002, 0.005)
     PyPlot.yticks([0.0, 0.002])
     PyPlot.ylabel("Energy [eV] ", fontsize=18)
@@ -438,7 +438,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
 
     PyPlot.xlim(30, 440)
     PyPlot.xticks([200, 400])
-    PyPlot.xlabel("y [nm]", fontsize=18)
+    PyPlot.xlabel("\$y\$ [nm]", fontsize=18)
     PyPlot.ylim(-1.202, -1.195)
     PyPlot.yticks([-1.2, -1.197])
     PyPlot.ylabel("Energy [eV] ", fontsize=18)
@@ -471,7 +471,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
 
     PyPlot.xlim(30, 440)
     PyPlot.xticks([200, 400])
-    PyPlot.xlabel("y [nm]", fontsize=18)
+    PyPlot.xlabel("\$y\$ [nm]", fontsize=18)
     PyPlot.ylim(-1.52, -1.29)
     PyPlot.yticks([-1.5, -1.4])
     PyPlot.ylabel("Energy [eV] ", fontsize=18)
@@ -520,7 +520,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     ColQFL = [172/255, 235/255, 180/255]
 
     plot(VocIV[:, 1], VocIV[:, 2], marker ="o",  markersize = MKsize, color = ColVoc, label = "\$ V_{\\mathrm{OC}} \$")
-    plot(QFLS[:, 1],  QFLS[:, 2],  marker ="o",  markersize = MKsize, color = ColQFL, label = "QFLS")
+    plot(QFLS[:, 1],  QFLS[:, 2],  marker ="o",  markersize = MKsize, color = ColQFL, label = "\$ \\Delta E_{\\mathrm{F}} \$")
 
     PyPlot.xlim(-20.0, 770)
     PyPlot.ylim(1.165, 1.2)

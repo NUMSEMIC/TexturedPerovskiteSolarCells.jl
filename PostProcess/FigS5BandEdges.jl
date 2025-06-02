@@ -203,8 +203,8 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
     end
 
     tripcolor(tridata(subg1)..., vcat(Ec1...), vmin=vminE, vmax=vmaxE, shading="gouraud", cmap = parula_map, rasterized=true) #
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel("\$ x\$ [nm]", fontsize=17)
+    ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("Ec -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "\$ E_{\\mathrm{c}}\$ [eV]", extend="both")
@@ -217,8 +217,8 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg2)..., vcat(Ec2...), vmin=vminE, vmax=vmaxE, shading="gouraud", cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel("\$ x\$ [nm]", fontsize=17)
+    ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("Ec -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "\$ E_{\\mathrm{c}}\$ [eV]", extend="both")
@@ -231,8 +231,8 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg3)..., vcat(Ec3...), vmin=vminE, vmax=vmaxE, shading="gouraud", cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("Ec -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "\$ E_{\\mathrm{c}}\$ [eV]", extend="both")
@@ -244,8 +244,8 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg4)..., vcat(Ec4...), vmin=vminE, vmax=vmaxE, shading="gouraud", cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel("\$ x\$ [nm]", fontsize=17)
+    ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("Ec -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "\$ E_{\\mathrm{c}}\$ [eV]", extend="both")
@@ -260,8 +260,8 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
 
     figure()
     tripcolor(tridata(subg1)..., vcat(Ev1...), vmin=vminH, vmax=vmaxH, shading="gouraud", cmap = parula_map, rasterized=true) #
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("Ev -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "\$ E_{\\mathrm{v}}\$ [eV]", extend="both")
@@ -274,8 +274,8 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg2)..., vcat(Ev2...), vmin=vminH, vmax=vmaxH, shading="gouraud", cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("Ev -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "\$ E_{\\mathrm{v}}\$ [eV]", extend="both")
@@ -288,8 +288,8 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg3)..., vcat(Ev3...), vmin=vminH, vmax=vmaxH, shading="gouraud", cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("Ev -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "\$ E_{\\mathrm{v}}\$ [eV]", extend="both")
@@ -301,8 +301,8 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg4)..., vcat(Ev4...), vmin=vminH, vmax=vmaxH, shading="gouraud", cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("Ev -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "\$ E_{\\mathrm{v}}\$ [eV]", extend="both")

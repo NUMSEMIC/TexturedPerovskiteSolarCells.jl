@@ -234,8 +234,8 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     end
 
     tripcolor(tridata(subg1)..., vcat(jPsi1Abs...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true) #
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel("\$ x\$ [nm]", fontsize=17)
+    ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("E-Field -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "El. field strength [\$\\frac{V}{\\mathrm{m}}\$]", extend="both")
@@ -248,8 +248,8 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg2)..., vcat(jPsi2Abs...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("E-Field -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "El. field strength [\$\\frac{V}{\\mathrm{m}}\$]", extend="both")
@@ -262,8 +262,8 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg3)..., vcat(jPsi3Abs...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel("\$ x\$ [nm]", fontsize=17)
+    ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("E-Field -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "El. field strength [\$\\frac{V}{\\mathrm{m}}\$]", extend="both")
@@ -276,8 +276,8 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     #####################
     figure()
     tripcolor(tridata(subg4)..., vcat(jPsi4Abs...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("E-Field -- V = $V")
     cbar = colorbar(orientation = "vertical", label = "El. field strength [\$\\frac{V}{\\mathrm{m}}\$]", extend="both")

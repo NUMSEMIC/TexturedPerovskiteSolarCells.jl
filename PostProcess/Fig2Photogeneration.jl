@@ -141,8 +141,8 @@ function main(;saveFig          = false,
     vmax = 2.0e28 # 2.6420799999536694e28
 
     tripcolor(tridata(subg1)..., vcat(G1...), shading="gouraud", norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     colorbar(orientation = "vertical", label = "\$ G \$ [\$\\frac{1}{\\mathrm{m}^3 \\mathrm{s}}\$]", extend="both")
     tight_layout()
@@ -154,8 +154,8 @@ function main(;saveFig          = false,
     #####################
     figure()
     tripcolor(tridata(subg2)..., vcat(G2...), shading="gouraud", norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     colorbar(orientation = "vertical", label = "\$ G \$ [\$\\frac{1}{\\mathrm{m}^3 \\mathrm{s}}\$]", extend="both")
     tight_layout()
@@ -167,8 +167,8 @@ function main(;saveFig          = false,
     #####################
     figure()
     tripcolor(tridata(subg3)..., vcat(G3...), shading="gouraud", norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     colorbar(orientation = "vertical", label = "\$ G \$ [\$\\frac{1}{\\mathrm{m}^3 \\mathrm{s}}\$]", extend="both")
     tight_layout()
@@ -180,8 +180,8 @@ function main(;saveFig          = false,
     #####################
     figure()
     tripcolor(tridata(subg4)..., vcat(G4...), shading="gouraud", norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), cmap = parula_map, rasterized=true)
-    xlabel(" x [nm]", fontsize=17)
-    ylabel(" y [nm]", fontsize=17)
+    xlabel(" \$x\$ [nm]", fontsize=17)
+    ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     colorbar(orientation = "vertical", label = "\$ G \$ [\$\\frac{1}{\\mathrm{m}^3 \\mathrm{s}}\$]", extend="both")
     tight_layout()
