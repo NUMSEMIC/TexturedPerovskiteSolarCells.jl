@@ -1,4 +1,4 @@
-# TexturedPerovskiteSolarCells.jl -- Numerical examples to analyze the electronic behavior of textured perovskite solar cells
+# TexturedPerovskiteSolarCells.jl -- Numerical examples to analyse the electronic behaviour of textured perovskite solar cells
 
 **TexturedPerovskiteSolarCells.jl** contains all scripts and data needed to reproduce the numerical results and figures from the manuscript:
 > *Unravelling the mystery of enhanced open-circuit voltages in nanotextured perovskite solar cells*
