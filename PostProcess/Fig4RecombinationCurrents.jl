@@ -64,7 +64,7 @@ cm_data = [[0.2081, 0.1663, 0.5292], [0.2116238095, 0.1897809524, 0.5776761905],
 
 parula_map = matcolors.LinearSegmentedColormap.from_list("parula", cm_data)
 
-function main(;saveFig   = false,
+function main(;printText = true, saveFig   = false,
               scanrate   = "1000p0",
               generation = "Maxwell", # "uniform"
               parameter_file = scriptsdir("params_single_junction.jl"),
@@ -85,8 +85,10 @@ function main(;saveFig   = false,
 
     col = ampl./1.0e-6
 
-    ############################################################
-    println("Plot JSRH")
+    #############################################################
+    if printText
+        println("Plot JSRH")
+    end
 
     IVPL = readdlm(datadir("IV", "$path/JSRH-2D-forw-planar-generation-$generation-reco-all.dat"))
 
@@ -96,7 +98,9 @@ function main(;saveFig   = false,
     for textampl in Textampl[1:2:end]
         ii = ii + 2
 
-        println("amplitude = ", textampl)
+        if printText
+            println("amplitude = ", textampl)
+        end
 
         IVNT = readdlm(datadir("IV", "$path/JSRH-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"))
 
@@ -145,8 +149,10 @@ function main(;saveFig   = false,
     end
 
     ############################################################
-    println("  ")
-    println("Plot JRad")
+    if printText
+        println("  ")
+        println("Plot JRad")
+    end
 
     IVPL = readdlm(datadir("IV", "$path/JRad-2D-forw-planar-generation-$generation-reco-all.dat"))
 
@@ -157,7 +163,9 @@ function main(;saveFig   = false,
     for textampl in Textampl[1:2:end]
         ii = ii + 2
 
-        println("amplitude = ", textampl)
+        if printText
+            println("amplitude = ", textampl)
+        end
 
         IVNT = readdlm(datadir("IV", "$path/JRad-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"))
 
@@ -177,8 +185,10 @@ function main(;saveFig   = false,
     end
 
     ############################################################
-    println("  ")
-    println("Plot JSR, ETL")
+    if printText
+        println("  ")
+        println("Plot JSR, ETL")
+    end
 
     ## left boundary
     IVPL = readdlm(datadir("IV", "$path/JSRnL-2D-forw-planar-generation-$generation-reco-all.dat"))
@@ -190,7 +200,9 @@ function main(;saveFig   = false,
     for textampl in Textampl[1:2:end]
         ii = ii + 2
 
-        println("amplitude = ", textampl)
+        if printText
+            println("amplitude = ", textampl)
+        end
 
         IVNT = readdlm(datadir("IV", "$path/JSRnL-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"))
 
@@ -210,8 +222,10 @@ function main(;saveFig   = false,
     end
 
     ############################################################
-    println("  ")
-    println("Plot JSR, HTL")
+    if printText
+        println("  ")
+        println("Plot JSR, HTL")
+    end
 
     ## right boundary
     IVPL = readdlm(datadir("IV", "$path/JSRnR-2D-forw-planar-generation-$generation-reco-all.dat"))
@@ -223,7 +237,9 @@ function main(;saveFig   = false,
     for textampl in Textampl[1:2:end]
         ii = ii + 2
 
-        println("amplitude = ", textampl)
+        if printText
+            println("amplitude = ", textampl)
+        end
 
         IVNT = readdlm(datadir("IV", "$path/JSRnR-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"))
 

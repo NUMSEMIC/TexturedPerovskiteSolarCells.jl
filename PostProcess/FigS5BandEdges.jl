@@ -71,6 +71,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
               generationUniform = false,
               IVDirection       = "forw", # "rev" #
               V                 = "end",  # "inival",
+              printText         = true,
               saveFig           = false,
               parameter_file = scriptsdir("params_single_junction.jl"))
 

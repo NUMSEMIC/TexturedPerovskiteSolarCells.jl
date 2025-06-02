@@ -111,7 +111,7 @@ function test(;gridDim = 2, typeGrid = "planar", # "nanotextured", #
         XX = grid[Coordinates][1, :]
         YY = grid[Coordinates][2, :]
 
-        tricontourf(XX./nm, YY./nm, G, levels = 40)#, norm=matplotlib[:colors][:LogNorm](vmin=minimum(G_interpol_eval), vmax=maximum(G_interpol_eval)))
+        tricontourf(XX./nm, YY./nm, G, levels = 40)#, norm=matplotlib.colors.LogNorm(vmin=minimum(G_interpol_eval), vmax=maximum(G_interpol_eval)))
 
         colorbar(orientation = "horizontal", label = "photogeneration [(m\$^3\$s)\$^{-1}\$]")
         PyPlot.xlabel("width [nm]", fontsize=17)

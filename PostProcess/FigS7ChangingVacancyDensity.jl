@@ -21,7 +21,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
               typeReco    = "all",    # "radiative"
               IVDirection = "forw", #"rev", #
               V           = "end", #"inival", # "V-1p15"
-              saveFig = false,
+              printText = true, saveFig = false,
               parameter_file = scriptsdir("params_single_junction.jl")
               )
 
@@ -212,20 +212,22 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
 
    ######################################################################
 
-    println("  ")
-    println("Avg nn for Ca = $Ca1 is:                 $(nnAvg1)")
-    println("Avg nn for Ca = $Ca2 is:                 $(nnAvg2)")
-    println("Avg nn for Ca = $Ca4 is:                 $(nnAvg4)")
+    if printText
+       println("  ")
+       println("Avg nn for Ca = $Ca1 is:                 $(nnAvg1)")
+       println("Avg nn for Ca = $Ca2 is:                 $(nnAvg2)")
+       println("Avg nn for Ca = $Ca4 is:                 $(nnAvg4)")
 
-    println("  ")
-    println("Avg np for Ca = $Ca1 is:                 $(npAvg1)")
-    println("Avg np for Ca = $Ca2 is:                 $(npAvg2)")
-    println("Avg np for Ca = $Ca4 is:                 $(npAvg4)")
+       println("  ")
+       println("Avg np for Ca = $Ca1 is:                 $(npAvg1)")
+       println("Avg np for Ca = $Ca2 is:                 $(npAvg2)")
+       println("Avg np for Ca = $Ca4 is:                 $(npAvg4)")
 
-    println("  ")
-    println("Avg na for Ca = $Ca1 is:                 $(naAvg1)")
-    println("Avg na for Ca = $Ca2 is:                 $(naAvg2)")
-    println("Avg na for Ca = $Ca4 is:                 $(naAvg4)")
+       println("  ")
+       println("Avg na for Ca = $Ca1 is:                 $(naAvg1)")
+       println("Avg na for Ca = $Ca2 is:                 $(naAvg2)")
+       println("Avg na for Ca = $Ca4 is:                 $(naAvg4)")
+    end
 
     #########################################################################################
     #########################################################################################

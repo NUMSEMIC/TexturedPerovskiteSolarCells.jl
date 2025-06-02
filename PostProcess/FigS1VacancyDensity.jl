@@ -72,6 +72,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
               generationUniform = false,
               IVDirection = "forw", # "rev" #
               V = "inival", # "end"
+              printText = true,
               saveFig = false,
               parameter_file = scriptsdir("params_single_junction.jl")
               )
@@ -172,47 +173,52 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     #########################################################################
     #########################################################################
 
-    ## calculate the measure of the perovskite region
-    mOmega = 0.0
-    for icellVol in subg1[CellVolumes]
-        mOmega = mOmega + icellVol
+    if printText
+
+
+        ## calculate the measure of the perovskite region
+        mOmega = 0.0
+        for icellVol in subg1[CellVolumes]
+            mOmega = mOmega + icellVol
+        end
+
+        Int = ChargeTransport.integrate(ctsys1, storage!, sol1)./q
+        println("Avg na for planar is:                     $(Int[iphia, regionPero]/mOmega)")
+
+        ####################################################
+
+        ## calculate the measure of the perovskite region
+        mOmega = 0.0
+        for icellVol in subg2[CellVolumes]
+            mOmega = mOmega + icellVol
+        end
+
+        Int = ChargeTransport.integrate(ctsys2, storage!, sol2)./q
+        println("Avg na for textured ($textampl nm) is:       $(Int[iphia, regionPero]/mOmega)")
+
+        #####################################################
+
+        ## calculate the measure of the perovskite region
+        mOmega = 0.0
+        for icellVol in subg3[CellVolumes]
+            mOmega = mOmega + icellVol
+        end
+
+        Int = ChargeTransport.integrate(ctsys3, storage!, sol3)./q
+        println("Avg na for textured ($textampl2 nm) is:       $(Int[iphia, regionPero]/mOmega)")
+
+        #####################################################
+
+        ## calculate the measure of the perovskite region
+        mOmega = 0.0
+        for icellVol in subg4[CellVolumes]
+            mOmega = mOmega + icellVol
+        end
+
+        Int = ChargeTransport.integrate(ctsys4, storage!, sol4)./q
+        println("Avg na for textured ($textampl3 nm) is:       $(Int[iphia, regionPero]/mOmega)")
+
     end
-
-    Int = ChargeTransport.integrate(ctsys1, storage!, sol1)./q
-    println("Avg na for planar is:                     $(Int[iphia, regionPero]/mOmega)")
-
-   ####################################################
-
-    ## calculate the measure of the perovskite region
-    mOmega = 0.0
-    for icellVol in subg2[CellVolumes]
-        mOmega = mOmega + icellVol
-    end
-
-    Int = ChargeTransport.integrate(ctsys2, storage!, sol2)./q
-    println("Avg na for textured ($textampl nm) is:       $(Int[iphia, regionPero]/mOmega)")
-
-    #####################################################
-
-    ## calculate the measure of the perovskite region
-    mOmega = 0.0
-    for icellVol in subg3[CellVolumes]
-        mOmega = mOmega + icellVol
-    end
-
-    Int = ChargeTransport.integrate(ctsys3, storage!, sol3)./q
-    println("Avg na for textured ($textampl2 nm) is:       $(Int[iphia, regionPero]/mOmega)")
-
-    #####################################################
-
-    ## calculate the measure of the perovskite region
-    mOmega = 0.0
-    for icellVol in subg4[CellVolumes]
-        mOmega = mOmega + icellVol
-    end
-
-    Int = ChargeTransport.integrate(ctsys4, storage!, sol4)./q
-    println("Avg na for textured ($textampl3 nm) is:       $(Int[iphia, regionPero]/mOmega)")
 
     #########################################################################
     #########################################################################
@@ -240,7 +246,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
 
     vmin = 7.5e18; vmax = 7.0e23
 
-    tripcolor(tridata(subg1)..., vcat(na1...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
+    tripcolor(tridata(subg1)..., vcat(na1...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
     xlabel("\$ x\$ [nm]", fontsize=17)
     ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
@@ -254,7 +260,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
 
     #####################
     figure()
-    tripcolor(tridata(subg2)..., vcat(na2...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud",  cmap = parula_map, rasterized=true)
+    tripcolor(tridata(subg2)..., vcat(na2...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud",  cmap = parula_map, rasterized=true)
     xlabel(" \$x\$ [nm]", fontsize=17)
     ylabel(" \$y \$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
@@ -268,7 +274,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
 
     #####################
     figure()
-    tripcolor(tridata(subg3)..., vcat(na3...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
+    tripcolor(tridata(subg3)..., vcat(na3...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
     xlabel("\$ x\$ [nm]", fontsize=17)
     ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
@@ -282,7 +288,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
 
     #####################
     figure()
-    tripcolor(tridata(subg4)..., vcat(na4...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
+    tripcolor(tridata(subg4)..., vcat(na4...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
     xlabel(" \$x\$ [nm]", fontsize=17)
     ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])

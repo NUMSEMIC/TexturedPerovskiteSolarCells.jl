@@ -18,7 +18,7 @@ datadir = TexturedPerovskiteSolarCells.datadir
 scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 
 # https://stackoverflow.com/questions/29443369/how-to-make-a-custom-colormap-using-pyplot-not-matplotlib-proper
-@pyimport matplotlib.colors as matcolors
+matcolors = pyimport("matplotlib.colors")
 
 # https://github.com/BIDS/colormap/blob/master/parula.py
 cm_data = [[0.2081, 0.1663, 0.5292], [0.2116238095, 0.1897809524, 0.5776761905],
@@ -67,7 +67,7 @@ parula_map = matcolors.LinearSegmentedColormap.from_list("parula", cm_data)
 
 include(scriptsdir("SingleJunction.jl"))
 
-function main(;saveFig          = false,
+function main(;printText = true, saveFig = false,
               generationUniform = false,
               parameter_file = scriptsdir("params_single_junction.jl"),
             )
@@ -140,7 +140,7 @@ function main(;saveFig          = false,
     vmin = 3.0e26 # 3.62646944729868e26
     vmax = 2.0e28 # 2.6420799999536694e28
 
-    tripcolor(tridata(subg1)..., vcat(G1...), shading="gouraud", norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), cmap = parula_map, rasterized=true)
+    tripcolor(tridata(subg1)..., vcat(G1...), shading="gouraud", norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), cmap = parula_map, rasterized=true)
     xlabel(" \$x\$ [nm]", fontsize=17)
     ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
@@ -153,7 +153,7 @@ function main(;saveFig          = false,
 
     #####################
     figure()
-    tripcolor(tridata(subg2)..., vcat(G2...), shading="gouraud", norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), cmap = parula_map, rasterized=true)
+    tripcolor(tridata(subg2)..., vcat(G2...), shading="gouraud", norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), cmap = parula_map, rasterized=true)
     xlabel(" \$x\$ [nm]", fontsize=17)
     ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
@@ -166,7 +166,7 @@ function main(;saveFig          = false,
 
     #####################
     figure()
-    tripcolor(tridata(subg3)..., vcat(G3...), shading="gouraud", norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), cmap = parula_map, rasterized=true)
+    tripcolor(tridata(subg3)..., vcat(G3...), shading="gouraud", norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), cmap = parula_map, rasterized=true)
     xlabel(" \$x\$ [nm]", fontsize=17)
     ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
@@ -179,7 +179,7 @@ function main(;saveFig          = false,
 
     #####################
     figure()
-    tripcolor(tridata(subg4)..., vcat(G4...), shading="gouraud", norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), cmap = parula_map, rasterized=true)
+    tripcolor(tridata(subg4)..., vcat(G4...), shading="gouraud", norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), cmap = parula_map, rasterized=true)
     xlabel(" \$x\$ [nm]", fontsize=17)
     ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
@@ -198,17 +198,20 @@ function main(;saveFig          = false,
     sol3 = zeros(ctsys3.fvmsys.physics.data.params.numberOfCarriers+1, num_nodes(grid3))
     sol4 = zeros(ctsys4.fvmsys.physics.data.params.numberOfCarriers+1, num_nodes(grid4))
 
-    IntG  = ChargeTransport.integrate(ctsys1, Photogeneration!, sol1)
-    println("Photogen integral for planar is:              $(IntG[iphip, regionPero].*(cm^2).*1.0e3./heightDev) mA/cm^2.")
+    if printText
+        IntG  = ChargeTransport.integrate(ctsys1, Photogeneration!, sol1)
+        println("Photogen integral for planar is:              $(IntG[iphip, regionPero].*(cm^2).*1.0e3./heightDev) mA/cm^2.")
 
-    IntG  = ChargeTransport.integrate(ctsys2, Photogeneration!, sol2)
-    println("Photogen integral for textured ($textampl m) is: $(IntG[iphip, regionPero].*(cm^2).*1.0e3./heightDev) mA/cm^2.")
+        IntG  = ChargeTransport.integrate(ctsys2, Photogeneration!, sol2)
+        println("Photogen integral for textured ($textampl m) is: $(IntG[iphip, regionPero].*(cm^2).*1.0e3./heightDev) mA/cm^2.")
 
-    IntG  = ChargeTransport.integrate(ctsys3, Photogeneration!, sol3)
-    println("Photogen integral for textured ($textampl2 m) is: $(IntG[iphip, regionPero].*(cm^2).*1.0e3./heightDev) mA/cm^2.")
+        IntG  = ChargeTransport.integrate(ctsys3, Photogeneration!, sol3)
+        println("Photogen integral for textured ($textampl2 m) is: $(IntG[iphip, regionPero].*(cm^2).*1.0e3./heightDev) mA/cm^2.")
 
-    IntG  = ChargeTransport.integrate(ctsys4, Photogeneration!, sol4)
-    println("Photogen integral for textured ($textampl3 m) is: $(IntG[iphip, regionPero].*(cm^2).*1.0e3./heightDev)  mA/cm^2.")
+        IntG  = ChargeTransport.integrate(ctsys4, Photogeneration!, sol4)
+        println("Photogen integral for textured ($textampl3 m) is: $(IntG[iphip, regionPero].*(cm^2).*1.0e3./heightDev)  mA/cm^2.")
+    end
+
 
     return nothing
 end

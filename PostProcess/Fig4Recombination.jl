@@ -73,7 +73,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
               IVDirection = "forw", # "forw", #
               V = "inival", # "end", # "V-1p05", # "V-1p15"
               parameter_file = scriptsdir("params_single_junction.jl"),
-              saveFig = false)
+              printText = true, saveFig = false)
 
     include(parameter_file)
 
@@ -215,7 +215,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     end
 
     #####################
-    tripcolor(tridata(subg1)..., vcat(SRH1...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true) #
+    tripcolor(tridata(subg1)..., vcat(SRH1...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true) #
     xlabel("\$ x\$ [nm]", fontsize=17)
     ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
@@ -229,7 +229,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
 
     #####################
     figure()
-    tripcolor(tridata(subg2)..., vcat(SRH2...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax),shading="gouraud", cmap = parula_map, rasterized=true)
+    tripcolor(tridata(subg2)..., vcat(SRH2...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax),shading="gouraud", cmap = parula_map, rasterized=true)
     xlabel(" \$x\$ [nm]", fontsize=17)
     ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
@@ -243,9 +243,9 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
 
     #####################
     figure()
-    tripcolor(tridata(subg3)..., vcat(SRH3...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
-    xlabel("\$ x \$[nm]", fontsize=17)
-    ylabel("\$ y \$[nm]", fontsize=17)
+    tripcolor(tridata(subg3)..., vcat(SRH3...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
+    xlabel("\$ x\$ [nm]", fontsize=17)
+    ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("SRH -- $V V")
     cbar = colorbar(orientation = "vertical", label = " SRH recomb. rate [\$\\frac{1}{\\mathrm{m}^3 \\mathrm{s}}\$]", extend="both")
@@ -257,7 +257,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
 
     #####################
     figure()
-    tripcolor(tridata(subg4)..., vcat(SRH4...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
+    tripcolor(tridata(subg4)..., vcat(SRH4...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
     xlabel("\$ x\$ [nm]", fontsize=17)
     ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
@@ -272,17 +272,21 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     #########################################################################################################
     #########################################################################################################
 
-    Int = ChargeTransport.integrate(ctsys1, SRHRecombination!, sol1)
-    println("SRH integral for planar is:              $(Int[iphip, regionPero].*(cm^2).*1.0e3./heightDev) mA/cm^2.")
+    if printText
+        Int = ChargeTransport.integrate(ctsys1, SRHRecombination!, sol1)
+        println("SRH integral for planar is:              $(Int[iphip, regionPero].*(cm^2).*1.0e3./heightDev) mA/cm^2.")
 
-    Int = ChargeTransport.integrate(ctsys2, SRHRecombination!, sol2)
-    println("SRH integral for textured ($textampl m) is: $(Int[iphip, regionPero].*(cm^2).*1.0e3./heightDev)  mA/cm^2.")
+        Int = ChargeTransport.integrate(ctsys2, SRHRecombination!, sol2)
+        println("SRH integral for textured ($textampl m) is: $(Int[iphip, regionPero].*(cm^2).*1.0e3./heightDev)  mA/cm^2.")
 
-    Int = ChargeTransport.integrate(ctsys3, SRHRecombination!, sol3)
-    println("SRH integral for textured ($textampl2 m) is: $(Int[iphip, regionPero].*(cm^2).*1.0e3./heightDev)    mA/cm^2.")
 
-    Int = ChargeTransport.integrate(ctsys4, SRHRecombination!, sol4)
-    println("SRH integral for textured ($textampl3 m) is: $(Int[iphip, regionPero].*(cm^2).*1.0e3./heightDev)  mA/cm^2.")
+        Int = ChargeTransport.integrate(ctsys3, SRHRecombination!, sol3)
+        println("SRH integral for textured ($textampl2 m) is: $(Int[iphip, regionPero].*(cm^2).*1.0e3./heightDev)    mA/cm^2.")
+
+        Int = ChargeTransport.integrate(ctsys4, SRHRecombination!, sol4)
+        println("SRH integral for textured ($textampl3 m) is: $(Int[iphip, regionPero].*(cm^2).*1.0e3./heightDev)  mA/cm^2.")
+
+    end
 
     return nothing
 end

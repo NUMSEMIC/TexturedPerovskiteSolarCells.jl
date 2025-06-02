@@ -15,7 +15,7 @@ using TexturedPerovskiteSolarCells
 datadir = TexturedPerovskiteSolarCells.datadir
 scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 
-function main(;saveFig = false,
+function main(;printText = true, saveFig = false,
             scanrate =  "1000p0", # "0p001", #  "10p0", # "1000p0", #
             generation = "Maxwell", # "uniform"
             parameter_file = scriptsdir("params_single_junction.jl"),
@@ -60,9 +60,13 @@ function main(;saveFig = false,
     Textampl = ["5p0e-8", "1p0e-7", "1p5e-7", "2p0e-7", "2p5e-7", "3p0e-7", "3p5e-7", "4p0e-7",
                 "4p5e-7", "5p0e-7", "5p5e-7", "6p0e-7", "6p5e-7", "7p0e-7", "7p5e-7"]
 
-    println("Calculate for realistic cell")
+    if printText
+        println("Calculate for realistic cell")
+    end
     for textampl in Textampl
-        println("Texture height = ", textampl, " m")
+        if printText
+            println("Texture height = ", textampl, " m")
+        end
 
         IVNT = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"))
 
@@ -114,10 +118,16 @@ function main(;saveFig = false,
     push!(VOCVecRad, open_circuit); push!(EfficiencyVecRad, efficiency)
     push!(JMPRad, IV[indexPD]./heightDev.*(0.01)^(2).*1.0e3); push!(VMPRad, bias[indexPD])
 
-    println(" ")
-    println("Calculate for ideal cell")
+
+    if printText
+        println(" ")
+        println("Calculate for ideal cell")
+    end
+
     for textampl in Textampl
-        println("Texture height = ", textampl, " m")
+        if printText
+            println("Texture height = ", textampl, " m")
+        end
 
         IVNT = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-radiative.dat"))
 
@@ -167,15 +177,17 @@ function main(;saveFig = false,
     Max1Rad = maximum(EfficiencyVecRad); Max2Rad = argmax(EfficiencyVecRad)
     Max1    = maximum(EfficiencyVec);    Max2    = argmax(EfficiencyVec)
 
-    println(".................................................")
-    println(" ")
-    println("Planar (realistic): PCE is $(EfficiencyVec[1]) %.")
-    println("Planar (ideal):     PCE is $(EfficiencyVecRad[1]) %.")
+    if printText
+        println(".................................................")
+        println(" ")
+        println("Planar (realistic): PCE is $(EfficiencyVec[1]) %.")
+        println("Planar (ideal):     PCE is $(EfficiencyVecRad[1]) %.")
 
-    println(" ")
+        println(" ")
 
-    println("Realistic: Maximum PCE is $(Max1) %, reached at $(ampl[Max2]./nm) nm.")
-    println("Ideal:     Maximum PCE is $(Max1Rad) %, reached at $(ampl[Max2Rad]./nm) nm.")
+        println("Realistic: Maximum PCE is $(Max1) %, reached at $(ampl[Max2]./nm) nm.")
+        println("Ideal:     Maximum PCE is $(Max1Rad) %, reached at $(ampl[Max2Rad]./nm) nm.")
+    end
 
     if saveFig
         savefig(datadir("ampl-efficiency-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
@@ -328,15 +340,17 @@ function main(;saveFig = false,
         savefig(datadir("ampl-JSC-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
-    println(".................................................")
-    println(" ")
-    println("Planar (realistic): JSC is $(JSCVec[1]) mA/cm^2.")
-    println("Planar (ideal):     JSC is $(JSCVecRad[1]) mA/cm^2.")
+    if printText
+        println(".................................................")
+        println(" ")
+        println("Planar (realistic): JSC is $(JSCVec[1]) mA/cm^2.")
+        println("Planar (ideal):     JSC is $(JSCVecRad[1]) mA/cm^2.")
 
-    println(" ")
+        println(" ")
 
-    println("Realistic: JSC is $(JSCVec[Max2]) mA/cm^2.")
-    println("Ideal:     JSC is $(JSCVecRad[Max2Rad]) mA/cm^2.")
+        println("Realistic: JSC is $(JSCVec[Max2]) mA/cm^2.")
+        println("Ideal:     JSC is $(JSCVecRad[Max2Rad]) mA/cm^2.")
+    end
 
     ##################################################################
     figure()
@@ -355,15 +369,17 @@ function main(;saveFig = false,
         savefig(datadir("ampl-FF-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
-    println(".................................................")
-    println(" ")
-    println("Planar (realistic): FF is $(FFVec[1]) %.")
-    println("Planar (ideal):     FF is $(FFVecRad[1]) %.")
+    if printText
+        println(".................................................")
+        println(" ")
+        println("Planar (realistic): FF is $(FFVec[1]) %.")
+        println("Planar (ideal):     FF is $(FFVecRad[1]) %.")
 
-    println(" ")
+        println(" ")
 
-    println("Realistic: FF is $(FFVec[Max2]) %.")
-    println("Ideal:     FF is $(FFVecRad[Max2Rad]) %.")
+        println("Realistic: FF is $(FFVec[Max2]) %.")
+        println("Ideal:     FF is $(FFVecRad[Max2Rad]) %.")
+    end
 
     #################################
 
@@ -384,15 +400,17 @@ function main(;saveFig = false,
         savefig(datadir("ampl-VOC-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
-    println(".................................................")
-    println(" ")
-    println("Planar (realistic): VOC is $(VOCVec[1]) V.")
-    println("Planar (ideal):     VOC is $(VOCVecRad[1]) V.")
+    if printText
+        println(".................................................")
+        println(" ")
+        println("Planar (realistic): VOC is $(VOCVec[1]) V.")
+        println("Planar (ideal):     VOC is $(VOCVecRad[1]) V.")
 
-    println(" ")
+        println(" ")
 
-    println("Realistic: VOC is $(VOCVec[Max2]) V.")
-    println("Ideal:     VOC is $(VOCVecRad[Max2Rad]) V.")
+        println("Realistic: VOC is $(VOCVec[Max2]) V.")
+        println("Ideal:     VOC is $(VOCVecRad[Max2Rad]) V.")
+    end
 
     #################################
     VOCDiff = zeros(0); VOCDiffRad = zeros(0)

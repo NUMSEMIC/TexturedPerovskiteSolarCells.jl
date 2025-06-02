@@ -79,6 +79,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
               V                 = "inival", # "end"
               plotElectrons     = true,
               plotHoles         = true,
+              printText         = true,
               saveFig           = false,
               parameter_file = scriptsdir("params_single_junction.jl"))
 
@@ -235,7 +236,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
 
     if plotElectrons
 
-        tripcolor(tridata(subg1)..., vcat(nn1...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
+        tripcolor(tridata(subg1)..., vcat(nn1...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
         xlabel(" \$x\$ [nm]", fontsize=17)
         ylabel(" \$y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
@@ -249,7 +250,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
 
         #####################
         figure()
-        tripcolor(tridata(subg2)..., vcat(nn2...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud",  cmap = parula_map, rasterized=true)
+        tripcolor(tridata(subg2)..., vcat(nn2...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud",  cmap = parula_map, rasterized=true)
         xlabel(" \$x\$ [nm]", fontsize=17)
         ylabel("\$ y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
@@ -263,7 +264,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
 
         #####################
         figure()
-        tripcolor(tridata(subg3)..., vcat(nn3...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
+        tripcolor(tridata(subg3)..., vcat(nn3...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
         xlabel("\$ x\$ [nm]", fontsize=17)
         ylabel("\$ y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
@@ -277,7 +278,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
 
         #####################
         figure()
-        tripcolor(tridata(subg4)..., vcat(nn4...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
+        tripcolor(tridata(subg4)..., vcat(nn4...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
         xlabel("\$ x\$ [nm]", fontsize=17)
         ylabel("\$ y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
@@ -297,7 +298,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
     if plotHoles
 
         figure()
-        tripcolor(tridata(subg1)..., vcat(np1...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
+        tripcolor(tridata(subg1)..., vcat(np1...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
         xlabel(" \$x\$ [nm]", fontsize=17)
         ylabel("\$ y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
@@ -311,7 +312,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
 
         #####################
         figure()
-        tripcolor(tridata(subg2)..., vcat(np2...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud",  cmap = parula_map, rasterized=true)
+        tripcolor(tridata(subg2)..., vcat(np2...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud",  cmap = parula_map, rasterized=true)
         xlabel("\$ x\$ [nm]", fontsize=17)
         ylabel(" \$y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
@@ -325,7 +326,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
 
         #####################
         figure()
-        tripcolor(tridata(subg3)..., vcat(np3...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
+        tripcolor(tridata(subg3)..., vcat(np3...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
         xlabel(" \$x\$ [nm]", fontsize=17)
         ylabel(" \$y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
@@ -339,7 +340,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
 
         #####################
         figure()
-        tripcolor(tridata(subg4)..., vcat(np4...), norm=matplotlib[:colors][:LogNorm](vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
+        tripcolor(tridata(subg4)..., vcat(np4...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax), shading="gouraud", cmap = parula_map, rasterized=true)
         xlabel("\$ x\$ [nm]", fontsize=17)
         ylabel("\$ y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
@@ -415,24 +416,26 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
     #####################################################
     #####################################################
 
-    println("  ")
-    println("Avg nn for planar is:                $(nnAvg1)")
-    println("Avg nn for textured ($textampl m) is:   $(nnAvg2)")
-    println("Avg nn for textured ($textampl2 m) is:   $(nnAvg3)")
-    println("Avg nn for textured ($textampl3 m) is:   $(nnAvg4)")
+    if printText
+        println("  ")
+        println("Avg nn for planar is:                $(nnAvg1)")
+        println("Avg nn for textured ($textampl m) is:   $(nnAvg2)")
+        println("Avg nn for textured ($textampl2 m) is:   $(nnAvg3)")
+        println("Avg nn for textured ($textampl3 m) is:   $(nnAvg4)")
 
-    println(" ")
-    println("Avg np for planar is:                 $(npAvg1)")
-    println("Avg np for textured ($textampl m) is:   $(npAvg2)")
-    println("Avg np for textured ($textampl2 m) is:   $(npAvg3)")
-    println("Avg np for textured ($textampl3 m) is:   $(npAvg4)")
+        println(" ")
+        println("Avg np for planar is:                 $(npAvg1)")
+        println("Avg np for textured ($textampl m) is:   $(npAvg2)")
+        println("Avg np for textured ($textampl2 m) is:   $(npAvg3)")
+        println("Avg np for textured ($textampl3 m) is:   $(npAvg4)")
 
-    println(" ")
+        println(" ")
 
-    println("Sqrt(nn * np) for planar is:               $(sqrt(IntProd1))")
-    println("Sqrt(nn * np) for textured ($textampl m) is:  $(sqrt(IntProd2))")
-    println("Sqrt(nn * np) for textured ($textampl2 m) is:  $(sqrt(IntProd3))")
-    println("Sqrt(nn * np) for textured ($textampl3 m) is:  $(sqrt(IntProd4))")
+        println("Sqrt(nn * np) for planar is:               $(sqrt(IntProd1))")
+        println("Sqrt(nn * np) for textured ($textampl m) is:  $(sqrt(IntProd2))")
+        println("Sqrt(nn * np) for textured ($textampl2 m) is:  $(sqrt(IntProd3))")
+        println("Sqrt(nn * np) for textured ($textampl3 m) is:  $(sqrt(IntProd4))")
+    end
 
     return nothing
 end

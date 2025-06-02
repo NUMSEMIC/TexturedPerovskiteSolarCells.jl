@@ -43,7 +43,7 @@ end
         include(joinpath("..", "PostProcess", string(Fig) * ".jl"))
 
         @eval begin
-            @test $(Fig).main(saveFig = true) === nothing
+            @test $(Fig).main(printText = false, saveFig = true) === nothing
         end
     end
 end
