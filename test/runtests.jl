@@ -28,7 +28,7 @@ end
             :Fig3CharacteristicsStudy,
             :Fig4Recombination,
             :Fig4RecombinationCurrents,
-            #:Fig5,
+            :Fig5,
             :FigS1VacancyDensity,
             :FigS2FieldStrength,
             :FigS3ElectronAndHoleDensity,
