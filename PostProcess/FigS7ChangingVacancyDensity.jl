@@ -273,7 +273,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     plot(coordALL', -sol1[iphin, :], linewidth = 5, linestyle = LS, color = Blues(201))
     plot(coordALL', -sol1[iphip, :], linewidth = 5, linestyle = LS, color = Oranges(201))
 
-    PyPlot.xlabel("Height [nm]",   fontsize=18)
+    PyPlot.xlabel("\$ y\$  [nm]",   fontsize=18)
     PyPlot.ylabel(" Energy [eV] ", fontsize=18)
     PyPlot.xlim(-5.0, 445)
     PyPlot.ylim(-2.4, 1.8)
@@ -298,7 +298,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     plot(coordALL', -sol2[iphin, :], linewidth = 5, linestyle = LS, color = Blues(201))
     plot(coordALL', -sol2[iphip, :], linewidth = 5, linestyle = LS, color = Oranges(201))
 
-    PyPlot.xlabel("Height [nm]",   fontsize=18)
+    PyPlot.xlabel("\$ y\$  [nm]",   fontsize=18)
     PyPlot.ylabel(" Energy [eV] ", fontsize=18)
     PyPlot.xlim(-5.0, 445)
     PyPlot.ylim(-2.4, 1.8)
@@ -323,7 +323,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     plot(coordALL', -sol4[iphin, :], linewidth = 5, linestyle = LS, color = Blues(201))
     plot(coordALL', -sol4[iphip, :], linewidth = 5, linestyle = LS, color = Oranges(201))
 
-    PyPlot.xlabel("Height [nm]",   fontsize=18)
+    PyPlot.xlabel("\$ y\$  [nm]",   fontsize=18)
     PyPlot.ylabel(" Energy [eV] ", fontsize=18)
     PyPlot.xlim(-5.0, 445)
     PyPlot.ylim(-2.4, 1.8)
