@@ -284,6 +284,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     Int = ChargeTransport.integrate(ctsys4, SRHRecombination!, sol4)
     println("SRH integral for textured ($textampl3 m) is: $(Int[iphip, regionPero].*(cm^2).*1.0e3./heightDev)  mA/cm^2.")
 
+    return nothing
 end
 
 end

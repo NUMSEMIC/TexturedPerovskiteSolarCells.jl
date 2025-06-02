@@ -287,6 +287,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
         savefig(datadir("2D-nanotextured-ampl-$textampl3-E-field-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
     end
 
+    return nothing
 end
 
 end

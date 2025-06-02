@@ -333,7 +333,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
         savefig(datadir("1D-energy-Ca-1p0e23-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
     end
 
-
+    return nothing
 end
 
 end

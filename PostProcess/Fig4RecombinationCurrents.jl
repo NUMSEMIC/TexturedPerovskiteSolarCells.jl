@@ -242,6 +242,7 @@ function main(;saveFig   = false,
         savefig(datadir("J-reco-SR-HTL-generation-$generation-params-$paramsname-scanrate-$scanrate.pdf"))
     end
 
+    return nothing
 end
 
 end

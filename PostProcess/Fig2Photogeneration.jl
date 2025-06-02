@@ -210,6 +210,7 @@ function main(;saveFig          = false,
     IntG  = ChargeTransport.integrate(ctsys4, Photogeneration!, sol4)
     println("Photogen integral for textured ($textampl3 m) is: $(IntG[iphip, regionPero].*(cm^2).*1.0e3./heightDev)  mA/cm^2.")
 
+    return nothing
 end
 
 end

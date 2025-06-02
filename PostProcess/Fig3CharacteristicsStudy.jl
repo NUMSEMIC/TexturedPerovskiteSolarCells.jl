@@ -449,6 +449,8 @@ function main(;saveFig = false,
     #     savefig(datadir("ampl-JMP-VMP-JSC-VOC-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     # end
 
+
+    return nothing
 end
 
 end

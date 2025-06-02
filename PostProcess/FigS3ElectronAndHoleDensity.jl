@@ -434,6 +434,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
     println("Sqrt(nn * np) for textured ($textampl2 m) is:  $(sqrt(IntProd3))")
     println("Sqrt(nn * np) for textured ($textampl3 m) is:  $(sqrt(IntProd4))")
 
+    return nothing
 end
 
 end

@@ -535,6 +535,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
         savefig(datadir("Energy-difference-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
     end
 
+    return nothing
 end
 
 end
