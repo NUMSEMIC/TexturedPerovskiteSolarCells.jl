@@ -35,9 +35,10 @@ git clone https://github.com/NUMSEMIC/TexturedPerovskiteSolarCells.jl
 cd TexturedPerovskiteSolarCells.jl
 ```
 
-2. **Start julia and instantiate the project dependencies (first time only)**
+2. **Start julia and instantiate the project dependencies (first time only; it takes a while and it will download all necessary dependencies and the pyplot backend)**
 ```
 julia --project
+julia> using Pkg; Pkg.instantiate()
 ```
 
 3. **Run simulations**
