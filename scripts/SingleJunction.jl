@@ -480,6 +480,10 @@ function main(;plotting = false, printText = true,
 
     inival  = solEQ
 
+    println(" ")
+    println("solEQ (without photogen), testval = ",  -1.1961133474392938)
+    println("solEQ (without photogen), Real val =  ", sum(filter(!isnan, solEQ))/length(solEQ))
+
     if demo_run && gridDim == 2 && generation && MaxwellSol
         if typeGrid == "planar"
             return testval = sum(filter(!isnan, inival))/length(inival) # when using sparse storage, we get NaN values in solution
@@ -554,6 +558,10 @@ function main(;plotting = false, printText = true,
         end
 
     end
+
+    println(" ")
+    println("solEQ (photogeneration), testval = ", -1.246154045501575)
+    println("solEQ (photogeneration), Real val =  ", sum(filter(!isnan, solEQ))/length(solEQ))
 
     if CalculateEa
         return ctsys, inival
