@@ -487,8 +487,8 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     ###### varying texture height -- Injection barriers
     figure()
     MKsize = 10
-    Diffn  = readdlm("data/Ec-Efn-difference-params-$paramsname-generation-$generation-scanrate-$textSR.dat")
-    Diffp  = readdlm("data/Ev-Efp-difference-params-$paramsname-generation-$generation-scanrate-$textSR.dat")
+    Diffn  = readdlm(datadir("Ec-Efn-difference-params-$paramsname-generation-$generation-scanrate-$textSR.dat"))
+    Diffp  = readdlm(datadir("Ev-Efp-difference-params-$paramsname-generation-$generation-scanrate-$textSR.dat"))
 
     Coln = [143/255, 187/255, 217/255]
     Colp = [234/255, 147/255, 147/255]
@@ -513,8 +513,8 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     ###### varying texture height -- VOC & QFL
     figure()
     MKsize = 10
-    VocIV  = readdlm("data/VOC-params-$paramsname-generation-$generation-scanrate-$textSR.dat")
-    QFLS   = readdlm("data/Ef-difference-params-$paramsname-generation-$generation-scanrate-$textSR.dat")
+    VocIV  = readdlm(datadir("VOC-params-$paramsname-generation-$generation-scanrate-$textSR.dat"))
+    QFLS   = readdlm(datadir("Ef-difference-params-$paramsname-generation-$generation-scanrate-$textSR.dat"))
 
     ColVoc = [129/255, 120/255, 213/255]
     ColQFL = [172/255, 235/255, 180/255]
