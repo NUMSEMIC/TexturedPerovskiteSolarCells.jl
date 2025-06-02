@@ -1078,7 +1078,10 @@ function test(;gridDim=1, typeGrid = "planar", amplitude = 2.0e-7, demo_run = fa
             testval = -0.6162695397900051 # all reco
         end
     end
-    return abs(main(gridDim = gridDim, typeGrid = typeGrid, amplitude = amplitude, printText = false, demo_run = demo_run, generation = true, generationUniform = false, MaxwellSol = true) - testval) < 1e-15
+    result = main(gridDim = gridDim, typeGrid = typeGrid, amplitude = amplitude, printText = false, demo_run = demo_run, generation = true, generationUniform = false, MaxwellSol = true)
+    @info "result  = $result"
+    @info "testval = $testval"
+    return abs(result - testval) < 1e-15
 end
 
 end # module
