@@ -251,7 +251,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("na -- V = $V")
-    cbar = colorbar(orientation = "vertical", label = " \$ n_\\mathrm{a} \$  [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
+    cbar = colorbar(orientation = "vertical", label = " \$ n_\\mathrm{a} \$  [\$\\mathrm{m}^{-3}\$]", extend="both")
     tight_layout()
 
     if saveFig
@@ -265,7 +265,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     ylabel(" \$y \$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("na -- V = $V")
-    cbar = colorbar(orientation = "vertical", label = " \$ n_\\mathrm{a} \$  [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
+    cbar = colorbar(orientation = "vertical", label = " \$ n_\\mathrm{a} \$  [\$\\mathrm{m}^{-3}\$]", extend="both")
     tight_layout()
 
     if saveFig
@@ -279,7 +279,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("na -- V = V")
-    cbar = colorbar(orientation = "vertical", label = " \$ n_\\mathrm{a} \$  [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
+    cbar = colorbar(orientation = "vertical", label = " \$ n_\\mathrm{a} \$  [\$\\mathrm{m}^{-3}\$]", extend="both")
     tight_layout()
 
     if saveFig
@@ -293,7 +293,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("na -- V = $V")
-    cbar = colorbar(orientation = "vertical", label = " \$ n_\\mathrm{a} \$  [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
+    cbar = colorbar(orientation = "vertical", label = " \$ n_\\mathrm{a} \$  [\$\\mathrm{m}^{-3}\$]", extend="both")
     tight_layout()
 
     if saveFig

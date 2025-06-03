@@ -144,7 +144,7 @@ function main(;printText = true, saveFig = false,
     xlabel(" \$x\$ [nm]", fontsize=17)
     ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
-    colorbar(orientation = "vertical", label = "\$ G \$ [\$\\frac{1}{\\mathrm{m}^3 \\mathrm{s}}\$]", extend="both")
+    colorbar(orientation = "vertical", label = "\$ G \$ [\$\\mathrm{m}^{-3} \\mathrm{s}^{-1}\$]", extend="both")
     tight_layout()
 
     if saveFig
@@ -157,7 +157,7 @@ function main(;printText = true, saveFig = false,
     xlabel(" \$x\$ [nm]", fontsize=17)
     ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
-    colorbar(orientation = "vertical", label = "\$ G \$ [\$\\frac{1}{\\mathrm{m}^3 \\mathrm{s}}\$]", extend="both")
+    colorbar(orientation = "vertical", label = "\$ G \$ [\$\\mathrm{m}^{-3} \\mathrm{s}^{-1}\$]", extend="both")
     tight_layout()
 
     if saveFig
@@ -170,7 +170,7 @@ function main(;printText = true, saveFig = false,
     xlabel(" \$x\$ [nm]", fontsize=17)
     ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
-    colorbar(orientation = "vertical", label = "\$ G \$ [\$\\frac{1}{\\mathrm{m}^3 \\mathrm{s}}\$]", extend="both")
+    colorbar(orientation = "vertical", label = "\$ G \$ [\$\\mathrm{m}^{-3} \\mathrm{s}^{-1}\$]", extend="both")
     tight_layout()
 
     if saveFig
@@ -183,7 +183,7 @@ function main(;printText = true, saveFig = false,
     xlabel(" \$x\$ [nm]", fontsize=17)
     ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
-    colorbar(orientation = "vertical", label = "\$ G \$ [\$\\frac{1}{\\mathrm{m}^3 \\mathrm{s}}\$]", extend="both")
+    colorbar(orientation = "vertical", label = "\$ G \$ [\$\\mathrm{m}^{-3} \\mathrm{s}^{-1}\$]", extend="both")
     tight_layout()
 
     if saveFig

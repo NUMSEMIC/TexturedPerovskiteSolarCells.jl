@@ -220,13 +220,14 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("SRH -- $V V")
-    cbar = colorbar(orientation = "vertical", label = " SRH recomb. rate [\$\\frac{1}{\\mathrm{m}^3 \\mathrm{s}}\$]", extend="both")
+    cbar = colorbar(orientation = "vertical", label = " \$ R_{\\mathrm{SRH}} \$ [\$\\mathrm{m}^{-3} \\mathrm{s}^{-1}\$]", extend="both")
     tight_layout()
 
     if saveFig
         savefig(datadir("2D-planar-SRH-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
     end
 
+    return
     #####################
     figure()
     tripcolor(tridata(subg2)..., vcat(SRH2...), norm=matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax),shading="gouraud", cmap = parula_map, rasterized=true)
@@ -234,7 +235,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("SRH -- $V V")
-    cbar = colorbar(orientation = "vertical", label = " SRH recomb. rate [\$\\frac{1}{\\mathrm{m}^3 \\mathrm{s}}\$]", extend="both")
+    cbar = colorbar(orientation = "vertical", label = " SRH recomb. rate [\$\\mathrm{m}^{-3} \\mathrm{s}^{-1}\$]", extend="both")
     tight_layout()
 
     if saveFig
@@ -248,7 +249,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     ylabel("\$ y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("SRH -- $V V")
-    cbar = colorbar(orientation = "vertical", label = " SRH recomb. rate [\$\\frac{1}{\\mathrm{m}^3 \\mathrm{s}}\$]", extend="both")
+    cbar = colorbar(orientation = "vertical", label = " SRH recomb. rate [\$\\mathrm{m}^{-3} \\mathrm{s}^{-1}\$]", extend="both")
     tight_layout()
 
     if saveFig
@@ -262,7 +263,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("SRH -- $V V")
-    cbar = colorbar(orientation = "vertical", label = " SRH recomb. rate [\$\\frac{1}{\\mathrm{m}^3 \\mathrm{s}}\$]", extend="both")
+    cbar = colorbar(orientation = "vertical", label = " SRH recomb. rate [\$\\mathrm{m}^{-3} \\mathrm{s}^{-1}\$]", extend="both")
     tight_layout()
 
     if saveFig

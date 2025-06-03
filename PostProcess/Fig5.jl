@@ -321,7 +321,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.xticks([0, 200, 400])
     PyPlot.xlabel("\$y\$ [nm]", fontsize=18)
     PyPlot.ylim(1.0e14, 1.0e25)
-    PyPlot.ylabel("Density [\$\\frac{1}{\\mathrm{m}^3}\$]", fontsize=18)
+    PyPlot.ylabel("Density [\$\\mathrm{m}^{-3}\$]", fontsize=18)
     PyPlot.title("x = $XVal nm")
     PyPlot.tick_params(which ="both", labelsize=18)
     PyPlot.tight_layout()

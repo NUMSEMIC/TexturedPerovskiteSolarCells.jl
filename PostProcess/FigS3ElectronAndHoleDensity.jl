@@ -241,7 +241,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         ylabel(" \$y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
         title("nn -- V = $V ($IVDirection)")
-        cbar = colorbar(orientation = "vertical", label = " Density [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
+        cbar = colorbar(orientation = "vertical", label = " Density [\$\\mathrm{m}^{-3}\$]", extend="both")
         tight_layout()
 
         if saveFig
@@ -255,7 +255,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         ylabel("\$ y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
         title("nn -- V = $V ($IVDirection)")
-        cbar = colorbar(orientation = "vertical", label = " Density [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
+        cbar = colorbar(orientation = "vertical", label = " Density [\$\\mathrm{m}^{-3}\$]", extend="both")
         tight_layout()
 
         if saveFig
@@ -269,7 +269,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         ylabel("\$ y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
         title("nn -- V = $V ($IVDirection)")
-        cbar = colorbar(orientation = "vertical", label = " Density [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
+        cbar = colorbar(orientation = "vertical", label = " Density [\$\\mathrm{m}^{-3}\$]", extend="both")
         tight_layout()
 
         if saveFig
@@ -283,7 +283,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         ylabel("\$ y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
         title("nn -- V =$V ($IVDirection)")
-        cbar = colorbar(orientation = "vertical", label = " Density [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
+        cbar = colorbar(orientation = "vertical", label = " Density [\$\\mathrm{m}^{-3}\$]", extend="both")
         tight_layout()
 
         if saveFig
@@ -303,7 +303,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         ylabel("\$ y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
         title("np -- V = $V ($IVDirection)")
-        cbar = colorbar(orientation = "vertical", label = " Density [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
+        cbar = colorbar(orientation = "vertical", label = " Density [\$\\mathrm{m}^{-3}\$]", extend="both")
         tight_layout()
 
         if saveFig
@@ -317,7 +317,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         ylabel(" \$y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
         title("np -- V = $V ($IVDirection)")
-        cbar = colorbar(orientation = "vertical", label = " Density [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
+        cbar = colorbar(orientation = "vertical", label = " Density [\$\\mathrm{m}^{-3}\$]", extend="both")
         tight_layout()
 
         if saveFig
@@ -331,7 +331,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         ylabel(" \$y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
         title("np -- V = $V ($IVDirection)")
-        cbar = colorbar(orientation = "vertical", label = " Density [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
+        cbar = colorbar(orientation = "vertical", label = " Density [\$\\mathrm{m}^{-3}\$]", extend="both")
         tight_layout()
 
         if saveFig
@@ -345,7 +345,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         ylabel("\$ y\$ [nm]", fontsize=17)
         axis([-20, 770, 20, 800])
         title("np -- V = $V ($IVDirection)")
-        cbar = colorbar(orientation = "vertical", label = " Density [\$\\frac{1}{\\mathrm{m}^3}\$]", extend="both")
+        cbar = colorbar(orientation = "vertical", label = " Density [\$\\mathrm{m}^{-3}\$]", extend="both")
         tight_layout()
 
         if saveFig

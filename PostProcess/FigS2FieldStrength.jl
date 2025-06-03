@@ -238,7 +238,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("E-Field -- V = $V")
-    cbar = colorbar(orientation = "vertical", label = "El. field strength [\$\\frac{V}{\\mathrm{m}}\$]", extend="both")
+    cbar = colorbar(orientation = "vertical", label = "El. field strength [\$\\mathrm{V} \\mathrm{m}^{-1}\$]", extend="both")
     tight_layout()
 
     if saveFig
@@ -252,7 +252,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("E-Field -- V = $V")
-    cbar = colorbar(orientation = "vertical", label = "El. field strength [\$\\frac{V}{\\mathrm{m}}\$]", extend="both")
+    cbar = colorbar(orientation = "vertical", label = "El. field strength [\$\\mathrm{V} \\mathrm{m}^{-1}\$]", extend="both")
     tight_layout()
 
     if saveFig
@@ -266,7 +266,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("E-Field -- V = $V")
-    cbar = colorbar(orientation = "vertical", label = "El. field strength [\$\\frac{V}{\\mathrm{m}}\$]", extend="both")
+    cbar = colorbar(orientation = "vertical", label = "El. field strength [\$\\mathrm{V} \\mathrm{m}^{-1}\$]", extend="both")
     tight_layout()
 
     if saveFig
@@ -280,7 +280,7 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     ylabel(" \$y\$ [nm]", fontsize=17)
     axis([-20, 770, 20, 800])
     title("E-Field -- V = $V")
-    cbar = colorbar(orientation = "vertical", label = "El. field strength [\$\\frac{V}{\\mathrm{m}}\$]", extend="both")
+    cbar = colorbar(orientation = "vertical", label = "El. field strength [\$\\mathrm{V} \\mathrm{m}^{-1}\$]", extend="both")
     tight_layout()
 
     if saveFig
