@@ -33,7 +33,8 @@ function main(;printText = true, saveFig = false,
     VOCVec = zeros(0); EfficiencyVec = zeros(0)
     JMP    = zeros(0); VMP           = zeros(0)
 
-    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-all.dat"))
+    @info "read " * datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-all.dat")
+    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-all.dat"), Float64)
 
     IV                = -IVPL[:, 2]
     bias              =  IVPL[:, 1]
@@ -68,7 +69,8 @@ function main(;printText = true, saveFig = false,
             println("Texture height = ", textampl, " m")
         end
 
-        IVNT = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"))
+        @info "read " * datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat")
+        IVNT = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"), Float64)
 
         IV                = -IVNT[:, 2]
         bias              =  IVNT[:, 1]
@@ -96,7 +98,8 @@ function main(;printText = true, saveFig = false,
     VOCVecRad = zeros(0); EfficiencyVecRad = zeros(0)
     JMPRad    = zeros(0); VMPRad           = zeros(0)
 
-    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-radiative.dat"))
+    @info "read " * datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-radiative.dat")
+    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-radiative.dat"), Float64)
 
     IV                = -IVPL[:, 2]
     bias              =  IVPL[:, 1]
