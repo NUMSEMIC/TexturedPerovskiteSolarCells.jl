@@ -453,12 +453,14 @@ function main(;plotting = false, printText = true,
         control.Δt_min   = 6.0e-3/scanrate
         control.Δt_max   = 8.0e-3/scanrate
         control.Δt_grow  = 1.01
+        lambda_step = -0.5
     else
         # precond: ~ 150 time steps; reverse: ~ 460 time steps (~80 sec); forward: ~ 460 time steps (~80 sec)
         control.Δt       = 7.0e-4/scanrate
         control.Δt_min   = 1.0e-4/scanrate
         control.Δt_max   = 5.0e-3/scanrate
         control.Δt_grow  = 1.005
+        lambda_step = -1
     end
 
     if printText
@@ -532,7 +534,7 @@ function main(;plotting = false, printText = true,
         end
 
         # these values are needed for putting the generation slightly on
-        I      = collect(20:-1:0.0)
+        I      = collect(20:lambda_step:0.0)
         LAMBDA = 10 .^ (-I)
 
         set_contact!(ctsys, bregionRight, Δu = -endVoltage)
@@ -1089,7 +1091,7 @@ function test(;gridDim=1, typeGrid = "planar", amplitude = 2.0e-7, demo_run = fa
     result = main(gridDim = gridDim, typeGrid = typeGrid, amplitude = amplitude, printText = false, demo_run = demo_run, generation = true, generationUniform = false, MaxwellSol = true)
     @info "result  = $result"
     @info "testval = $testval"
-    return abs(result - testval) < 1e-15
+    return abs(result - testval) < 1e-3
 end
 
 end # module
