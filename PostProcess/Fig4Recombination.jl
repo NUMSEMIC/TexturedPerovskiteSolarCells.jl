@@ -18,7 +18,7 @@ datadir = TexturedPerovskiteSolarCells.datadir
 scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 
 # https://stackoverflow.com/questions/29443369/how-to-make-a-custom-colormap-using-pyplot-not-matplotlib-proper
-@pyimport matplotlib.colors as matcolors
+matcolors = pyimport("matplotlib.colors")
 
 # https://github.com/BIDS/colormap/blob/master/parula.py
 cm_data = [[0.2081, 0.1663, 0.5292], [0.2116238095, 0.1897809524, 0.5776761905],
