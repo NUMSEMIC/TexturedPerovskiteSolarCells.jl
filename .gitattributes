@@ -1,2 +1,0 @@
-data/sol/** filter=lfs diff=lfs merge=lfs -text
-data/IV/** filter=lfs diff=lfs merge=lfs -text

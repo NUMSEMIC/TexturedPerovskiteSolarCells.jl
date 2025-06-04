@@ -27,7 +27,7 @@ The repository is organised into the following main folders:
 
 ## Usage
 
-To reproduce the results from the paper, you will need the [git LFS extension](https://git-lfs.com/) and a Julia installation (version ≥ 1.10.0).
+To reproduce the results from the paper, you will need a Julia installation (version ≥ 1.10.0).
 
 1. **Clone this repository**
 ```
