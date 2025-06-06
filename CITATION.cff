@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "TexturedPerovskiteSolarCells.jl -- Numerical examples to analyze the electronic behavior of textured perovskite solar cells"
+title: "TexturedPerovskiteSolarCells.jl -- Numerical examples to analyse the electronic behaviour of textured perovskite solar cells"
 message: "If you use this software, please cite it as below."
 type: software
 authors:
