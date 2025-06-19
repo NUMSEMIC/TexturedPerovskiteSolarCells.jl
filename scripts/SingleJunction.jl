@@ -21,17 +21,19 @@ using SimplexGridFactory
 using Triangulate
 using VoronoiFVM
 using Roots
+include("parameter.jl")
 
 # for convenience
 datadir = TexturedPerovskiteSolarCells.datadir
 scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
+
 
 ###########################################################
 ###########################################################
 
 function main(;plotting = false, printText = true,
                ########################
-               parameter_file = scriptsdir("params_single_junction.jl"),
+               parameter_set = ParamsSingleJunction,
                ########################
                gridDim = 1,
                ########################
@@ -75,9 +77,14 @@ function main(;plotting = false, printText = true,
     end
     ################################################################################
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; Ea1D, Ca, numberOfCarriers, bregionJ1, bregionJ2, iphin, iphip, bregionLeft, bregionRight, Fcc, regionPero, iphia, T,
+       zn, zp, za, numberOfRegions, εr, Nn, Np, Na, En, Ep, μn, μp, μa, r0, τn, τp, nτ, pτ, regionETL1, regionHTL, SRHvelocityETLn,
+       SRHvelocityETLp, SRHvelocityHTLn, SRHvelocityHTLp, Cp, Ca, Cn1, damp_initial, damp_growth, maxiters, max_round, abstol, reltol,
+       tol_round, EaPlanar, EaAmpl0p5e7, EaAmpl1p0e7, EaAmpl1p5e7, EaAmpl2p0e7, EaAmpl3p0e7, EaAmpl4p0e7, EaAmpl5p0e7, EaAmpl6p0e7,
+       EaAmpl7p0e7, EaAmpl8p0e7) = parameter_set()
 
-    grid = generate_grid(gridDim = gridDim, type = typeGrid, amplitude = amplitude, parameter_file = parameter_file, demo_run = demo_run)
+    grid = generate_grid(gridDim = gridDim, type = typeGrid, amplitude = amplitude, parameter_set = parameter_set, demo_run = demo_run)
 
     if plotting
         gridplot(grid, Plotter= PyPlot, resolution=(600,400), linewidth=0.5, legend=:rc)
@@ -225,7 +232,7 @@ function main(;plotting = false, printText = true,
     if generation
         if MaxwellSol && generationUniform == false
 
-            generationData = MaxwellPhotogeneration(gridDim = gridDim, typeGrid = typeGrid, amplitude = amplitude, parameter_file = parameter_file, demo_run = demo_run)
+            generationData = MaxwellPhotogeneration(gridDim = gridDim, typeGrid = typeGrid, amplitude = amplitude, parameter_set = parameter_set, demo_run = demo_run)
 
         elseif MaxwellSol== false && generationUniform == false
             Fph     = incidentPhotonFlux[regionPero]; ag  = absorption[regionPero]

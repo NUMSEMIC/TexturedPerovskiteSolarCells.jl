@@ -10,6 +10,7 @@ using PyPlot
 using DelimitedFiles
 using ChargeTransport
 using TexturedPerovskiteSolarCells
+include(TexturedPerovskiteSolarCells.scriptsdir("parameter.jl"))
 
 # for convenience
 datadir = TexturedPerovskiteSolarCells.datadir
@@ -18,10 +19,11 @@ scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 function main(;printText = true, saveFig = false,
             scanrate =  "1000p0", # "0p001", #  "10p0", # "1000p0", #
             generation = "Maxwell", # "uniform"
-            parameter_file = scriptsdir("params_single_junction.jl"),
+            parameter_set = ParamsSingleJunction,
             )
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; paramsname, heightDev ) = parameter_set()
 
     PyPlot.rc("font", family="sans-serif", size=14)
     PyPlot.rc("mathtext", fontset="dejavusans")
