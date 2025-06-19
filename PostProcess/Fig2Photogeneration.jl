@@ -12,6 +12,7 @@ using PyCall
 using ChargeTransport
 using ExtendableGrids
 using TexturedPerovskiteSolarCells
+include(TexturedPerovskiteSolarCells.scriptsdir("parameter.jl"))
 
 # for convenience
 datadir = TexturedPerovskiteSolarCells.datadir
@@ -69,10 +70,11 @@ include(scriptsdir("SingleJunction.jl"))
 
 function main(;printText = true, saveFig = false,
               generationUniform = false,
-              parameter_file = scriptsdir("params_single_junction.jl"),
+              parameter_set = ParamsSingleJunction,
             )
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; regionPero ) = parameter_set()
 
     PyPlot.rc("font", family="sans-serif", size=14)
     PyPlot.rc("mathtext", fontset="dejavusans")

@@ -3,9 +3,11 @@
 
 ## 2D grid
 
-function generate_grid2D_nanotextured(;amplitude = 4.0e-7, parameter_file, demo_run)
+function generate_grid2D_nanotextured(;amplitude = 4.0e-7, parameter_set, demo_run)
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; h_ETL1, h_HTL, regionETL1, regionPero, regionHTL, bregionLeft,
+       bregionRight, bregionJ1, bregionJ2, heightDev) = parameter_set()
 
     # length of perovskite region depends on amplitude of cos
     h_active     = 400 * nm - amplitude/2 # perovskite

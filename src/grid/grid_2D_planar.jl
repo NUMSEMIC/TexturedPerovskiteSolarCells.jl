@@ -3,9 +3,11 @@
 
 ## 2D grid
 
-function generate_grid2D_planar(;parameter_file, demo_run)
+function generate_grid2D_planar(;parameter_set, demo_run)
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; h_HTL, h_activePL, heightLayersPL, regionETL1, h_totalPL,
+       regionPero, regionHTL, bregionLeft, bregionRight, bregionJ1, bregionJ2, heightDev) = parameter_set()
 
     h_active     = h_activePL
     heightLayers = heightLayersPL
