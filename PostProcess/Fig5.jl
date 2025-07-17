@@ -24,10 +24,19 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
               IVDirection       = "forw",  # "rev" #
               V                 = "end",   # "inival", # "V-1p15"
               printText = true, saveFig = false,
-              parameter_file = scriptsdir("params_single_junction.jl")
+              parameter_file = scriptsdir("params_single_junction.jl"),
+              enableIons = true
               )
 
     include(parameter_file)
+
+    if enableIons
+        textIons = ""
+        ipsi = 4
+    else
+        textIons = "-enableIons-false"
+        ipsi = 3
+    end
 
     PyPlot.rc("font", family="sans-serif", size=14)
     PyPlot.rc("mathtext", fontset="dejavusans")
@@ -126,10 +135,10 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     ## read in solution
     #################################################################
 
-    sol1    = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-planar-generation-$generation-reco-$typeReco-$V.dat"))'
-    sol2    = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl-generation-$generation-reco-$typeReco-$V.dat"))'
-    sol3    = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl2-generation-$generation-reco-$typeReco-$V.dat"))'
-    sol4    = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl3-generation-$generation-reco-$typeReco-$V.dat"))'
+    sol1    = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-planar-generation-$generation-reco-$typeReco-$V$(textIons).dat"))'
+    sol2    = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl-generation-$generation-reco-$typeReco-$V$(textIons).dat"))'
+    sol3    = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl2-generation-$generation-reco-$typeReco-$V$(textIons).dat"))'
+    sol4    = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl3-generation-$generation-reco-$typeReco-$V$(textIons).dat"))'
 
     psi1      = view(sol1[ipsi, :], subg1); psi2 = view(sol2[ipsi, :], subg2)
     psi3      = view(sol3[ipsi, :], subg3); psi4 = view(sol4[ipsi, :], subg4)
@@ -327,7 +336,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("2D-density-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-density-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V$(textIons).pdf"))
     end
 
     ###### planar plot -- all energies
@@ -359,7 +368,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("2D-band-diagram-planar-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-band-diagram-planar-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V$(textIons).pdf"))
     end
 
     #########################################################
@@ -393,7 +402,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("2D-Ec-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-Ec-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V$(textIons).pdf"))
     end
 
     #########################################################
@@ -420,7 +429,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("2D-EFn-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-EFn-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V$(textIons).pdf"))
     end
 
     #########################################################
@@ -439,15 +448,17 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.xlim(30, 440)
     PyPlot.xticks([200, 400])
     PyPlot.xlabel("\$y\$ [nm]", fontsize=18)
-    PyPlot.ylim(-1.202, -1.195)
-    PyPlot.yticks([-1.2, -1.197])
+    if enableIons
+        PyPlot.ylim(-1.202, -1.195)
+        PyPlot.yticks([-1.2, -1.197])
+    end
     PyPlot.ylabel("Energy [eV] ", fontsize=18)
     PyPlot.title("x-$XVal")
     PyPlot.tick_params(which ="both", labelsize=18)
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("2D-EFp-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-EFp-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V$(textIons).pdf"))
     end
 
     #########################################################
@@ -480,7 +491,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("2D-Ep-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V.pdf"))
+        savefig(datadir("2D-Ep-vertical-line-x-$XVal-scanrate-$scanrate-generation-$generation-$IVDirection-$V$(textIons).pdf"))
     end
 
     #########################################################
@@ -506,7 +517,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("Injection-barrier-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("Injection-barrier-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
     end
 
     #########################################################
@@ -532,7 +543,7 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("Energy-difference-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("Energy-difference-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
     end
 
     return nothing

@@ -81,7 +81,9 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
               plotHoles         = true,
               printText         = true,
               saveFig           = false,
-              parameter_file = scriptsdir("params_single_junction.jl"))
+              parameter_file = scriptsdir("params_single_junction.jl"),
+              enableIons = true
+              )
 
     include(parameter_file)
 
@@ -93,6 +95,14 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
 
     if generationOn == false
         generation = "none"
+    end
+
+    if enableIons
+        textIons = ""
+        ipsi = 4
+    else
+        textIons = "-enableIons-false"
+        ipsi = 3
     end
 
     PyPlot.rc("font", family="sans-serif", size=14)
@@ -121,20 +131,20 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
     helpampl3 = collect(string(amplitude3));  helpampl3[ findall(x -> x == '.', helpampl3)[1] ] = 'p'
     textampl3 = join(helpampl3)
 
-    grid1, ctsys1 = SingleJunction.main(gridDim = 2, typeGrid = "planar", generation = true, generationUniform = generationUniform, plotPostProcess = true, printText = false, plotting = false)
+    grid1, ctsys1 = SingleJunction.main(gridDim = 2, typeGrid = "planar", generation = true, generationUniform = generationUniform, enableIons = enableIons, plotPostProcess = true, printText = false, plotting = false)
     subg1         = subgrid(grid1, [regionPero])
     data1         = ctsys1.fvmsys.physics.data
     ########
-    grid2, ctsys2 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude, generation = true, generationUniform = generationUniform, plotPostProcess = true, printText = false, plotting = false)
+    grid2, ctsys2 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude, generation = true, generationUniform = generationUniform, enableIons = enableIons, plotPostProcess = true, printText = false, plotting = false)
     subg2         = subgrid(grid2, [regionPero])
     data2         = ctsys2.fvmsys.physics.data
     ########
-    grid3, ctsys3 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude2, generation = true, generationUniform = generationUniform, plotPostProcess = true, printText = false, plotting = false)
+    grid3, ctsys3 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude2, generation = true, generationUniform = generationUniform, enableIons = enableIons, plotPostProcess = true, printText = false, plotting = false)
     subg3         = subgrid(grid3, [regionPero])
     data3         = ctsys3.fvmsys.physics.data
     ########
     ########
-    grid4, ctsys4 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude3, generation = true, generationUniform = generationUniform, plotPostProcess = true, printText = false, plotting = false)
+    grid4, ctsys4 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude3, generation = true, generationUniform = generationUniform, enableIons = enableIons, plotPostProcess = true, printText = false, plotting = false)
     subg4         = subgrid(grid4, [regionPero])
     data4         = ctsys4.fvmsys.physics.data
 
@@ -163,10 +173,10 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
     #########################################################################################################
     #########################################################################################################
 
-    sol1 = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-planar-generation-$generation-reco-$typeReco-$V.dat"))'
-    sol2 = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl-generation-$generation-reco-$typeReco-$V.dat"))'
-    sol3 = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl2-generation-$generation-reco-$typeReco-$V.dat"))'
-    sol4 = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl3-generation-$generation-reco-$typeReco-$V.dat"))'
+    sol1 = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-planar-generation-$generation-reco-$typeReco-$V$(textIons).dat"))'
+    sol2 = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl-generation-$generation-reco-$typeReco-$V$(textIons).dat"))'
+    sol3 = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl2-generation-$generation-reco-$typeReco-$V$(textIons).dat"))'
+    sol4 = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl3-generation-$generation-reco-$typeReco-$V$(textIons).dat"))'
 
     nn1  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subg1).-view(sol1[ipsi, :], subg1)) .+ En[regionPero])./(kB*T))
     nn2  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subg2).-view(sol2[ipsi, :], subg2)) .+ En[regionPero])./(kB*T))
@@ -245,7 +255,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("2D-planar-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-planar-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V$(textIons).pdf"))
         end
 
         #####################
@@ -259,7 +269,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("2D-nanotextured-ampl-$textampl-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-nanotextured-ampl-$textampl-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V$(textIons).pdf"))
         end
 
         #####################
@@ -273,7 +283,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("2D-nanotextured-ampl-$textampl2-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-nanotextured-ampl-$textampl2-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V$(textIons).pdf"))
         end
 
         #####################
@@ -287,7 +297,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("2D-nanotextured-ampl-$textampl3-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-nanotextured-ampl-$textampl3-nn-scanrate-$textSR-generation-$generation-$IVDirection-$V$(textIons).pdf"))
         end
 
     end # plotElectrons
@@ -307,7 +317,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("2D-planar-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-planar-np-scanrate-$textSR-generation-$generation-$IVDirection-$V$(textIons).pdf"))
         end
 
         #####################
@@ -321,7 +331,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("2D-nanotextured-ampl-$textampl-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-nanotextured-ampl-$textampl-np-scanrate-$textSR-generation-$generation-$IVDirection-$V$(textIons).pdf"))
         end
 
         #####################
@@ -335,7 +345,7 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("2D-nanotextured-ampl-$textampl2-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-nanotextured-ampl-$textampl2-np-scanrate-$textSR-generation-$generation-$IVDirection-$V$(textIons).pdf"))
         end
 
         #####################
@@ -349,9 +359,8 @@ function main(;scanrate         = 1000.0,   # "10p0" # "0p001"
         tight_layout()
 
         if saveFig
-            savefig(datadir("2D-nanotextured-ampl-$textampl3-np-scanrate-$textSR-generation-$generation-$IVDirection-$V.pdf"))
+            savefig(datadir("2D-nanotextured-ampl-$textampl3-np-scanrate-$textSR-generation-$generation-$IVDirection-$V$(textIons).pdf"))
         end
-
 
     end # plotHoles
 

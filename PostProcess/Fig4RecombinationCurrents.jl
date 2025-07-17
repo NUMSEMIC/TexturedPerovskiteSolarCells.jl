@@ -68,9 +68,16 @@ function main(;printText = true, saveFig   = false,
               scanrate   = "1000p0",
               generation = "Maxwell", # "uniform"
               parameter_file = scriptsdir("params_single_junction.jl"),
+              enableIons = true
               )
 
     include(parameter_file)
+
+    if enableIons
+        textIons = ""
+    else
+        textIons = "-enableIons-false"
+    end
 
     PyPlot.rc("font", family="sans-serif", size=14)
     PyPlot.rc("mathtext", fontset="dejavusans")
@@ -90,7 +97,7 @@ function main(;printText = true, saveFig   = false,
         println("Plot JSRH")
     end
 
-    IVPL = readdlm(datadir("IV", "$path/JSRH-2D-forw-planar-generation-$generation-reco-all.dat"))
+    IVPL = readdlm(datadir("IV", "$path/JSRH-2D-forw-planar-generation-$generation-reco-all$(textIons).dat"))
 
     semilogy(IVPL[:, 1],  abs.(IVPL[:, 2].*(cm^2).*1.0e3./heightDev),   linewidth = 5, color = parula_map(col[1]))
 
@@ -102,13 +109,13 @@ function main(;printText = true, saveFig   = false,
             println("amplitude = ", textampl)
         end
 
-        IVNT = readdlm(datadir("IV", "$path/JSRH-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"))
+        IVNT = readdlm(datadir("IV", "$path/JSRH-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all$(textIons).dat"))
 
         semilogy(IVNT[:, 1],  abs.(IVNT[:, 2].*(cm^2).*1.0e3./heightDev),   linewidth = 5, color = parula_map(col[ii]))
     end
 
-    xlim(0.0, 1.2)
-    ylim(2.0e-7, 1.9e1)
+    #xlim(0.0, 1.21)
+    #ylim(2.0e-7, 1.9e1)
     PyPlot.xlabel("Appl. voltage [V]", fontsize=18)
     PyPlot.ylabel("\$ J \$ [mA cm\$^{-2} \$]", fontsize=18)
     PyPlot.tick_params(which ="both", labelsize=18)
@@ -116,28 +123,32 @@ function main(;printText = true, saveFig   = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("J-reco-SRH-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("J-reco-SRH-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
     end
 
     figure()
-    IVPL = readdlm(datadir("IV", "$path/JSRH-2D-forw-planar-generation-$generation-reco-all.dat"))
+    IVPL = readdlm(datadir("IV", "$path/JSRH-2D-forw-planar-generation-$generation-reco-all$(textIons).dat"))
     semilogy(IVPL[:, 1],  abs.(IVPL[:, 2].*(cm^2).*1.0e3./heightDev),   linewidth = 5, color = parula_map(col[1]))
 
     textampl = "3p0e-7"; ii = 7
-    IVNT     = readdlm(datadir("IV", "$path/JSRH-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"))
+    IVNT     = readdlm(datadir("IV", "$path/JSRH-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all$(textIons).dat"))
     semilogy(IVNT[:, 1],  abs.(IVNT[:, 2].*(cm^2).*1.0e3./heightDev),   linewidth = 5, color = parula_map(col[ii]))
 
     textampl = "5p0e-7"; ii = 11
-    IVNT     = readdlm(datadir("IV", "$path/JSRH-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"))
+    IVNT     = readdlm(datadir("IV", "$path/JSRH-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all$(textIons).dat"))
     semilogy(IVNT[:, 1],  abs.(IVNT[:, 2].*(cm^2).*1.0e3./heightDev),   linewidth = 5, color = parula_map(col[ii]))
 
     textampl = "7p0e-7"; ii = 15
-    IVNT     = readdlm(datadir("IV", "$path/JSRH-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"))
+    IVNT     = readdlm(datadir("IV", "$path/JSRH-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all$(textIons).dat"))
     semilogy(IVNT[:, 1],  abs.(IVNT[:, 2].*(cm^2).*1.0e3./heightDev),   linewidth = 5, color = parula_map(col[ii]))
 
-    xlim(0.97, 1.20)
-    xticks([1.0, 1.1, 1.2])
-    ylim(5.0e-1, 1.9e1)
+    #xlim(0.97, 1.21)
+    #xticks([1.0, 1.1, 1.2])
+    if enableIons
+        ylim(5.0e-1, 1.9e1)
+    else
+    #    ylim(2.2e-1, 1.9e1)
+    end
     PyPlot.xlabel("Appl. voltage [V]", fontsize=18)
     PyPlot.ylabel("\$ J\$ [mA cm\$^{-2} \$]", fontsize=18)
     PyPlot.tick_params(which ="both", labelsize=18)
@@ -145,7 +156,7 @@ function main(;printText = true, saveFig   = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("J-reco-SRH-zoom-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("J-reco-SRH-zoom-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
     end
 
     ############################################################
@@ -154,7 +165,7 @@ function main(;printText = true, saveFig   = false,
         println("Plot JRad")
     end
 
-    IVPL = readdlm(datadir("IV", "$path/JRad-2D-forw-planar-generation-$generation-reco-all.dat"))
+    IVPL = readdlm(datadir("IV", "$path/JRad-2D-forw-planar-generation-$generation-reco-all$(textIons).dat"))
 
     figure()
     semilogy(IVPL[:, 1],  abs.(IVPL[:, 2].*(cm^2).*1.0e3./heightDev),   linewidth = 5, color = parula_map(col[1]))
@@ -167,13 +178,13 @@ function main(;printText = true, saveFig   = false,
             println("amplitude = ", textampl)
         end
 
-        IVNT = readdlm(datadir("IV", "$path/JRad-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"))
+        IVNT = readdlm(datadir("IV", "$path/JRad-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all$(textIons).dat"))
 
         semilogy(IVNT[:, 1],  abs.(IVNT[:, 2].*(cm^2).*1.0e3./heightDev),   linewidth = 5, color = parula_map(col[ii]))
     end
 
-    xlim(0.0, 1.2)
-    ylim(2.0e-7, 1.9e1)
+    #xlim(0.0, 1.2)
+    #ylim(2.0e-7, 1.9e1)
     PyPlot.xlabel("Appl. voltage [V]", fontsize=18)
     PyPlot.ylabel("\$ J\$ [mA cm\$^{-2} \$]", fontsize=18)
     PyPlot.tick_params(which ="both", labelsize=18)
@@ -181,7 +192,7 @@ function main(;printText = true, saveFig   = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("J-reco-rad-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("J-reco-rad-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
     end
 
     ############################################################
@@ -191,7 +202,7 @@ function main(;printText = true, saveFig   = false,
     end
 
     ## left boundary
-    IVPL = readdlm(datadir("IV", "$path/JSRnL-2D-forw-planar-generation-$generation-reco-all.dat"))
+    IVPL = readdlm(datadir("IV", "$path/JSRnL-2D-forw-planar-generation-$generation-reco-all$(textIons).dat"))
 
     figure()
     semilogy(IVPL[:, 1],  abs.(IVPL[:, 2].*(cm^2).*1.0e3./heightDev),   linewidth = 5, color = parula_map(col[1]))
@@ -204,13 +215,13 @@ function main(;printText = true, saveFig   = false,
             println("amplitude = ", textampl)
         end
 
-        IVNT = readdlm(datadir("IV", "$path/JSRnL-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"))
+        IVNT = readdlm(datadir("IV", "$path/JSRnL-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all$(textIons).dat"))
 
         semilogy(IVNT[:, 1],  abs.(IVNT[:, 2].*(cm^2).*1.0e3./heightDev),   linewidth = 5, color = parula_map(col[ii]))
     end
 
-    xlim(0.0, 1.2)
-    ylim(2.0e-7, 1.9e1)
+    #xlim(0.0, 1.2)
+    #ylim(2.0e-7, 1.9e1)
     PyPlot.xlabel("Appl. voltage [V]", fontsize=18)
     PyPlot.ylabel("\$ J \$ [mA cm\$^{-2} \$]", fontsize=18)
     PyPlot.tick_params(which ="both", labelsize=18)
@@ -218,7 +229,7 @@ function main(;printText = true, saveFig   = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("J-reco-SR-ETL-generation-$generation-params-$paramsname-scanrate-$scanrate.pdf"))
+        savefig(datadir("J-reco-SR-ETL-generation-$generation-params-$paramsname-scanrate-$scanrate$(textIons).pdf"))
     end
 
     ############################################################
@@ -228,7 +239,7 @@ function main(;printText = true, saveFig   = false,
     end
 
     ## right boundary
-    IVPL = readdlm(datadir("IV", "$path/JSRnR-2D-forw-planar-generation-$generation-reco-all.dat"))
+    IVPL = readdlm(datadir("IV", "$path/JSRnR-2D-forw-planar-generation-$generation-reco-all$(textIons).dat"))
 
     figure()
     semilogy(IVPL[:, 1],  abs.(IVPL[:, 2].*(cm^2).*1.0e3./heightDev),   linewidth = 5, color = parula_map(col[1]))
@@ -241,13 +252,13 @@ function main(;printText = true, saveFig   = false,
             println("amplitude = ", textampl)
         end
 
-        IVNT = readdlm(datadir("IV", "$path/JSRnR-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"))
+        IVNT = readdlm(datadir("IV", "$path/JSRnR-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all$(textIons).dat"))
 
         semilogy(IVNT[:, 1],  abs.(IVNT[:, 2].*(cm^2).*1.0e3./heightDev),   linewidth = 5, color = parula_map(col[ii]))
     end
 
-    xlim(0.0, 1.2)
-    ylim(2.0e-7, 1.9e1)
+    #xlim(0.0, 1.2)
+    #ylim(2.0e-7, 1.9e1)
     PyPlot.xlabel("Appl. voltage [V]", fontsize=18)
     PyPlot.ylabel("\$ J \$ [mA cm\$^{-2} \$]", fontsize=18)
     PyPlot.tick_params(which ="both", labelsize=18)
@@ -255,7 +266,7 @@ function main(;printText = true, saveFig   = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("J-reco-SR-HTL-generation-$generation-params-$paramsname-scanrate-$scanrate.pdf"))
+        savefig(datadir("J-reco-SR-HTL-generation-$generation-params-$paramsname-scanrate-$scanrate$(textIons).pdf"))
     end
 
     return nothing

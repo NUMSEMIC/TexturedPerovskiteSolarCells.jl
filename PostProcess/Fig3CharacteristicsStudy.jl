@@ -19,9 +19,16 @@ function main(;printText = true, saveFig = false,
             scanrate =  "1000p0", # "0p001", #  "10p0", # "1000p0", #
             generation = "Maxwell", # "uniform"
             parameter_file = scriptsdir("params_single_junction.jl"),
+            enableIons = true,
             )
 
     include(parameter_file)
+
+    if enableIons
+        textIons = ""
+    else
+        textIons = "-enableIons-false"
+    end
 
     PyPlot.rc("font", family="sans-serif", size=14)
     PyPlot.rc("mathtext", fontset="dejavusans")
@@ -33,7 +40,7 @@ function main(;printText = true, saveFig = false,
     VOCVec = zeros(0); EfficiencyVec = zeros(0)
     JMP    = zeros(0); VMP           = zeros(0)
 
-    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-all.dat"))
+    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-all$(textIons).dat"))
 
     IV                = -IVPL[:, 2]
     bias              =  IVPL[:, 1]
@@ -68,7 +75,7 @@ function main(;printText = true, saveFig = false,
             println("Texture height = ", textampl, " m")
         end
 
-        IVNT = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all.dat"))
+        IVNT = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all$(textIons).dat"))
 
         IV                = -IVNT[:, 2]
         bias              =  IVNT[:, 1]
@@ -96,7 +103,7 @@ function main(;printText = true, saveFig = false,
     VOCVecRad = zeros(0); EfficiencyVecRad = zeros(0)
     JMPRad    = zeros(0); VMPRad           = zeros(0)
 
-    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-radiative.dat"))
+    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-radiative$(textIons).dat"))
 
     IV                = -IVPL[:, 2]
     bias              =  IVPL[:, 1]
@@ -129,7 +136,7 @@ function main(;printText = true, saveFig = false,
             println("Texture height = ", textampl, " m")
         end
 
-        IVNT = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-radiative.dat"))
+        IVNT = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-radiative$(textIons).dat"))
 
         IV                = -IVNT[:, 2]
         bias              =  IVNT[:, 1]
@@ -190,7 +197,7 @@ function main(;printText = true, saveFig = false,
     end
 
     if saveFig
-        savefig(datadir("ampl-efficiency-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("ampl-efficiency-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
     end
     #####################
 
@@ -216,7 +223,7 @@ function main(;printText = true, saveFig = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("ampl-efficiency-difference-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("ampl-efficiency-difference-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
     end
 
     ampl2 = collect(0.5:0.5:7.5) .* 1.0e-7; ampl = vcat(0.0, ampl2)
@@ -231,20 +238,20 @@ function main(;printText = true, saveFig = false,
     Greens = get_cmap(:Greens)
 
     figure()
-    IVPL  = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-radiative.dat"))
-    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-$generation-reco-radiative.dat"))
-    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-$generation-reco-radiative.dat"))
-    IVNT3 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl3-generation-$generation-reco-radiative.dat"))
+    IVPL  = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-radiative$(textIons).dat"))
+    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-$generation-reco-radiative$(textIons).dat"))
+    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-$generation-reco-radiative$(textIons).dat"))
+    IVNT3 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl3-generation-$generation-reco-radiative$(textIons).dat"))
 
     PyPlot.plot(IVPL[:, 1],   -IVPL[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Blues(251),  alpha = 0.8)
     PyPlot.plot(IVNT1[:, 1], -IVNT1[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Blues(211),  alpha = 0.8)
     PyPlot.plot(IVNT2[:, 1], -IVNT2[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Blues(161),  alpha = 0.8)
     PyPlot.plot(IVNT3[:, 1], -IVNT3[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Blues(101),  alpha = 0.8)
 
-    IVPL  = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-all.dat"))
-    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-$generation-reco-all.dat"))
-    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-$generation-reco-all.dat"))
-    IVNT3 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl3-generation-$generation-reco-all.dat"))
+    IVPL  = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-all$(textIons).dat"))
+    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-$generation-reco-all$(textIons).dat"))
+    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-$generation-reco-all$(textIons).dat"))
+    IVNT3 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl3-generation-$generation-reco-all$(textIons).dat"))
 
     PyPlot.plot(IVPL[:, 1],   -IVPL[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Greens(251), label = "planar")
     PyPlot.plot(IVNT1[:, 1], -IVNT1[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Greens(211), label = "textured (300 nm)")
@@ -262,24 +269,24 @@ function main(;printText = true, saveFig = false,
     PyPlot.xticks([0.6, 1.0, 1.4])
 
     if saveFig
-        savefig(datadir("IV-planar-nanotexture-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("IV-planar-nanotexture-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
     end
 
     figure()
-    IVPL  = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-radiative.dat"))
-    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-$generation-reco-radiative.dat"))
-    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-$generation-reco-radiative.dat"))
-    IVNT3 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl3-generation-$generation-reco-radiative.dat"))
+    IVPL  = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-radiative$(textIons).dat"))
+    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-$generation-reco-radiative$(textIons).dat"))
+    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-$generation-reco-radiative$(textIons).dat"))
+    IVNT3 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl3-generation-$generation-reco-radiative$(textIons).dat"))
 
     PyPlot.plot(IVPL[:, 1],  -IVPL[:, 2].*(cm^2).*1.0e3./heightDev,  linewidth = 5, color = Blues(251), alpha = 0.8)
     PyPlot.plot(IVNT1[:, 1], -IVNT1[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Blues(211), alpha = 0.8)
     PyPlot.plot(IVNT2[:, 1], -IVNT2[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Blues(161), alpha = 0.8)
     PyPlot.plot(IVNT3[:, 1], -IVNT3[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Blues(101), alpha = 0.8)
 
-    IVPL  = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-all.dat"))
-    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-$generation-reco-all.dat"))
-    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-$generation-reco-all.dat"))
-    IVNT3 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl3-generation-$generation-reco-all.dat"))
+    IVPL  = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-all$(textIons).dat"))
+    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-$generation-reco-all$(textIons).dat"))
+    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-$generation-reco-all$(textIons).dat"))
+    IVNT3 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl3-generation-$generation-reco-all$(textIons).dat"))
 
     PyPlot.plot(IVPL[:, 1],  -IVPL[:, 2].*(cm^2).*1.0e3./heightDev,  linewidth = 5, color = Greens(251), label = "planar")
     PyPlot.plot(IVNT1[:, 1], -IVNT1[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Greens(211), label = "textured (300 nm)")
@@ -302,7 +309,7 @@ function main(;printText = true, saveFig = false,
     PyPlot.xticks([1.1, 1.3])
 
     if saveFig
-        savefig(datadir("IV-planar-nanotexture-zoom-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("IV-planar-nanotexture-zoom-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
     end
 
     # figure()
@@ -337,7 +344,7 @@ function main(;printText = true, saveFig = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("ampl-JSC-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("ampl-JSC-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
     end
 
     if printText
@@ -366,7 +373,7 @@ function main(;printText = true, saveFig = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("ampl-FF-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("ampl-FF-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
     end
 
     if printText
@@ -397,7 +404,7 @@ function main(;printText = true, saveFig = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("ampl-VOC-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("ampl-VOC-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
     end
 
     if printText
@@ -428,7 +435,11 @@ function main(;printText = true, saveFig = false,
 
     PyPlot.xticks([0, 300, 600])
     PyPlot.xlim(-20.0, 770)
-    PyPlot.ylim(-1, 21)
+    if enableIons
+        PyPlot.ylim(-1, 21)
+    else
+        PyPlot.ylim(-0.4, 10.0)
+    end
     PyPlot.xlabel("Texture height [nm]", fontsize=18)
     PyPlot.ylabel("\$ V_{\\mathrm{OC, NT}} - V_{\\mathrm{OC, PL}} \$ [mV]", fontsize=18)
     PyPlot.tick_params(which ="both", labelsize=18)
@@ -436,7 +447,7 @@ function main(;printText = true, saveFig = false,
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("ampl-VOC-difference-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+        savefig(datadir("ampl-VOC-difference-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
     end
 
     # #################################
@@ -464,7 +475,7 @@ function main(;printText = true, saveFig = false,
     # PyPlot.tight_layout()
 
     # if saveFig
-    #     savefig(datadir("ampl-JMP-VMP-JSC-VOC-params-$paramsname-generation-$generation-scanrate-$scanrate.pdf"))
+    #     savefig(datadir("ampl-JMP-VMP-JSC-VOC-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
     # end
 
 

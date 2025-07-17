@@ -101,11 +101,21 @@ function main(;plotting = false, printText = true,
 
     ########## primary data for I-V scan protocol ##########
 
-    if typeReco == "all" # radiative until 1.4 V and reco = all until 1.2 V
-        endVoltage       = 1.2   * V
+    if enableIons
+
+        if typeReco == "all" # radiative until 1.4 V and reco = all until 1.2 V
+            endVoltage       = 1.2   * V
+        else
+            endVoltage       = 1.4   * V
+        end
     else
-        endVoltage       = 1.4   * V
+        if typeReco == "all" # radiative until 1.4 V and reco = all until 1.2 V
+            endVoltage       = 1.21   * V
+        else
+            endVoltage       = 1.4   * V
+        end
     end
+
     tPrecond             = 5 * s  * 1.0e-1/scanrate
 
     tend                 = endVoltage/scanrate
@@ -1049,6 +1059,14 @@ function main(;plotting = false, printText = true,
 
         else
             writedlm(datadir("IV", "parameter-$paramsname/$textSR/IV-$(gridDim)D-forw-$(typeGridText)-generation-$(generationType)-reco-$(typeReco)-enableIons-false.dat"), [biasValues IV])
+            ############
+            writedlm(datadir("IV", "parameter-$paramsname/$textSR/JSRH-$(gridDim)D-forw-$(typeGridText)-generation-$(generationType)-reco-$(typeReco)-enableIons-false.dat"),  [biasValues ISRHn])
+            writedlm(datadir("IV", "parameter-$paramsname/$textSR/JRad-$(gridDim)D-forw-$(typeGridText)-generation-$(generationType)-reco-$(typeReco)-enableIons-false.dat"),  [biasValues IRadn])
+            writedlm(datadir("IV", "parameter-$paramsname/$textSR/JGen-$(gridDim)D-forw-$(typeGridText)-generation-$(generationType)-reco-$(typeReco)-enableIons-false.dat"),  [biasValues IGen])
+            writedlm(datadir("IV", "parameter-$paramsname/$textSR/JSRnL-$(gridDim)D-forw-$(typeGridText)-generation-$(generationType)-reco-$(typeReco)-enableIons-false.dat"), [biasValues ISRnL])
+            writedlm(datadir("IV", "parameter-$paramsname/$textSR/JSRpL-$(gridDim)D-forw-$(typeGridText)-generation-$(generationType)-reco-$(typeReco)-enableIons-false.dat"), [biasValues ISRpL])
+            writedlm(datadir("IV", "parameter-$paramsname/$textSR/JSRnR-$(gridDim)D-forw-$(typeGridText)-generation-$(generationType)-reco-$(typeReco)-enableIons-false.dat"), [biasValues ISRnR])
+            writedlm(datadir("IV", "parameter-$paramsname/$textSR/JSRpR-$(gridDim)D-forw-$(typeGridText)-generation-$(generationType)-reco-$(typeReco)-enableIons-false.dat"), [biasValues ISRpR])
         end
 
     end
