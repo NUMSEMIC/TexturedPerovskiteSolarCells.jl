@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "TexturedPerovskiteSolarCells.jl -- Numerical examples to analyze the electronic behavior of textured perovskite solar cells"
+title: "TexturedPerovskiteSolarCells.jl -- Numerical examples to analyse the electronic behaviour of textured perovskite solar cells"
 message: "If you use this software, please cite it as below."
 type: software
 authors:
@@ -33,6 +33,6 @@ authors:
     email: patricio.farrell@wias-berlin.de
     affiliation: Weierstrass Institute Berlin
     orcid: 'https://orcid.org/0000-0001-9969-6615'
-doi: "XXXXXXX"
+doi: "10.5281/zenodo.15594167"
 license: AGPL-3.0
 repository-code: "https://github.com/NUMSEMIC/TexturedPerovskiteSolarCells.jl"

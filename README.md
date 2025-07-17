@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15594168.svg)](https://doi.org/10.5281/zenodo.15594168)
+
 # TexturedPerovskiteSolarCells.jl -- Numerical examples to analyse the opto-electronic behaviour of textured perovskite solar cells
 
 **TexturedPerovskiteSolarCells.jl** contains all scripts and data needed to reproduce the numerical results and figures from the manuscript:
