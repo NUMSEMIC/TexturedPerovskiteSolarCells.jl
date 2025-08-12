@@ -61,33 +61,33 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     sol2 = readdlm(datadir("sol", "$pathSol/Sol-1D-$IVDirection-planar-Ca-1p0e22-generation-Maxwell-reco-$typeReco-$V.dat"))'
     sol4 = readdlm(datadir("sol", "$pathSol/Sol-1D-$IVDirection-planar-Ca-1p0e23-generation-Maxwell-reco-$typeReco-$V.dat"))'
 
-    nnn1 = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subgn).-view(sol1[ipsi, :], subgn)) .+ En[regionETL1])./(kB*T))
-    nnn2 = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subgn).-view(sol2[ipsi, :], subgn)) .+ En[regionETL1])./(kB*T))
-    nnn4 = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subgn).-view(sol4[ipsi, :], subgn)) .+ En[regionETL1])./(kB*T))
+    nnn1 = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subgn).-view(sol1[ipsi, :], subgn)) .+ En[regionETL1])./(k_B*T))
+    nnn2 = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subgn).-view(sol2[ipsi, :], subgn)) .+ En[regionETL1])./(k_B*T))
+    nnn4 = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subgn).-view(sol4[ipsi, :], subgn)) .+ En[regionETL1])./(k_B*T))
 
-    nn1  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subg).-view(sol1[ipsi, :], subg)) .+ En[regionPero])./(kB*T))
-    nn2  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subg).-view(sol2[ipsi, :], subg)) .+ En[regionPero])./(kB*T))
-    nn4  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subg).-view(sol4[ipsi, :], subg)) .+ En[regionPero])./(kB*T))
+    nn1  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subg).-view(sol1[ipsi, :], subg)) .+ En[regionPero])./(k_B*T))
+    nn2  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subg).-view(sol2[ipsi, :], subg)) .+ En[regionPero])./(k_B*T))
+    nn4  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subg).-view(sol4[ipsi, :], subg)) .+ En[regionPero])./(k_B*T))
 
-    nnp1 = Nn[regionHTL] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subgp).-view(sol1[ipsi, :], subgp)) .+ En[regionHTL])./(kB*T))
-    nnp2 = Nn[regionHTL] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subgp).-view(sol2[ipsi, :], subgp)) .+ En[regionHTL])./(kB*T))
-    nnp4 = Nn[regionHTL] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subgp).-view(sol4[ipsi, :], subgp)) .+ En[regionHTL])./(kB*T))
+    nnp1 = Nn[regionHTL] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subgp).-view(sol1[ipsi, :], subgp)) .+ En[regionHTL])./(k_B*T))
+    nnp2 = Nn[regionHTL] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subgp).-view(sol2[ipsi, :], subgp)) .+ En[regionHTL])./(k_B*T))
+    nnp4 = Nn[regionHTL] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subgp).-view(sol4[ipsi, :], subgp)) .+ En[regionHTL])./(k_B*T))
 
-    npn1 = Np[regionETL1] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subgn).-view(sol1[ipsi, :], subgn)) .+ Ep[regionETL1])./(kB*T))
-    npn2 = Np[regionETL1] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subgn).-view(sol2[ipsi, :], subgn)) .+ Ep[regionETL1])./(kB*T))
-    npn4 = Np[regionETL1] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subgn).-view(sol4[ipsi, :], subgn)) .+ Ep[regionETL1])./(kB*T))
+    npn1 = Np[regionETL1] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subgn).-view(sol1[ipsi, :], subgn)) .+ Ep[regionETL1])./(k_B*T))
+    npn2 = Np[regionETL1] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subgn).-view(sol2[ipsi, :], subgn)) .+ Ep[regionETL1])./(k_B*T))
+    npn4 = Np[regionETL1] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subgn).-view(sol4[ipsi, :], subgn)) .+ Ep[regionETL1])./(k_B*T))
 
-    np1  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subg).-view(sol1[ipsi, :], subg)) .+ Ep[regionPero])./(kB*T))
-    np2  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subg).-view(sol2[ipsi, :], subg)) .+ Ep[regionPero])./(kB*T))
-    np4  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subg).-view(sol4[ipsi, :], subg)) .+ Ep[regionPero])./(kB*T))
+    np1  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subg).-view(sol1[ipsi, :], subg)) .+ Ep[regionPero])./(k_B*T))
+    np2  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subg).-view(sol2[ipsi, :], subg)) .+ Ep[regionPero])./(k_B*T))
+    np4  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subg).-view(sol4[ipsi, :], subg)) .+ Ep[regionPero])./(k_B*T))
 
-    npp1 = Np[regionHTL] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subgp).-view(sol1[ipsi, :], subgp)) .+ Ep[regionHTL])./(kB*T))
-    npp2 = Np[regionHTL] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subgp).-view(sol2[ipsi, :], subgp)) .+ Ep[regionHTL])./(kB*T))
-    npp4 = Np[regionHTL] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subgp).-view(sol4[ipsi, :], subgp)) .+ Ep[regionHTL])./(kB*T))
+    npp1 = Np[regionHTL] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subgp).-view(sol1[ipsi, :], subgp)) .+ Ep[regionHTL])./(k_B*T))
+    npp2 = Np[regionHTL] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subgp).-view(sol2[ipsi, :], subgp)) .+ Ep[regionHTL])./(k_B*T))
+    npp4 = Np[regionHTL] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subgp).-view(sol4[ipsi, :], subgp)) .+ Ep[regionHTL])./(k_B*T))
 
-    na1  = Na[regionPero] .* Fcc[iphia].(za*( q*(view(sol1[iphia, :], subg).-view(sol1[ipsi, :], subg)) .+ Ea1)./(kB*T))
-    na2  = Na[regionPero] .* Fcc[iphia].(za*( q*(view(sol2[iphia, :], subg).-view(sol2[ipsi, :], subg)) .+ Ea2)./(kB*T))
-    na4  = Na[regionPero] .* Fcc[iphia].(za*( q*(view(sol4[iphia, :], subg).-view(sol4[ipsi, :], subg)) .+ Ea4)./(kB*T))
+    na1  = Na[regionPero] .* Fcc[iphia].(za*( q*(view(sol1[iphia, :], subg).-view(sol1[ipsi, :], subg)) .+ Ea1)./(k_B*T))
+    na2  = Na[regionPero] .* Fcc[iphia].(za*( q*(view(sol2[iphia, :], subg).-view(sol2[ipsi, :], subg)) .+ Ea2)./(k_B*T))
+    na4  = Na[regionPero] .* Fcc[iphia].(za*( q*(view(sol4[iphia, :], subg).-view(sol4[ipsi, :], subg)) .+ Ea4)./(k_B*T))
 
     #########################################################################################################
     #########################################################################################################

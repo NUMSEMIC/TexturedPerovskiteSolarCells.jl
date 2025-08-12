@@ -93,15 +93,15 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     sol3 = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl2-generation-$generation-reco-$typeReco-$V.dat"))'
     sol4 = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl3-generation-$generation-reco-$typeReco-$V.dat"))'
 
-    nn1  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subg1).-view(sol1[ipsi, :], subg1)) .+ En[regionPero])./(kB*T))
-    nn2  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subg2).-view(sol2[ipsi, :], subg2)) .+ En[regionPero])./(kB*T))
-    nn3  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol3[iphin, :], subg3).-view(sol3[ipsi, :], subg3)) .+ En[regionPero])./(kB*T))
-    nn4  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subg4).-view(sol4[ipsi, :], subg4)) .+ En[regionPero])./(kB*T))
+    nn1  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subg1).-view(sol1[ipsi, :], subg1)) .+ En[regionPero])./(k_B*T))
+    nn2  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subg2).-view(sol2[ipsi, :], subg2)) .+ En[regionPero])./(k_B*T))
+    nn3  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol3[iphin, :], subg3).-view(sol3[ipsi, :], subg3)) .+ En[regionPero])./(k_B*T))
+    nn4  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subg4).-view(sol4[ipsi, :], subg4)) .+ En[regionPero])./(k_B*T))
 
-    np1  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subg1).-view(sol1[ipsi, :], subg1)) .+ Ep[regionPero])./(kB*T))
-    np2  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subg2).-view(sol2[ipsi, :], subg2)) .+ Ep[regionPero])./(kB*T))
-    np3  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol3[iphip, :], subg3).-view(sol3[ipsi, :], subg3)) .+ Ep[regionPero])./(kB*T))
-    np4  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subg4).-view(sol4[ipsi, :], subg4)) .+ Ep[regionPero])./(kB*T))
+    np1  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subg1).-view(sol1[ipsi, :], subg1)) .+ Ep[regionPero])./(k_B*T))
+    np2  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subg2).-view(sol2[ipsi, :], subg2)) .+ Ep[regionPero])./(k_B*T))
+    np3  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol3[iphip, :], subg3).-view(sol3[ipsi, :], subg3)) .+ Ep[regionPero])./(k_B*T))
+    np4  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subg4).-view(sol4[ipsi, :], subg4)) .+ Ep[regionPero])./(k_B*T))
 
     # println(" ")
     # @show minimum(nn1./np1), maximum(nn1./np1)

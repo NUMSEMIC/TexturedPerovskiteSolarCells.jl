@@ -26,6 +26,8 @@ function main(;printText = true, saveFig = false,
     # use the destructuring operator to extract all the necessary parameters
     (; paramsname, heightDev ) = parameter_set()
 
+    @local_unitfactors W m
+
     if enableIons
         textIons = ""
     else

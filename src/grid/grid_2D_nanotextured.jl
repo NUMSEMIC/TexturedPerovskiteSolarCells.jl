@@ -5,6 +5,8 @@
 
 function generate_grid2D_nanotextured(;amplitude = 4.0e-7, parameter_set, demo_run)
 
+    @local_unitfactors nm
+
     # use the destructuring operator to extract all the necessary parameters
     (; h_ETL1, h_HTL, regionETL1, regionPero, regionHTL, bregionLeft,
        bregionRight, bregionJ1, bregionJ2, heightDev) = parameter_set()

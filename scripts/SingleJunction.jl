@@ -44,7 +44,7 @@ function main(;plotting = false, printText = true,
                ########################
                generation = true, generationUniform = false, MaxwellSol = true,
                ########################
-               scanrate = 1.0e3  * V/s, # 1.0e-3, # 1.0e1, #
+               scanrate = 1.0e3  * ufac"V/s", # 1.0e-3, # 1.0e1, #
                ########################
                CalculateEa = false, EaLoop = -4.0, # for calculating Ea of φa
                ########################
@@ -59,6 +59,11 @@ function main(;plotting = false, printText = true,
     PyPlot.rc("font", family="sans-serif", size=14)
     PyPlot.rc("mathtext", fontset="dejavusans")
     PyPlot.close("all")
+
+    @local_unitfactors V m s W
+
+    (; q, ε_0 ) = ChargeTransport.constants
+    eV = q * V
 
     # we need this, since methods coincide with VoronoiFVM methods
     SolverControl()                      = ChargeTransport.SolverControl()
@@ -341,10 +346,9 @@ function main(;plotting = false, printText = true,
     end
     ################################################################################
 
-    params                                                    = Params(grid, numberOfCarriers2)
+    params                                                    = Params(grid[NumCellRegions], grid[NumBFaceRegions], numberOfCarriers2)
 
     params.temperature                                        = T
-    params.UT                                                 = (kB * params.temperature) / q
     params.chargeNumbers[iphin]                               = zn
     params.chargeNumbers[iphip]                               = zp
     if enableIons
@@ -353,7 +357,7 @@ function main(;plotting = false, printText = true,
 
     for ireg in 1:numberOfRegions # interior region data
 
-        params.dielectricConstant[ireg]                       = εr[ireg] * ε0
+        params.dielectricConstant[ireg]                       = εr[ireg] * ε_0
 
         ## effective DOS, band edge energy and mobilities
         params.densityOfStates[iphin, ireg]                   = Nn[ireg]

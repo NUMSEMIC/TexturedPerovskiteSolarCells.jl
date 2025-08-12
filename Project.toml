@@ -1,7 +1,7 @@
 name = "TexturedPerovskiteSolarCells"
 uuid = "25b13238-729e-4bd4-a261-8345ff999ea8"
-authors = ["Dilara Abdel <dilara.abdel@wias-berlin.de>", "Patrick Jaap <patrick.jaap@wias-berlin.de>", "Jürgen Fuhrmann <juergen.fuhrmann@wias-berlin.de>", "Patricio Farrell <patricio.farrell@wias-berlin.de>"]
 version = "1.0.0"
+authors = ["Dilara Abdel <dilara.abdel@wias-berlin.de>", "Patrick Jaap <patrick.jaap@wias-berlin.de>", "Jürgen Fuhrmann <juergen.fuhrmann@wias-berlin.de>", "Patricio Farrell <patricio.farrell@wias-berlin.de>"]
 
 [deps]
 ChargeTransport = "25c3eafe-d88c-11e9-3031-f396758f002a"
@@ -21,11 +21,11 @@ VoronoiFVM = "82b139dc-5afc-11e9-35da-9b9bdfd336f3"
 
 [compat]
 Aqua = "0.8.12"
-ChargeTransport = "^0.4"
+ChargeTransport = "1.1.1"
 DelimitedFiles = "1.9.1"
 ExtendableGrids = "1.13.1"
 GridVisualize = "1.12.0"
-Interpolations = "0.15.1"
+Interpolations = "0.16"
 LinearAlgebra = "^1.10"
 LinearSolve = "3.14.0"
 NPZ = "0.4.3"

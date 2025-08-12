@@ -159,10 +159,10 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     sol3 = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl2-generation-$generation-reco-$typeReco-$V.dat"))'
     sol4 = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl3-generation-$generation-reco-$typeReco-$V.dat"))'
 
-    na1  = Na[regionPero] .* Fcc[iphia].(za*( q*(view(sol1[iphia, :], subg1).-view(sol1[ipsi, :], subg1)) .+ Ea1[regionPero])./(kB*T))
-    na2  = Na[regionPero] .* Fcc[iphia].(za*( q*(view(sol2[iphia, :], subg2).-view(sol2[ipsi, :], subg2)) .+ Ea2[regionPero])./(kB*T))
-    na3  = Na[regionPero] .* Fcc[iphia].(za*( q*(view(sol3[iphia, :], subg3).-view(sol3[ipsi, :], subg3)) .+ Ea3[regionPero])./(kB*T))
-    na4  = Na[regionPero] .* Fcc[iphia].(za*( q*(view(sol4[iphia, :], subg4).-view(sol4[ipsi, :], subg4)) .+ Ea4[regionPero])./(kB*T))
+    na1  = Na[regionPero] .* Fcc[iphia].(za*( q*(view(sol1[iphia, :], subg1).-view(sol1[ipsi, :], subg1)) .+ Ea1[regionPero])./(k_B*T))
+    na2  = Na[regionPero] .* Fcc[iphia].(za*( q*(view(sol2[iphia, :], subg2).-view(sol2[ipsi, :], subg2)) .+ Ea2[regionPero])./(k_B*T))
+    na3  = Na[regionPero] .* Fcc[iphia].(za*( q*(view(sol3[iphia, :], subg3).-view(sol3[ipsi, :], subg3)) .+ Ea3[regionPero])./(k_B*T))
+    na4  = Na[regionPero] .* Fcc[iphia].(za*( q*(view(sol4[iphia, :], subg4).-view(sol4[ipsi, :], subg4)) .+ Ea4[regionPero])./(k_B*T))
 
     # println(" ")
     # @show minimum(na1), maximum(na1)

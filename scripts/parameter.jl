@@ -3,6 +3,18 @@
 
 @kwdef struct ParamsSingleJunction
 
+    # unit factors
+    nm = ufac"nm"
+    K = ufac"K"
+    m = ufac"m"
+    s = ufac"s"
+    V = ufac"V"
+
+    q = ChargeTransport.constants.q
+    k_B = ChargeTransport.constants.k_B
+
+    eV = q * V
+
     paramsname = "2"
 
     ## set indices of the quasi Fermi potentials
@@ -48,7 +60,6 @@
 
     ## temperature
     T = 300.0 * K
-    UT = kB * T / q
 
     ## relative dielectric permittivity
     εr = [5.0, 22.0, 3.5] .* 1.0
@@ -134,9 +145,9 @@
     τp = [1.0e100, 4.0e-8, 1.0e100] .* s
 
     ## trap densities
-    ni1 = sqrt(Nn1 * Np1 * exp(- (En[1] - Ep[1]) / (kB * T)))
-    ni2 = sqrt(Nn2 * Np2 * exp(- (En[2] - Ep[2]) / (kB * T)))
-    ni3 = sqrt(Nn3 * Np3 * exp(- (En[3] - Ep[3]) / (kB * T)))
+    ni1 = sqrt(Nn1 * Np1 * exp(- (En[1] - Ep[1]) / (k_B * T)))
+    ni2 = sqrt(Nn2 * Np2 * exp(- (En[2] - Ep[2]) / (k_B * T)))
+    ni3 = sqrt(Nn3 * Np3 * exp(- (En[3] - Ep[3]) / (k_B * T)))
 
     nτ = [ni1, ni2, ni3]
     pτ = [ni1, ni2, ni3]

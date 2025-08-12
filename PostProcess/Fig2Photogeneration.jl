@@ -76,6 +76,8 @@ function main(;printText = true, saveFig = false,
     # use the destructuring operator to extract all the necessary parameters
     (; regionPero ) = parameter_set()
 
+    @local_unitfactors nm
+
     PyPlot.rc("font", family="sans-serif", size=14)
     PyPlot.rc("mathtext", fontset="dejavusans")
     PyPlot.close("all")
