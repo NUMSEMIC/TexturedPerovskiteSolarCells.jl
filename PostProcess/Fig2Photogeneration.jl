@@ -12,7 +12,6 @@ using PyCall
 using ChargeTransport
 using ExtendableGrids
 using TexturedPerovskiteSolarCells
-include(TexturedPerovskiteSolarCells.scriptsdir("parameter.jl"))
 
 # for convenience
 datadir = TexturedPerovskiteSolarCells.datadir

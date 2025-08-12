@@ -10,7 +10,6 @@ using PyPlot
 using DelimitedFiles
 using ChargeTransport
 using TexturedPerovskiteSolarCells
-include(TexturedPerovskiteSolarCells.scriptsdir("parameter.jl"))
 
 # for convenience
 datadir = TexturedPerovskiteSolarCells.datadir
@@ -26,7 +25,7 @@ function main(;printText = true, saveFig = false,
     # use the destructuring operator to extract all the necessary parameters
     (; paramsname, heightDev ) = parameter_set()
 
-    @local_unitfactors W m
+    @local_unitfactors W m nm cm
 
     if enableIons
         textIons = ""

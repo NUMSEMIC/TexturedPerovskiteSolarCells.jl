@@ -20,12 +20,18 @@ include(scriptsdir("SingleJunction.jl"))
 function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
               typeReco    = "all",    # "radiative"
               IVDirection = "forw", #"rev", #
-              V           = "end", #"inival", # "V-1p15"
+              V_param     = "end", #"inival", # "V-1p15"
               printText = true, saveFig = false,
-              parameter_file = scriptsdir("params_single_junction.jl")
+              parameter_set = ParamsSingleJunction
               )
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; paramsname, iphin, iphip, Fcc, regionPero, iphia, T, zn, zp, za, Nn, Np, Na, En, Ep, regionETL1, regionHTL, ipsi) = parameter_set()
+
+    (; q, k_B ) = ChargeTransport.constants
+
+    @local_unitfactors nm m V
+    eV = q * V
 
     PyPlot.rc("font", family="sans-serif", size=14)
     PyPlot.rc("mathtext", fontset="dejavusans")
@@ -57,9 +63,9 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     Ca2 = 1.0e22 / (m^3); Ea2 = -5.532 * eV
     Ca4 = 1.0e23 / (m^3); Ea4 = -5.283 * eV
 
-    sol1 = readdlm(datadir("sol", "$pathSol/Sol-1D-$IVDirection-planar-Ca-1p0e21-generation-Maxwell-reco-$typeReco-$V.dat"))'
-    sol2 = readdlm(datadir("sol", "$pathSol/Sol-1D-$IVDirection-planar-Ca-1p0e22-generation-Maxwell-reco-$typeReco-$V.dat"))'
-    sol4 = readdlm(datadir("sol", "$pathSol/Sol-1D-$IVDirection-planar-Ca-1p0e23-generation-Maxwell-reco-$typeReco-$V.dat"))'
+    sol1 = readdlm(datadir("sol", "$pathSol/Sol-1D-$IVDirection-planar-Ca-1p0e21-generation-Maxwell-reco-$typeReco-$V_param.dat"))'
+    sol2 = readdlm(datadir("sol", "$pathSol/Sol-1D-$IVDirection-planar-Ca-1p0e22-generation-Maxwell-reco-$typeReco-$V_param.dat"))'
+    sol4 = readdlm(datadir("sol", "$pathSol/Sol-1D-$IVDirection-planar-Ca-1p0e23-generation-Maxwell-reco-$typeReco-$V_param.dat"))'
 
     nnn1 = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subgn).-view(sol1[ipsi, :], subgn)) .+ En[regionETL1])./(k_B*T))
     nnn2 = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subgn).-view(sol2[ipsi, :], subgn)) .+ En[regionETL1])./(k_B*T))
@@ -119,7 +125,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("1D-dens-Ca-1p0e21-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
+        savefig(datadir("1D-dens-Ca-1p0e21-scanrate-$textSR-generation-Maxwell-$IVDirection-$V_param.pdf"))
     end
 
     #########################################
@@ -145,7 +151,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("1D-dens-Ca-1p0e22-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
+        savefig(datadir("1D-dens-Ca-1p0e22-scanrate-$textSR-generation-Maxwell-$IVDirection-$V_param.pdf"))
     end
 
     #########################################
@@ -171,7 +177,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir( "1D-dens-Ca-1p0e23-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
+        savefig(datadir( "1D-dens-Ca-1p0e23-scanrate-$textSR-generation-Maxwell-$IVDirection-$V_param.pdf"))
     end
 
     #########################################################################################
@@ -282,7 +288,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("1D-energy-Ca-1p0e21-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
+        savefig(datadir("1D-energy-Ca-1p0e21-scanrate-$textSR-generation-Maxwell-$IVDirection-$V_param.pdf"))
     end
 
     #########################################
@@ -307,7 +313,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("1D-energy-Ca-1p0e22-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
+        savefig(datadir("1D-energy-Ca-1p0e22-scanrate-$textSR-generation-Maxwell-$IVDirection-$V_param.pdf"))
     end
 
     #########################################
@@ -332,7 +338,7 @@ function main(;scanrate   = 1000.0,   # "10p0" # "0p001"
     PyPlot.tight_layout()
 
     if saveFig
-        savefig(datadir("1D-energy-Ca-1p0e23-scanrate-$textSR-generation-Maxwell-$IVDirection-$V.pdf"))
+        savefig(datadir("1D-energy-Ca-1p0e23-scanrate-$textSR-generation-Maxwell-$IVDirection-$V_param.pdf"))
     end
 
     return nothing

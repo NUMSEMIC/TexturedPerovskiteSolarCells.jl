@@ -72,10 +72,15 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
               generationUniform = false,
               IVDirection = "forw", # "forw", #
               V = "inival", # "end", # "V-1p05", # "V-1p15"
-              parameter_file = scriptsdir("params_single_junction.jl"),
+              parameter_set = ParamsSingleJunction,
               printText = true, saveFig = false)
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; paramsname, heightDev, regionPero, En, Ep, Nn, Np, zn, zp, iphin, iphip, ipsi, Fcc, T) = parameter_set()
+
+    (; q, k_B ) = ChargeTransport.constants
+
+    @local_unitfactors nm
 
     PyPlot.rc("font", family="sans-serif", size=14)
     PyPlot.rc("mathtext", fontset="dejavusans")

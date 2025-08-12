@@ -24,11 +24,16 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
               IVDirection       = "forw",  # "rev" #
               V                 = "end",   # "inival", # "V-1p15"
               printText = true, saveFig = false,
-              parameter_file = scriptsdir("params_single_junction.jl"),
+              parameter_set = ParamsSingleJunction,
               enableIons = true
               )
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; paramsname, regionPero, regionETL1, regionHTL, Nn, Np, zn, zp, iphin, iphip, ipsi, Fcc, En, Ep, T ) = parameter_set()
+
+    (; q, k_B ) = ChargeTransport.constants
+
+    @local_unitfactors nm
 
     if enableIons
         textIons = ""

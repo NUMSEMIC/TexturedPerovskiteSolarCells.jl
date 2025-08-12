@@ -91,9 +91,15 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
               IVDirection = "forw", # "rev" #
               V = "inival", # "end"
               printText = true, saveFig = false,
-              parameter_file = scriptsdir("params_single_junction.jl"))
+              parameter_set = ParamsSingleJunction
+            )
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; paramsname, regionPero, ipsi, εr ) = parameter_set()
+
+    (; q, ε_0 ) = ChargeTransport.constants
+
+    @local_unitfactors nm
 
     PyPlot.rc("font", family="sans-serif", size=14)
     PyPlot.rc("mathtext", fontset="dejavusans")
@@ -184,16 +190,16 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     nodes3 = subg3[NodeParents]; nodes4 = subg4[NodeParents]
 
     nft1   = VoronoiFVM.nodeflux(ctsys1.fvmsys, sol1)
-    jPsi1  = nft1[:, ipsi, nodes1]./ (ε0*εr[regionPero]); jPsi1Abs = norm.(eachcol(jPsi1))
+    jPsi1  = nft1[:, ipsi, nodes1]./ (ε_0*εr[regionPero]); jPsi1Abs = norm.(eachcol(jPsi1))
 
     nft2   = VoronoiFVM.nodeflux(ctsys2.fvmsys, sol2)
-    jPsi2  = nft2[:, ipsi, nodes2]./ (ε0*εr[regionPero]); jPsi2Abs = norm.(eachcol(jPsi2))
+    jPsi2  = nft2[:, ipsi, nodes2]./ (ε_0*εr[regionPero]); jPsi2Abs = norm.(eachcol(jPsi2))
 
     nft3   = VoronoiFVM.nodeflux(ctsys3.fvmsys, sol3)
-    jPsi3  = nft3[:, ipsi, nodes3]./ (ε0*εr[regionPero]); jPsi3Abs = norm.(eachcol(jPsi3))
+    jPsi3  = nft3[:, ipsi, nodes3]./ (ε_0*εr[regionPero]); jPsi3Abs = norm.(eachcol(jPsi3))
 
     nft4   = VoronoiFVM.nodeflux(ctsys4.fvmsys, sol4)
-    jPsi4  = nft4[:, ipsi, nodes4]./ (ε0*εr[regionPero]); jPsi4Abs = norm.(eachcol(jPsi4))
+    jPsi4  = nft4[:, ipsi, nodes4]./ (ε_0*εr[regionPero]); jPsi4Abs = norm.(eachcol(jPsi4))
 
     # println("  ")
     # @show minimum(jPsi1Abs), maximum(jPsi1Abs)
