@@ -38,13 +38,13 @@ function main(;plotting = false, printText = true,
                gridDim = 1,
                ########################
                typeGrid  = "planar",  # "nanotextured", #
-               amplitude = 4.0e-7,    # amplitude of nanotexture
+               amplitude = 4.0e-7,    # amplitude of nanotexture in base unit
                ########################
                typeReco =  "all" ,    # "radiative", #"off", # "radiative", # "SR", # "bulk", # "all"   (SR for surface reco)
                ########################
                generation = true, generationUniform = false, MaxwellSol = true,
                ########################
-               scanrate = 1.0e3  * ufac"V/s", # 1.0e-3, # 1.0e1, #
+               scanrate = 1.0e3 , # 1.0e-3, # 1.0e1, # in base unit
                ########################
                CalculateEa = false, EaLoop = -4.0, # for calculating Ea of φa
                ########################
@@ -508,6 +508,11 @@ function main(;plotting = false, printText = true,
             return testval = sum(filter(!isnan, inival))/length(inival) # when using sparse storage, we get NaN values in solution
         end
     end
+
+    testval = sum(filter(!isnan, inival))/length(inival) # when using sparse storage, we get NaN values in solution
+
+    println("local val: -1.1961133474392938")
+    @show testval
 
     if plotting
 
