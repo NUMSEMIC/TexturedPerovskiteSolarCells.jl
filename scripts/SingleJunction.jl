@@ -569,10 +569,10 @@ function main(;plotting = false, printText = true,
         end # generation loop
 
         inival  = solEQ
-        #@show testval = sum(filter(!isnan, inival))/length(inival) # when using sparse storage, we get NaN values in solution
+        testval = sum(filter(!isnan, inival))/length(inival) # when using sparse storage, we get NaN values in solution
 
-        println("local val: -1.2442968894861088")
-        return testval
+        println("local val: -1.2471723392286984")
+        @show testval
 
         if printText
             println("*** done\n")
