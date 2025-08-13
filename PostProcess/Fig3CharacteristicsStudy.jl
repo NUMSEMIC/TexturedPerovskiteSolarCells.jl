@@ -18,11 +18,14 @@ scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 function main(;printText = true, saveFig = false,
             scanrate =  "1000p0", # "0p001", #  "10p0", # "1000p0", #
             generation = "Maxwell", # "uniform"
-            parameter_file = scriptsdir("params_single_junction.jl"),
+            parameter_set = ParamsSingleJunction,
             enableIons = true,
             )
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; paramsname, heightDev ) = parameter_set()
+
+    @local_unitfactors W m nm cm
 
     if enableIons
         textIons = ""

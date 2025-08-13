@@ -20,5 +20,8 @@ export MaxwellPhotogeneration
 include("grid/generate_grid.jl")
 export generate_grid
 
+# Parameter
+include(scriptsdir("parameter.jl"))
+export ParamsSingleJunction
 
 end # module TexturedPerovskiteSolarCells

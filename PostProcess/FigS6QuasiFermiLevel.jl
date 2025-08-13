@@ -73,9 +73,13 @@ function main(;scanrate         = 1000.0, # "10p0" # "0p001"
               V                 = "end",  # "inival",
               printText         = true,
               saveFig           = false,
-              parameter_file = scriptsdir("params_single_junction.jl"))
+              parameter_set = ParamsSingleJunction
+              )
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; paramsname, regionPero, regionETL1, regionHTL, iphin, iphip ) = parameter_set()
+
+    @local_unitfactors nm
 
     PyPlot.rc("font", family="sans-serif", size=14)
     PyPlot.rc("mathtext", fontset="dejavusans")

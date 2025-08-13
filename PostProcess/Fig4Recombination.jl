@@ -72,10 +72,15 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
               generationUniform = false,
               IVDirection = "forw", # "forw", #
               V = "inival", # "end", # "V-1p05", # "V-1p15"
-              parameter_file = scriptsdir("params_single_junction.jl"),
+              parameter_set = ParamsSingleJunction,
               printText = true, saveFig = false)
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; paramsname, heightDev, regionPero, En, Ep, Nn, Np, zn, zp, iphin, iphip, ipsi, Fcc, T) = parameter_set()
+
+    (; q, k_B ) = ChargeTransport.constants
+
+    @local_unitfactors nm
 
     PyPlot.rc("font", family="sans-serif", size=14)
     PyPlot.rc("mathtext", fontset="dejavusans")
@@ -135,28 +140,28 @@ function main(;scanrate  = 1000.0,   # "10p0" # "0p001"
     sol3 = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl2-generation-$generation-reco-$typeReco-$V.dat"))'
     sol4 = readdlm(datadir("sol", "$pathSol/Sol-2D-$IVDirection-nanotextured-ampl-$textampl3-generation-$generation-reco-$typeReco-$V.dat"))'
 
-    nn1  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subg1).-view(sol1[ipsi, :], subg1)) .+ En[regionPero])./(kB*T))
-    np1  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subg1).-view(sol1[ipsi, :], subg1)) .+ Ep[regionPero])./(kB*T))
+    nn1  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subg1).-view(sol1[ipsi, :], subg1)) .+ En[regionPero])./(k_B*T))
+    np1  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subg1).-view(sol1[ipsi, :], subg1)) .+ Ep[regionPero])./(k_B*T))
 
-    expTerm1    = exp.((q * view(sol1[iphin, :], subg1) - q * view(sol1[iphip, :], subg1)) / (kB * data1.params.temperature))
+    expTerm1    = exp.((q * view(sol1[iphin, :], subg1) - q * view(sol1[iphip, :], subg1)) / (k_B * data1.params.temperature))
     exDensTerm1 = nn1 .* np1 .* (1.0 .- expTerm1)
 
-    nn2  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subg2).-view(sol2[ipsi, :], subg2)) .+ En[regionPero])./(kB*T))
-    np2  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subg2).-view(sol2[ipsi, :], subg2)) .+ Ep[regionPero])./(kB*T))
+    nn2  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subg2).-view(sol2[ipsi, :], subg2)) .+ En[regionPero])./(k_B*T))
+    np2  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subg2).-view(sol2[ipsi, :], subg2)) .+ Ep[regionPero])./(k_B*T))
 
-    expTerm2    = exp.((q * view(sol2[iphin, :], subg2) - q * view(sol2[iphip, :], subg2)) / (kB * data1.params.temperature))
+    expTerm2    = exp.((q * view(sol2[iphin, :], subg2) - q * view(sol2[iphip, :], subg2)) / (k_B * data1.params.temperature))
     exDensTerm2 = nn2 .* np2 .* (1.0 .- expTerm2)
 
-    nn3  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol3[iphin, :], subg3).-view(sol3[ipsi, :], subg3)) .+ En[regionPero])./(kB*T))
-    np3  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol3[iphip, :], subg3).-view(sol3[ipsi, :], subg3)) .+ Ep[regionPero])./(kB*T))
+    nn3  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol3[iphin, :], subg3).-view(sol3[ipsi, :], subg3)) .+ En[regionPero])./(k_B*T))
+    np3  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol3[iphip, :], subg3).-view(sol3[ipsi, :], subg3)) .+ Ep[regionPero])./(k_B*T))
 
-    expTerm3    = exp.((q * view(sol3[iphin, :], subg3) - q * view(sol3[iphip, :], subg3)) / (kB * data1.params.temperature))
+    expTerm3    = exp.((q * view(sol3[iphin, :], subg3) - q * view(sol3[iphip, :], subg3)) / (k_B * data1.params.temperature))
     exDensTerm3 = nn3 .* np3 .* (1.0 .- expTerm3)
 
-    nn4  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subg4).-view(sol4[ipsi, :], subg4)) .+ En[regionPero])./(kB*T))
-    np4  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subg4).-view(sol4[ipsi, :], subg4)) .+ Ep[regionPero])./(kB*T))
+    nn4  = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subg4).-view(sol4[ipsi, :], subg4)) .+ En[regionPero])./(k_B*T))
+    np4  = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subg4).-view(sol4[ipsi, :], subg4)) .+ Ep[regionPero])./(k_B*T))
 
-    expTerm4    = exp.((q * view(sol4[iphin, :], subg4) - q * view(sol4[iphip, :], subg4)) / (kB * data1.params.temperature))
+    expTerm4    = exp.((q * view(sol4[iphin, :], subg4) - q * view(sol4[iphip, :], subg4)) / (k_B * data1.params.temperature))
     exDensTerm4 = nn4 .* np4 .* (1.0 .- expTerm4)
 
     ## SRH recombination

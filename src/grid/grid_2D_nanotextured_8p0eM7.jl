@@ -5,7 +5,8 @@
 
 function generate_grid2D_nanotextured_8p0eM7(; amplitude = 8.0e-7, parameter_file, demo_run)
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; paramsname, heightDev ) = parameter_set()
 
     # length of perovskite region depends on amplitude of cos
     h_active     = 400 * nm - amplitude/2 # perovskite

@@ -2,3 +2,5 @@
 *pdf
 
 *.zip
+
+*Manifest*.toml

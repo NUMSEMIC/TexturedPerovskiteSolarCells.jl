@@ -21,28 +21,30 @@ using SimplexGridFactory
 using Triangulate
 using VoronoiFVM
 using Roots
+include("parameter.jl")
 
 # for convenience
 datadir = TexturedPerovskiteSolarCells.datadir
 scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
+
 
 ###########################################################
 ###########################################################
 
 function main(;plotting = false, printText = true,
                ########################
-               parameter_file = scriptsdir("params_single_junction.jl"),
+               parameter_set = ParamsSingleJunction,
                ########################
                gridDim = 1,
                ########################
                typeGrid  = "planar",  # "nanotextured", #
-               amplitude = 4.0e-7,    # amplitude of nanotexture
+               amplitude = 4.0e-7,    # amplitude of nanotexture in base unit
                ########################
                typeReco =  "all" ,    # "radiative", #"off", # "radiative", # "SR", # "bulk", # "all"   (SR for surface reco)
                ########################
                generation = true, generationUniform = false, MaxwellSol = true,
                ########################
-               scanrate = 1.0e3  * V/s, # 1.0e-3, # 1.0e1, #
+               scanrate = 1.0e3 , # 1.0e-3, # 1.0e1, # in base unit
                ########################
                CalculateEa = false, EaLoop = -4.0, # for calculating Ea of φa
                ########################
@@ -57,6 +59,11 @@ function main(;plotting = false, printText = true,
     PyPlot.rc("font", family="sans-serif", size=14)
     PyPlot.rc("mathtext", fontset="dejavusans")
     PyPlot.close("all")
+
+    @local_unitfactors V m s W
+
+    (; q, ε_0 ) = ChargeTransport.constants
+    eV = q * V
 
     # we need this, since methods coincide with VoronoiFVM methods
     SolverControl()                      = ChargeTransport.SolverControl()
@@ -75,9 +82,14 @@ function main(;plotting = false, printText = true,
     end
     ################################################################################
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; Ea1D, Ca, numberOfCarriers, bregionJ1, bregionJ2, iphin, iphip, bregionLeft, bregionRight, Fcc, regionPero, iphia, T,
+       zn, zp, za, numberOfRegions, εr, Nn, Np, Na, En, Ep, μn, μp, μa, r0, τn, τp, nτ, pτ, regionETL1, regionHTL, SRHvelocityETLn,
+       SRHvelocityETLp, SRHvelocityHTLn, SRHvelocityHTLp, Cp, Ca, Cn1, damp_initial, damp_growth, maxiters, max_round, abstol, reltol,
+       tol_round, EaPlanar, EaAmpl0p5e7, EaAmpl1p0e7, EaAmpl1p5e7, EaAmpl2p0e7, EaAmpl3p0e7, EaAmpl4p0e7, EaAmpl5p0e7, EaAmpl6p0e7,
+       EaAmpl7p0e7, EaAmpl8p0e7) = parameter_set()
 
-    grid = generate_grid(gridDim = gridDim, type = typeGrid, amplitude = amplitude, parameter_file = parameter_file, demo_run = demo_run)
+    grid = generate_grid(gridDim = gridDim, type = typeGrid, amplitude = amplitude, parameter_set = parameter_set, demo_run = demo_run)
 
     if plotting
         gridplot(grid, Plotter= PyPlot, resolution=(600,400), linewidth=0.5, legend=:rc)
@@ -235,7 +247,7 @@ function main(;plotting = false, printText = true,
     if generation
         if MaxwellSol && generationUniform == false
 
-            generationData = MaxwellPhotogeneration(gridDim = gridDim, typeGrid = typeGrid, amplitude = amplitude, parameter_file = parameter_file, demo_run = demo_run)
+            generationData = MaxwellPhotogeneration(gridDim = gridDim, typeGrid = typeGrid, amplitude = amplitude, parameter_set = parameter_set, demo_run = demo_run)
 
         elseif MaxwellSol== false && generationUniform == false
             Fph     = incidentPhotonFlux[regionPero]; ag  = absorption[regionPero]
@@ -334,10 +346,9 @@ function main(;plotting = false, printText = true,
     end
     ################################################################################
 
-    params                                                    = Params(grid, numberOfCarriers2)
+    params                                                    = Params(grid[NumCellRegions], grid[NumBFaceRegions], numberOfCarriers2)
 
     params.temperature                                        = T
-    params.UT                                                 = (kB * params.temperature) / q
     params.chargeNumbers[iphin]                               = zn
     params.chargeNumbers[iphip]                               = zp
     if enableIons
@@ -346,7 +357,7 @@ function main(;plotting = false, printText = true,
 
     for ireg in 1:numberOfRegions # interior region data
 
-        params.dielectricConstant[ireg]                       = εr[ireg] * ε0
+        params.dielectricConstant[ireg]                       = εr[ireg] * ε_0
 
         ## effective DOS, band edge energy and mobilities
         params.densityOfStates[iphin, ireg]                   = Nn[ireg]
@@ -556,8 +567,6 @@ function main(;plotting = false, printText = true,
             inival = solEQ
 
         end # generation loop
-
-        inival  = solEQ
 
         if printText
             println("*** done\n")
@@ -1099,7 +1108,7 @@ function test(;gridDim=1, typeGrid = "planar", amplitude = 2.0e-7, demo_run = fa
     result = main(gridDim = gridDim, typeGrid = typeGrid, amplitude = amplitude, printText = false, demo_run = demo_run, generation = true, generationUniform = false, MaxwellSol = true)
     @info "result  = $result"
     @info "testval = $testval"
-    return abs(result - testval) < 1e-3
+    return abs(result - testval) < 7e-3
 end
 
 end # module

@@ -1,19 +1,18 @@
 
-# for convenience
-datadir = TexturedPerovskiteSolarCells.datadir
-scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
-
 function MaxwellPhotogeneration(;gridDim = 1,
                                 ########################
                                 typeGrid  = "nanotextured", # "planar"
                                 ########################
                                 amplitude = 4.0e-7,
-                                parameter_file, demo_run
+                                parameter_set, demo_run
                                 )
+
+    # use the destructuring operator to extract all the necessary parameters
+    (; regionPero ) = parameter_set()
 
     G_interpol = calc_interpol_photogen(typeGrid = typeGrid, amplitude = amplitude)
 
-    grid       = generate_grid(gridDim = gridDim, type = typeGrid, amplitude = amplitude, parameter_file = parameter_file, demo_run = demo_run)
+    grid       = generate_grid(gridDim = gridDim, type = typeGrid, amplitude = amplitude, parameter_set = parameter_set, demo_run = demo_run)
 
     G          = zeros(length(grid[Coordinates][1,:]))
 

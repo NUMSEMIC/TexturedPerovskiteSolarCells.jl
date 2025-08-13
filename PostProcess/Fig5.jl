@@ -24,11 +24,16 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
               IVDirection       = "forw",  # "rev" #
               V                 = "end",   # "inival", # "V-1p15"
               printText = true, saveFig = false,
-              parameter_file = scriptsdir("params_single_junction.jl"),
+              parameter_set = ParamsSingleJunction,
               enableIons = true
               )
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; paramsname, regionPero, regionETL1, regionHTL, Nn, Np, zn, zp, iphin, iphip, ipsi, Fcc, En, Ep, T ) = parameter_set()
+
+    (; q, k_B ) = ChargeTransport.constants
+
+    @local_unitfactors nm
 
     if enableIons
         textIons = ""
@@ -209,15 +214,15 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
 
     ###########################################
 
-    nn1     = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subg1).-view(sol1[ipsi, :], subg1)) .+ En[regionPero])./(kB*T))
-    nn2     = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subg2).-view(sol2[ipsi, :], subg2)) .+ En[regionPero])./(kB*T))
-    nn3     = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol3[iphin, :], subg3).-view(sol3[ipsi, :], subg3)) .+ En[regionPero])./(kB*T))
-    nn4     = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subg4).-view(sol4[ipsi, :], subg4)) .+ En[regionPero])./(kB*T))
+    nn1     = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subg1).-view(sol1[ipsi, :], subg1)) .+ En[regionPero])./(k_B*T))
+    nn2     = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subg2).-view(sol2[ipsi, :], subg2)) .+ En[regionPero])./(k_B*T))
+    nn3     = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol3[iphin, :], subg3).-view(sol3[ipsi, :], subg3)) .+ En[regionPero])./(k_B*T))
+    nn4     = Nn[regionPero] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subg4).-view(sol4[ipsi, :], subg4)) .+ En[regionPero])./(k_B*T))
 
-    np1     = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subg1).-view(sol1[ipsi, :], subg1)) .+ Ep[regionPero])./(kB*T))
-    np2     = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subg2).-view(sol2[ipsi, :], subg2)) .+ Ep[regionPero])./(kB*T))
-    np3     = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol3[iphip, :], subg3).-view(sol3[ipsi, :], subg3)) .+ Ep[regionPero])./(kB*T))
-    np4     = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subg4).-view(sol4[ipsi, :], subg4)) .+ Ep[regionPero])./(kB*T))
+    np1     = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subg1).-view(sol1[ipsi, :], subg1)) .+ Ep[regionPero])./(k_B*T))
+    np2     = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subg2).-view(sol2[ipsi, :], subg2)) .+ Ep[regionPero])./(k_B*T))
+    np3     = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol3[iphip, :], subg3).-view(sol3[ipsi, :], subg3)) .+ Ep[regionPero])./(k_B*T))
+    np4     = Np[regionPero] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subg4).-view(sol4[ipsi, :], subg4)) .+ Ep[regionPero])./(k_B*T))
 
     ######
     nn1itp  = matplotlib.tri.LinearTriInterpolator(triang1, nn1)
@@ -231,15 +236,15 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
     np4itp  = matplotlib.tri.LinearTriInterpolator(triang4, np4)
 
     ##########################################
-    nnn1    = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subgn1).-view(sol1[ipsi, :], subgn1)) .+ En[regionETL1])./(kB*T))
-    nnn2    = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subgn2).-view(sol2[ipsi, :], subgn2)) .+ En[regionETL1])./(kB*T))
-    nnn3    = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol3[iphin, :], subgn3).-view(sol3[ipsi, :], subgn3)) .+ En[regionETL1])./(kB*T))
-    nnn4    = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subgn4).-view(sol4[ipsi, :], subgn4)) .+ En[regionETL1])./(kB*T))
+    nnn1    = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subgn1).-view(sol1[ipsi, :], subgn1)) .+ En[regionETL1])./(k_B*T))
+    nnn2    = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subgn2).-view(sol2[ipsi, :], subgn2)) .+ En[regionETL1])./(k_B*T))
+    nnn3    = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol3[iphin, :], subgn3).-view(sol3[ipsi, :], subgn3)) .+ En[regionETL1])./(k_B*T))
+    nnn4    = Nn[regionETL1] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subgn4).-view(sol4[ipsi, :], subgn4)) .+ En[regionETL1])./(k_B*T))
 
-    npn1    = Np[regionETL1] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subgn1).-view(sol1[ipsi, :], subgn1)) .+ Ep[regionETL1])./(kB*T))
-    npn2    = Np[regionETL1] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subgn2).-view(sol2[ipsi, :], subgn2)) .+ Ep[regionETL1])./(kB*T))
-    npn3    = Np[regionETL1] .* Fcc[iphip].(zp*( q*(view(sol3[iphip, :], subgn3).-view(sol3[ipsi, :], subgn3)) .+ Ep[regionETL1])./(kB*T))
-    npn4    = Np[regionETL1] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subgn4).-view(sol4[ipsi, :], subgn4)) .+ Ep[regionETL1])./(kB*T))
+    npn1    = Np[regionETL1] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subgn1).-view(sol1[ipsi, :], subgn1)) .+ Ep[regionETL1])./(k_B*T))
+    npn2    = Np[regionETL1] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subgn2).-view(sol2[ipsi, :], subgn2)) .+ Ep[regionETL1])./(k_B*T))
+    npn3    = Np[regionETL1] .* Fcc[iphip].(zp*( q*(view(sol3[iphip, :], subgn3).-view(sol3[ipsi, :], subgn3)) .+ Ep[regionETL1])./(k_B*T))
+    npn4    = Np[regionETL1] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subgn4).-view(sol4[ipsi, :], subgn4)) .+ Ep[regionETL1])./(k_B*T))
 
     ######
     nnn1itp = matplotlib.tri.LinearTriInterpolator(triangn1, nnn1)
@@ -254,15 +259,15 @@ function main(;scanrate         = 1000.0,  # "10p0" # "0p001"
 
     ##########################################
 
-    nnp1    = Nn[regionHTL] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subgp1).-view(sol1[ipsi, :], subgp1)) .+ En[regionHTL])./(kB*T))
-    nnp2    = Nn[regionHTL] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subgp2).-view(sol2[ipsi, :], subgp2)) .+ En[regionHTL])./(kB*T))
-    nnp3    = Nn[regionHTL] .* Fcc[iphin].(zn*( q*(view(sol3[iphin, :], subgp3).-view(sol3[ipsi, :], subgp3)) .+ En[regionHTL])./(kB*T))
-    nnp4    = Nn[regionHTL] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subgp4).-view(sol4[ipsi, :], subgp4)) .+ En[regionHTL])./(kB*T))
+    nnp1    = Nn[regionHTL] .* Fcc[iphin].(zn*( q*(view(sol1[iphin, :], subgp1).-view(sol1[ipsi, :], subgp1)) .+ En[regionHTL])./(k_B*T))
+    nnp2    = Nn[regionHTL] .* Fcc[iphin].(zn*( q*(view(sol2[iphin, :], subgp2).-view(sol2[ipsi, :], subgp2)) .+ En[regionHTL])./(k_B*T))
+    nnp3    = Nn[regionHTL] .* Fcc[iphin].(zn*( q*(view(sol3[iphin, :], subgp3).-view(sol3[ipsi, :], subgp3)) .+ En[regionHTL])./(k_B*T))
+    nnp4    = Nn[regionHTL] .* Fcc[iphin].(zn*( q*(view(sol4[iphin, :], subgp4).-view(sol4[ipsi, :], subgp4)) .+ En[regionHTL])./(k_B*T))
 
-    npp1    = Np[regionHTL] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subgp1).-view(sol1[ipsi, :], subgp1)) .+ Ep[regionHTL])./(kB*T))
-    npp2    = Np[regionHTL] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subgp2).-view(sol2[ipsi, :], subgp2)) .+ Ep[regionHTL])./(kB*T))
-    npp3    = Np[regionHTL] .* Fcc[iphip].(zp*( q*(view(sol3[iphip, :], subgp3).-view(sol3[ipsi, :], subgp3)) .+ Ep[regionHTL])./(kB*T))
-    npp4    = Np[regionHTL] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subgp4).-view(sol4[ipsi, :], subgp4)) .+ Ep[regionHTL])./(kB*T))
+    npp1    = Np[regionHTL] .* Fcc[iphip].(zp*( q*(view(sol1[iphip, :], subgp1).-view(sol1[ipsi, :], subgp1)) .+ Ep[regionHTL])./(k_B*T))
+    npp2    = Np[regionHTL] .* Fcc[iphip].(zp*( q*(view(sol2[iphip, :], subgp2).-view(sol2[ipsi, :], subgp2)) .+ Ep[regionHTL])./(k_B*T))
+    npp3    = Np[regionHTL] .* Fcc[iphip].(zp*( q*(view(sol3[iphip, :], subgp3).-view(sol3[ipsi, :], subgp3)) .+ Ep[regionHTL])./(k_B*T))
+    npp4    = Np[regionHTL] .* Fcc[iphip].(zp*( q*(view(sol4[iphip, :], subgp4).-view(sol4[ipsi, :], subgp4)) .+ Ep[regionHTL])./(k_B*T))
 
     ######
     nnp1itp = matplotlib.tri.LinearTriInterpolator(triangp1, nnp1)

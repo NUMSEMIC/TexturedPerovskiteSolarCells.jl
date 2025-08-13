@@ -1,9 +1,11 @@
 
 ## 1D grid
 
-function generate_grid1D(;parameter_file, demo_run)
+function generate_grid1D(;parameter_set, demo_run)
 
-    include(parameter_file)
+    # use the destructuring operator to extract all the necessary parameters
+    (; h_activePL, heightLayersPL, h_totalPL, h_ETL1, h_HTL, regionETL1, regionPero, regionHTL, bregionLeft,
+       bregionRight, bregionJ1, bregionJ2 ) = parameter_set()
 
     t          = 1.0e-13
     ######################
