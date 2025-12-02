@@ -30,6 +30,7 @@ function main(;
         vETL = 10,  # 2000  # in cm/s
         vHTL = 10,  # 500   # in cm/s
         V = "V-1p2", # "inival",
+        printText = true,
         saveFig = false,
         parameter_set = ParamsSingleJunction,
     )
@@ -97,9 +98,11 @@ function main(;
     np3 = Np[regionPero] .* Fcc[iphip].(zp * (q * (view(sol3[iphip, :], subg3) .- view(sol3[ipsi, :], subg3)) .+ Ep[regionPero]) ./ (k_B * T))
 
     # println(" ")
-    @show minimum(np1 ./ nn1), maximum(np1 ./ nn1)
-    @show minimum(np2 ./ nn2), maximum(np2 ./ nn2)
-    @show minimum(np3 ./ nn3), maximum(np3 ./ nn3)
+    if printText
+        @show minimum(np1 ./ nn1), maximum(np1 ./ nn1)
+        @show minimum(np2 ./ nn2), maximum(np2 ./ nn2)
+        @show minimum(np3 ./ nn3), maximum(np3 ./ nn3)
+    end
 
     #################################################################
     ## Plotting

@@ -126,6 +126,7 @@ function main(;
         vETL = 10,    # in cm/s
         vHTL = 10,    # in cm/s
         V = "inival", # # V-1p2
+        printText = true,
         saveFig = false,
         parameter_set = ParamsSingleJunction
     )
@@ -214,9 +215,11 @@ function main(;
     jPsi3 = nft3[:, ipsi, nodes3] ./ (ε_0 * εr[regionPero]); jPsi3Abs = norm.(eachcol(jPsi3))
 
     # println("  ")
-    @show minimum(jPsi1Abs), maximum(jPsi1Abs)
-    @show minimum(jPsi2Abs), maximum(jPsi2Abs)
-    @show minimum(jPsi3Abs), maximum(jPsi3Abs)
+    if printText
+        @show minimum(jPsi1Abs), maximum(jPsi1Abs)
+        @show minimum(jPsi2Abs), maximum(jPsi2Abs)
+        @show minimum(jPsi3Abs), maximum(jPsi3Abs)
+    end
 
     #################################################################
 

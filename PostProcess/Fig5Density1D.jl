@@ -25,6 +25,7 @@ function main(;
         vETL = 10,  # in cm/s
         vHTL = 10,  # in cm/s
         V = "V-1p2", # "inival"
+        printText = false,
         saveFig = false,
         parameter_set = ParamsSingleJunction,
     )
@@ -193,11 +194,6 @@ function main(;
     XVal = 187.0; nodes = 600
     XX = XVal .* ones(nodes)
     YY = collect(range(0.0, 450.0, length = nodes))
-
-    LS = "--"
-
-    ######################################################################################################
-    ######################################################################################################
 
     #########################################################
     ###### varying texture height -- density
