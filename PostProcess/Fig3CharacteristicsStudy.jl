@@ -15,472 +15,596 @@ using TexturedPerovskiteSolarCells
 datadir = TexturedPerovskiteSolarCells.datadir
 scriptsdir = TexturedPerovskiteSolarCells.scriptsdir
 
-function main(;printText = true, saveFig = false,
-            scanrate =  "1000p0", # "0p001", #  "10p0", # "1000p0", #
-            generation = "Maxwell", # "uniform"
-            parameter_set = ParamsSingleJunction,
-            enableIons = true,
-            )
+function main(;
+        printText = true, saveFig = false,
+        parameter_set = ParamsSingleJunction,
+    )
 
+    PyPlot.rc("font", family = "sans-serif", size = 16)
+    PyPlot.rc("mathtext", fontset = "dejavusans")
+    PyPlot.close("all")
+
+    figsizeIV = (6.2, 5.7)
+    figsize = (5.2, 6)
+    fontsize = 25
     # use the destructuring operator to extract all the necessary parameters
-    (; paramsname, heightDev ) = parameter_set()
+    (; heightDev) = parameter_set()
 
     @local_unitfactors W m nm cm
 
-    if enableIons
-        textIons = ""
-    else
-        textIons = "-enableIons-false"
-    end
+    Textampl = [
+        "5p0e-8", "1p0e-7", "1p5e-7", "2p0e-7", "2p5e-7", "3p0e-7", "3p5e-7", "4p0e-7",
+        "4p5e-7", "5p0e-7", "5p5e-7", "6p0e-7", "6p5e-7", "7p0e-7", "7p5e-7",
+    ]
+    ##################################################################
 
-    PyPlot.rc("font", family="sans-serif", size=14)
-    PyPlot.rc("mathtext", fontset="dejavusans")
-    PyPlot.close("all")
-
-    path = "parameter-$paramsname/$scanrate"
-
-    JSCVec = zeros(0); FFVec         = zeros(0)
-    VOCVec = zeros(0); EfficiencyVec = zeros(0)
-    JMP    = zeros(0); VMP           = zeros(0)
-
-    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-all$(textIons).dat"))
-
-    IV                = -IVPL[:, 2]
-    bias              =  IVPL[:, 1]
-
-    powerDensity      = bias .* (IV)           # power density function
-    MaxPD, indexPD    = findmax(powerDensity)
-
-    open_circuit      = compute_open_circuit_voltage(bias, IV)
-
-    IncLightPowerDens = 1000.0 * W/m^2
-
-    fillfactor        = 100 * (bias[indexPD] * IV[indexPD]) / (IV[1] * open_circuit)
-
-    JSC               = IV[1] ./heightDev.*(0.01)^(2).*1.0e3
-
-    efficiency        = 100 * bias[indexPD] * (IV[indexPD]./heightDev) / (IncLightPowerDens)
-
-    push!(JSCVec, JSC);          push!(FFVec, fillfactor)
-    push!(VOCVec, open_circuit); push!(EfficiencyVec, efficiency)
-    push!(JMP, IV[indexPD]./heightDev.*(0.01)^(2).*1.0e3); push!(VMP, bias[indexPD])
-
-    #############################################################################################
-
-    Textampl = ["5p0e-8", "1p0e-7", "1p5e-7", "2p0e-7", "2p5e-7", "3p0e-7", "3p5e-7", "4p0e-7",
-                "4p5e-7", "5p0e-7", "5p5e-7", "6p0e-7", "6p5e-7", "7p0e-7", "7p5e-7"]
+    vETL = 2000
+    vHTL = 500
 
     if printText
-        println("Calculate for realistic cell")
-    end
-    for textampl in Textampl
-        if printText
-            println("Texture height = ", textampl, " m")
-        end
-
-        IVNT = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-all$(textIons).dat"))
-
-        IV                = -IVNT[:, 2]
-        bias              =  IVNT[:, 1]
-
-        powerDensity      = bias .* (IV)           # power density function
-        MaxPD, indexPD    = findmax(powerDensity)
-
-        open_circuit      = compute_open_circuit_voltage(bias, IV)
-
-        IncLightPowerDens = 1000.0 * W/m^2
-
-        fillfactor        = 100 * (bias[indexPD] * IV[indexPD]) / (IV[1] * open_circuit)
-
-        JSC               = IV[1] ./heightDev.*(0.01)^(2).*1.0e3
-
-        efficiency        = 100 * bias[indexPD] * (IV[indexPD]./heightDev) / (IncLightPowerDens)
-
-        push!(JSCVec, JSC);          push!(FFVec, fillfactor)
-        push!(VOCVec, open_circuit); push!(EfficiencyVec, efficiency)
-        push!(JMP, IV[indexPD]./heightDev.*(0.01)^(2).*1.0e3);     push!(VMP, bias[indexPD])
+        println("Calculate for realistic cell (vETL = $(vETL), vHTL = $(vHTL))")
     end
 
-    ################################################################
-    JSCVecRad = zeros(0); FFVecRad         = zeros(0)
-    VOCVecRad = zeros(0); EfficiencyVecRad = zeros(0)
-    JMPRad    = zeros(0); VMPRad           = zeros(0)
+    path = "vETL=$(vETL)vHTL=$(vHTL)/"
 
-    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-radiative$(textIons).dat"))
+    ####################################################################################################
+    ampl2 = collect(0.5:0.5:7.5) .* 1.0e-7; ampl = vcat(0.0, ampl2)
 
-    IV                = -IVPL[:, 2]
-    bias              =  IVPL[:, 1]
+    textampl1 = "3p0e-7"
+    textampl2 = "6p0e-7"
 
-    powerDensity      = bias .* (IV)           # power density function
-    MaxPD, indexPD    = findmax(powerDensity)
+    Greys = get_cmap(:Greys)
+    Greens = get_cmap(:Greens)
 
-    open_circuit      = compute_open_circuit_voltage(bias, IV)
+    figure(figsize = figsizeIV)
+    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-Maxwell-reco-all.dat"))
+    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-Maxwell-reco-all.dat"))
+    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-Maxwell-reco-all.dat"))
 
-    IncLightPowerDens = 1000.0 * W/m^2
+    PyPlot.plot(IVPL[:, 1], -IVPL[:, 2] .* (cm^2) .* 1.0e3 ./ heightDev, linewidth = 5, color = Greys(251), label = "planar")
+    PyPlot.plot(IVNT1[:, 1], -IVNT1[:, 2] .* (cm^2) .* 1.0e3 ./ heightDev, linewidth = 5, color = Greys(201), label = "textured (300 nm)")
+    PyPlot.plot(IVNT2[:, 1], -IVNT2[:, 2] .* (cm^2) .* 1.0e3 ./ heightDev, linewidth = 5, color = Greys(131), label = "textured (600 nm)")
 
-    fillfactor        = 100 * (bias[indexPD] * IV[indexPD]) / (IV[1] * open_circuit)
+    PyPlot.xlim(0.1, 1.27)
+    PyPlot.xticks([0.0, 0.4, 0.8, 1.2])
+    PyPlot.ylim(-1, 23)
+    yticks([0, 5, 10, 15, 20])
+    PyPlot.legend(fontsize = 12)
+    PyPlot.xlabel("Appl. voltage [V]", fontsize = fontsize)
+    PyPlot.ylabel("\$ J \$ [mA cm\$^{-2} \$]", fontsize = fontsize)
+    PyPlot.tick_params(which = "both", labelsize = fontsize)
+    subplots_adjust(left = 0.17, right = 0.97, top = 0.97, bottom = 0.15)
 
-    JSC               = IV[1] ./heightDev.*(0.01)^(2).*1.0e3
-
-    efficiency        = 100 * bias[indexPD] * (IV[indexPD]./heightDev) / (IncLightPowerDens)
-
-    push!(JSCVecRad, JSC);          push!(FFVecRad, fillfactor)
-    push!(VOCVecRad, open_circuit); push!(EfficiencyVecRad, efficiency)
-    push!(JMPRad, IV[indexPD]./heightDev.*(0.01)^(2).*1.0e3); push!(VMPRad, bias[indexPD])
-
-
-    if printText
-        println(" ")
-        println("Calculate for ideal cell")
+    if saveFig
+        savefig(datadir("IV-planar-nanotexture-generation-Maxwell-vETL=$(vETL)vHTL=$(vHTL).pdf"))
     end
+
+    ####################################################################################################
+
+    JSCVec1 = zeros(0); FFVec1 = zeros(0)
+    VOCVec1 = zeros(0); EfficiencyVec1 = zeros(0)
+    JMP1 = zeros(0); VMP1 = zeros(0)
+
+    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-Maxwell-reco-all.dat"))
+
+    IV = -IVPL[:, 2]
+    bias = IVPL[:, 1]
+
+    powerDensity = bias .* (IV)           # power density function
+    MaxPD, indexPD = findmax(powerDensity)
+
+    open_circuit = compute_open_circuit_voltage(bias, IV)
+    IncLightPowerDens = 1000.0 * W / m^2
+    fillfactor = 100 * (bias[indexPD] * IV[indexPD]) / (IV[1] * open_circuit)
+    JSC = IV[1] ./ heightDev .* (0.01)^(2) .* 1.0e3
+    efficiency = 100 * bias[indexPD] * (IV[indexPD] ./ heightDev) / (IncLightPowerDens)
+
+    push!(JSCVec1, JSC)
+    push!(FFVec1, fillfactor)
+    push!(VOCVec1, open_circuit)
+    push!(EfficiencyVec1, efficiency)
+    push!(JMP1, IV[indexPD] ./ heightDev .* (0.01)^(2) .* 1.0e3)
+    push!(VMP1, bias[indexPD])
+
+    ##############
 
     for textampl in Textampl
         if printText
             println("Texture height = ", textampl, " m")
         end
 
-        IVNT = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-$generation-reco-radiative$(textIons).dat"))
+        IVNT = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-Maxwell-reco-all.dat"))
 
-        IV                = -IVNT[:, 2]
-        bias              =  IVNT[:, 1]
+        IV = -IVNT[:, 2]
+        bias = IVNT[:, 1]
 
-        powerDensity      = bias .* (IV)           # power density function
-        MaxPD, indexPD    = findmax(powerDensity)
+        powerDensity = bias .* (IV)           # power density function
+        MaxPD, indexPD = findmax(powerDensity)
 
-        open_circuit      = compute_open_circuit_voltage(bias, IV)
+        open_circuit = compute_open_circuit_voltage(bias, IV)
+        fillfactor = 100 * (bias[indexPD] * IV[indexPD]) / (IV[1] * open_circuit)
+        JSC = IV[1] ./ heightDev .* (0.01)^(2) .* 1.0e3
+        efficiency = 100 * bias[indexPD] * (IV[indexPD] ./ heightDev) / (IncLightPowerDens)
 
-        IncLightPowerDens = 1000.0 * W/m^2
-
-        fillfactor        = 100 * (bias[indexPD] * IV[indexPD]) / (IV[1] * open_circuit)
-
-        JSC               = IV[1] ./heightDev.*(0.01)^(2).*1.0e3
-
-        efficiency        = 100 * bias[indexPD] * (IV[indexPD]./heightDev) / (IncLightPowerDens)
-
-        push!(JSCVecRad, JSC);          push!(FFVecRad, fillfactor)
-        push!(VOCVecRad, open_circuit); push!(EfficiencyVecRad, efficiency)
-        push!(JMPRad, IV[indexPD]./heightDev.*(0.01)^(2).*1.0e3);  push!(VMPRad, bias[indexPD])
+        push!(JSCVec1, JSC)
+        push!(FFVec1, fillfactor)
+        push!(VOCVec1, open_circuit)
+        push!(EfficiencyVec1, efficiency)
+        push!(JMP1, IV[indexPD] ./ heightDev .* (0.01)^(2) .* 1.0e3)
+        push!(VMP1, bias[indexPD])
     end
 
-    ampl2    = collect(0.5:0.5:7.5) .* 1.0e-7; ampl = vcat(0.0, ampl2)
-    MKsize  = 12
-    ColBlue = [168/255, 168/255, 168/255]
-    ColGold = [172/255, 235/255, 180/255]
+    ##################################################################
+    vETL = 2000
+    vHTL = 10
+
+    if printText
+        println("Calculate for realistic cell (vETL = $(vETL), vHTL = $(vHTL))")
+    end
+
+    path = "vETL=$(vETL)vHTL=$(vHTL)/"
+
+    ####################################################################################################
+
+    Oranges = get_cmap(:Oranges)
+
+    figure(figsize = figsizeIV)
+    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-Maxwell-reco-all.dat"))
+    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-Maxwell-reco-all.dat"))
+    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-Maxwell-reco-all.dat"))
+
+    PyPlot.plot(IVPL[:, 1], -IVPL[:, 2] .* (cm^2) .* 1.0e3 ./ heightDev, linewidth = 5, color = Oranges(251), label = "planar")
+    PyPlot.plot(IVNT1[:, 1], -IVNT1[:, 2] .* (cm^2) .* 1.0e3 ./ heightDev, linewidth = 5, color = Oranges(201), label = "textured (300 nm)")
+    PyPlot.plot(IVNT2[:, 1], -IVNT2[:, 2] .* (cm^2) .* 1.0e3 ./ heightDev, linewidth = 5, color = Oranges(131), label = "textured (600 nm)")
+
+    PyPlot.xlim(0.1, 1.27)
+    PyPlot.xticks([0.0, 0.4, 0.8, 1.2])
+    PyPlot.ylim(-1, 23)
+    yticks([0, 5, 10, 15, 20])
+    PyPlot.legend(fontsize = 12)
+    PyPlot.xlabel("Appl. voltage [V]", fontsize = fontsize)
+    PyPlot.ylabel("\$ J \$ [mA cm\$^{-2} \$]", fontsize = fontsize)
+    PyPlot.tick_params(which = "both", labelsize = fontsize)
+    subplots_adjust(left = 0.17, right = 0.97, top = 0.97, bottom = 0.15)
+
+    if saveFig
+        savefig(datadir("IV-planar-nanotexture-generation-Maxwell-vETL=$(vETL)vHTL=$(vHTL).pdf"))
+    end
+
+    ####################################################################################################
+
+    JSCVec2 = zeros(0); FFVec2 = zeros(0)
+    VOCVec2 = zeros(0); EfficiencyVec2 = zeros(0)
+    JMP2 = zeros(0); VMP2 = zeros(0)
+
+    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-Maxwell-reco-all.dat"))
+
+    IV = -IVPL[:, 2]
+    bias = IVPL[:, 1]
+
+    powerDensity = bias .* (IV)           # power density function
+    MaxPD, indexPD = findmax(powerDensity)
+
+    open_circuit = compute_open_circuit_voltage(bias, IV)
+    IncLightPowerDens = 1000.0 * W / m^2
+    fillfactor = 100 * (bias[indexPD] * IV[indexPD]) / (IV[1] * open_circuit)
+    JSC = IV[1] ./ heightDev .* (0.01)^(2) .* 1.0e3
+    efficiency = 100 * bias[indexPD] * (IV[indexPD] ./ heightDev) / (IncLightPowerDens)
+
+    push!(JSCVec2, JSC)
+    push!(FFVec2, fillfactor)
+    push!(VOCVec2, open_circuit)
+    push!(EfficiencyVec2, efficiency)
+    push!(JMP2, IV[indexPD] ./ heightDev .* (0.01)^(2) .* 1.0e3)
+    push!(VMP2, bias[indexPD])
+
+    ##############
+    for textampl in Textampl
+        if printText
+            println("Texture height = ", textampl, " m")
+        end
+
+        IVNT = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-Maxwell-reco-all.dat"))
+
+        IV = -IVNT[:, 2]
+        bias = IVNT[:, 1]
+
+        powerDensity = bias .* (IV)           # power density function
+        MaxPD, indexPD = findmax(powerDensity)
+
+        open_circuit = compute_open_circuit_voltage(bias, IV)
+        fillfactor = 100 * (bias[indexPD] * IV[indexPD]) / (IV[1] * open_circuit)
+        JSC = IV[1] ./ heightDev .* (0.01)^(2) .* 1.0e3
+        efficiency = 100 * bias[indexPD] * (IV[indexPD] ./ heightDev) / (IncLightPowerDens)
+
+        push!(JSCVec2, JSC)
+        push!(FFVec2, fillfactor)
+        push!(VOCVec2, open_circuit)
+        push!(EfficiencyVec2, efficiency)
+        push!(JMP2, IV[indexPD] ./ heightDev .* (0.01)^(2) .* 1.0e3)
+        push!(VMP2, bias[indexPD])
+    end
+
+    ##################################################################
+    vETL = 10
+    vHTL = 500
+
+    if printText
+        println("Calculate for realistic cell (vETL = $(vETL), vHTL = $(vHTL))")
+    end
+
+    path = "vETL=$(vETL)vHTL=$(vHTL)/"
+
+    ####################################################################################################
+
+    Greens = get_cmap(:Greens)
+
+    figure(figsize = figsizeIV)
+    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-Maxwell-reco-all.dat"))
+    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-Maxwell-reco-all.dat"))
+    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-Maxwell-reco-all.dat"))
+
+    PyPlot.plot(IVPL[:, 1], -IVPL[:, 2] .* (cm^2) .* 1.0e3 ./ heightDev, linewidth = 5, color = Greens(251), label = "planar")
+    PyPlot.plot(IVNT1[:, 1], -IVNT1[:, 2] .* (cm^2) .* 1.0e3 ./ heightDev, linewidth = 5, color = Greens(201), label = "textured (300 nm)")
+    PyPlot.plot(IVNT2[:, 1], -IVNT2[:, 2] .* (cm^2) .* 1.0e3 ./ heightDev, linewidth = 5, color = Greens(131), label = "textured (600 nm)")
+
+    PyPlot.xlim(0.1, 1.27)
+    PyPlot.xticks([0.0, 0.4, 0.8, 1.2])
+    PyPlot.ylim(-1, 23)
+    yticks([0, 5, 10, 15, 20])
+    PyPlot.legend(fontsize = 12)
+    PyPlot.xlabel("Appl. voltage [V]", fontsize = fontsize)
+    PyPlot.ylabel("\$ J \$ [mA cm\$^{-2} \$]", fontsize = fontsize)
+    PyPlot.tick_params(which = "both", labelsize = fontsize)
+    subplots_adjust(left = 0.17, right = 0.97, top = 0.97, bottom = 0.15)
+
+    if saveFig
+        savefig(datadir("IV-planar-nanotexture-generation-Maxwell-vETL=$(vETL)vHTL=$(vHTL).pdf"))
+    end
+
+    ####################################################################################################
+
+    JSCVec3 = zeros(0); FFVec3 = zeros(0)
+    VOCVec3 = zeros(0); EfficiencyVec3 = zeros(0)
+    JMP3 = zeros(0); VMP3 = zeros(0)
+
+    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-Maxwell-reco-all.dat"))
+
+    IV = -IVPL[:, 2]
+    bias = IVPL[:, 1]
+
+    powerDensity = bias .* (IV)           # power density function
+    MaxPD, indexPD = findmax(powerDensity)
+
+    open_circuit = compute_open_circuit_voltage(bias, IV)
+    IncLightPowerDens = 1000.0 * W / m^2
+    fillfactor = 100 * (bias[indexPD] * IV[indexPD]) / (IV[1] * open_circuit)
+    JSC = IV[1] ./ heightDev .* (0.01)^(2) .* 1.0e3
+    efficiency = 100 * bias[indexPD] * (IV[indexPD] ./ heightDev) / (IncLightPowerDens)
+
+    push!(JSCVec3, JSC)
+    push!(FFVec3, fillfactor)
+    push!(VOCVec3, open_circuit)
+    push!(EfficiencyVec3, efficiency)
+    push!(JMP3, IV[indexPD] ./ heightDev .* (0.01)^(2) .* 1.0e3)
+    push!(VMP3, bias[indexPD])
+
+    ##############
+    for textampl in Textampl
+        if printText
+            println("Texture height = ", textampl, " m")
+        end
+
+        IVNT = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-Maxwell-reco-all.dat"))
+
+        IV = -IVNT[:, 2]
+        bias = IVNT[:, 1]
+
+        powerDensity = bias .* (IV)           # power density function
+        MaxPD, indexPD = findmax(powerDensity)
+
+        open_circuit = compute_open_circuit_voltage(bias, IV)
+        fillfactor = 100 * (bias[indexPD] * IV[indexPD]) / (IV[1] * open_circuit)
+        JSC = IV[1] ./ heightDev .* (0.01)^(2) .* 1.0e3
+        efficiency = 100 * bias[indexPD] * (IV[indexPD] ./ heightDev) / (IncLightPowerDens)
+
+        push!(JSCVec3, JSC)
+        push!(FFVec3, fillfactor)
+        push!(VOCVec3, open_circuit)
+        push!(EfficiencyVec3, efficiency)
+        push!(JMP3, IV[indexPD] ./ heightDev .* (0.01)^(2) .* 1.0e3)
+        push!(VMP3, bias[indexPD])
+    end
+
+    ##################################################################
+    vETL = 10
+    vHTL = 10
+
+    if printText
+        println("Calculate for realistic cell (vETL = $(vETL), vHTL = $(vHTL))")
+    end
+
+    path = "vETL=$(vETL)vHTL=$(vHTL)/"
+
+    ####################################################################################################
+
+    Blues = get_cmap(:Blues)
+
+    figure(figsize = figsizeIV)
+    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-Maxwell-reco-all.dat"))
+    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-Maxwell-reco-all.dat"))
+    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-Maxwell-reco-all.dat"))
+
+    PyPlot.plot(IVPL[:, 1], -IVPL[:, 2] .* (cm^2) .* 1.0e3 ./ heightDev, linewidth = 5, color = Blues(251), label = "planar")
+    PyPlot.plot(IVNT1[:, 1], -IVNT1[:, 2] .* (cm^2) .* 1.0e3 ./ heightDev, linewidth = 5, color = Blues(201), label = "textured (300 nm)")
+    PyPlot.plot(IVNT2[:, 1], -IVNT2[:, 2] .* (cm^2) .* 1.0e3 ./ heightDev, linewidth = 5, color = Blues(131), label = "textured (600 nm)")
+
+    PyPlot.xlim(0.1, 1.27)
+    PyPlot.xticks([0.0, 0.4, 0.8, 1.2])
+    PyPlot.ylim(-1, 23)
+    yticks([0, 5, 10, 15, 20])
+    PyPlot.legend(fontsize = 12)
+    PyPlot.xlabel("Appl. voltage [V]", fontsize = fontsize)
+    PyPlot.ylabel("\$ J \$ [mA cm\$^{-2} \$]", fontsize = fontsize)
+    PyPlot.tick_params(which = "both", labelsize = fontsize)
+    subplots_adjust(left = 0.17, right = 0.97, top = 0.97, bottom = 0.15)
+
+    if saveFig
+        savefig(datadir("IV-planar-nanotexture-generation-Maxwell-vETL=$(vETL)vHTL=$(vHTL).pdf"))
+    end
+
+    ####################################################################################################
+
+    JSCVec4 = zeros(0); FFVec4 = zeros(0)
+    VOCVec4 = zeros(0); EfficiencyVec4 = zeros(0)
+    JMP4 = zeros(0); VMP4 = zeros(0)
+
+    IVPL = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-Maxwell-reco-all.dat"))
+
+    IV = -IVPL[:, 2]
+    bias = IVPL[:, 1]
+
+    powerDensity = bias .* (IV)           # power density function
+    MaxPD, indexPD = findmax(powerDensity)
+
+    open_circuit = compute_open_circuit_voltage(bias, IV)
+    IncLightPowerDens = 1000.0 * W / m^2
+    fillfactor = 100 * (bias[indexPD] * IV[indexPD]) / (IV[1] * open_circuit)
+    JSC = IV[1] ./ heightDev .* (0.01)^(2) .* 1.0e3
+    efficiency = 100 * bias[indexPD] * (IV[indexPD] ./ heightDev) / (IncLightPowerDens)
+
+    push!(JSCVec4, JSC)
+    push!(FFVec4, fillfactor)
+    push!(VOCVec4, open_circuit)
+    push!(EfficiencyVec4, efficiency)
+    push!(JMP4, IV[indexPD] ./ heightDev .* (0.01)^(2) .* 1.0e3)
+    push!(VMP4, bias[indexPD])
+
+    ##############
+    for textampl in Textampl
+        if printText
+            println("Texture height = ", textampl, " m")
+        end
+
+        IVNT = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl-generation-Maxwell-reco-all.dat"))
+
+        IV = -IVNT[:, 2]
+        bias = IVNT[:, 1]
+
+        powerDensity = bias .* (IV)           # power density function
+        MaxPD, indexPD = findmax(powerDensity)
+
+        open_circuit = compute_open_circuit_voltage(bias, IV)
+        fillfactor = 100 * (bias[indexPD] * IV[indexPD]) / (IV[1] * open_circuit)
+        JSC = IV[1] ./ heightDev .* (0.01)^(2) .* 1.0e3
+        efficiency = 100 * bias[indexPD] * (IV[indexPD] ./ heightDev) / (IncLightPowerDens)
+
+        push!(JSCVec4, JSC)
+        push!(FFVec4, fillfactor)
+        push!(VOCVec4, open_circuit)
+        push!(EfficiencyVec4, efficiency)
+        push!(JMP4, IV[indexPD] ./ heightDev .* (0.01)^(2) .* 1.0e3)
+        push!(VMP4, bias[indexPD])
+    end
 
     ##################################################################
     ##################################################################
     ## efficiency plot
     ##################################################################
 
-    PyPlot.plot(ampl./nm, EfficiencyVecRad, "o", markersize = MKsize, color = ColBlue, label = "ideal")
-    PyPlot.plot(ampl./nm, EfficiencyVec,    "o", markersize = MKsize, color = ColGold, label = "realistic")
+    ampl2 = collect(0.5:0.5:7.5) .* 1.0e-7; ampl = vcat(0.0, ampl2)
+    MKsize = 12
+    ColBlue = [168 / 255, 168 / 255, 168 / 255]
+    ColGold = [172 / 255, 235 / 255, 180 / 255]
+
+    figure(figsize = figsize)
+    PyPlot.plot(ampl ./ nm, EfficiencyVec1, "o", markersize = MKsize, color = ColBlue, label = "ETL = 2000, HTL = 500")
+    PyPlot.plot(ampl ./ nm, EfficiencyVec2, "o", markersize = MKsize, color = Oranges(121), label = "HTL = 10")
+    PyPlot.plot(ampl ./ nm, EfficiencyVec3, "o", markersize = MKsize, color = ColGold, label = "ETL = 10")
+    PyPlot.plot(ampl ./ nm, EfficiencyVec4, "o", markersize = MKsize, color = "dodgerblue", label = "HTL = ETL = 10")
 
     PyPlot.xticks([0, 300, 600])
     PyPlot.xlim(-20.0, 770)
-    PyPlot.ylim(20, 29.5)
-    PyPlot.xlabel("Texture height [nm]", fontsize=18)
-    PyPlot.ylabel("PCE [%]", fontsize=18)
-    PyPlot.tick_params(which ="both", labelsize=18)
-    PyPlot.legend(fontsize = 18)
-    PyPlot.tight_layout()
+    PyPlot.ylim(12.5, 23.5)
+    PyPlot.yticks([15, 17.5, 20, 22.5])
+    PyPlot.xlabel("Texture height [nm]", fontsize = fontsize)
+    PyPlot.ylabel("PCE [%]", fontsize = fontsize)
+    PyPlot.tick_params(which = "both", labelsize = fontsize)
+    PyPlot.legend(fontsize = 12)
+    subplots_adjust(left = 0.27, right = 0.97, top = 0.97, bottom = 0.15)
 
-    Max1Rad = maximum(EfficiencyVecRad); Max2Rad = argmax(EfficiencyVecRad)
-    Max1    = maximum(EfficiencyVec);    Max2    = argmax(EfficiencyVec)
+    Max1 = maximum(EfficiencyVec1); ArgMax1 = argmax(EfficiencyVec1)
+    Max2 = maximum(EfficiencyVec2); ArgMax2 = argmax(EfficiencyVec2)
+    Max3 = maximum(EfficiencyVec3); ArgMax3 = argmax(EfficiencyVec3)
+    Max4 = maximum(EfficiencyVec4); ArgMax4 = argmax(EfficiencyVec4)
 
     if printText
         println(".................................................")
         println(" ")
-        println("Planar (realistic): PCE is $(EfficiencyVec[1]) %.")
-        println("Planar (ideal):     PCE is $(EfficiencyVecRad[1]) %.")
-
+        println("Planar (standard):       PCE is $(round(EfficiencyVec1[1], digits = 3)) %.")
+        println("Planar (HTL = 10):       PCE is $(round(EfficiencyVec2[1], digits = 3)) %.")
+        println("Planar (ETL = 10):       PCE is $(round(EfficiencyVec3[1], digits = 3)) %.")
+        println("Planar (HTL = ETL = 10): PCE is $(round(EfficiencyVec4[1], digits = 3)) %.")
         println(" ")
-
-        println("Realistic: Maximum PCE is $(Max1) %, reached at $(ampl[Max2]./nm) nm.")
-        println("Ideal:     Maximum PCE is $(Max1Rad) %, reached at $(ampl[Max2Rad]./nm) nm.")
+        println("Realistic (standard):       Maximum PCE is $(round(Max1, digits = 3)) %, reached at $(round(ampl[ArgMax1] ./ nm, digits = 1)) nm.")
+        println("Realistic (HTL = 10):       Maximum PCE is $(round(Max2, digits = 3)) %, reached at $(round(ampl[ArgMax2] ./ nm, digits = 1)) nm.")
+        println("Realistic (ETL = 10):       Maximum PCE is $(round(Max3, digits = 3)) %, reached at $(round(ampl[ArgMax3] ./ nm, digits = 1)) nm.")
+        println("Realistic (HTL = ETL = 10): Maximum PCE is $(round(Max4, digits = 3)) %, reached at $(round(ampl[ArgMax4] ./ nm, digits = 1)) nm.")
     end
 
     if saveFig
-        savefig(datadir("ampl-efficiency-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
+        savefig(datadir("ampl-efficiency-generation-Maxwell.pdf"))
     end
-    #####################
-
-    EffDiff = zeros(0); EffDiffRad = zeros(0)
-
-    for ii = 2:length(EfficiencyVec)
-        Effdiff    = EfficiencyVec[ii]    - EfficiencyVec[1]
-        EffdiffRad = EfficiencyVecRad[ii] - EfficiencyVecRad[1]
-
-        push!(EffDiff, Effdiff); push!(EffDiffRad, EffdiffRad)
-    end
-
-    figure()
-    PyPlot.plot(ampl[2:end]./nm, EffDiffRad, "o", markersize = MKsize, color = ColBlue, label = "ideal")
-    PyPlot.plot(ampl[2:end]./nm, EffDiff,    "o", markersize = MKsize, color = ColGold, label = "realistic")
-
-    PyPlot.xticks([0, 300, 600])
-    PyPlot.xlim(-20.0, 770)
-    PyPlot.xlabel("Texture height [nm]", fontsize=18)
-    PyPlot.ylabel("\$ \\eta_{\\mathrm{OC, NT}} - \\eta_{\\mathrm{OC, PL}} \$ [%]", fontsize=18)
-    PyPlot.tick_params(which ="both", labelsize=18)
-    PyPlot.legend(fontsize = 18)
-    PyPlot.tight_layout()
-
-    if saveFig
-        savefig(datadir("ampl-efficiency-difference-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
-    end
-
-    ampl2 = collect(0.5:0.5:7.5) .* 1.0e-7; ampl = vcat(0.0, ampl2)
-
-    col = ampl./1.0e-6
-
-    textampl1 = "3p0e-7"
-    textampl2 = "5p0e-7"
-    textampl3 = "7p0e-7"
-
-    Blues  = get_cmap(:Greys)
-    Greens = get_cmap(:Greens)
-
-    figure()
-    IVPL  = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-radiative$(textIons).dat"))
-    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-$generation-reco-radiative$(textIons).dat"))
-    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-$generation-reco-radiative$(textIons).dat"))
-    IVNT3 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl3-generation-$generation-reco-radiative$(textIons).dat"))
-
-    PyPlot.plot(IVPL[:, 1],   -IVPL[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Blues(251),  alpha = 0.8)
-    PyPlot.plot(IVNT1[:, 1], -IVNT1[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Blues(211),  alpha = 0.8)
-    PyPlot.plot(IVNT2[:, 1], -IVNT2[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Blues(161),  alpha = 0.8)
-    PyPlot.plot(IVNT3[:, 1], -IVNT3[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Blues(101),  alpha = 0.8)
-
-    IVPL  = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-all$(textIons).dat"))
-    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-$generation-reco-all$(textIons).dat"))
-    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-$generation-reco-all$(textIons).dat"))
-    IVNT3 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl3-generation-$generation-reco-all$(textIons).dat"))
-
-    PyPlot.plot(IVPL[:, 1],   -IVPL[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Greens(251), label = "planar")
-    PyPlot.plot(IVNT1[:, 1], -IVNT1[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Greens(211), label = "textured (300 nm)")
-    PyPlot.plot(IVNT2[:, 1], -IVNT2[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Greens(161), label = "textured (500 nm)")
-    PyPlot.plot(IVNT3[:, 1], -IVNT3[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Greens(101), label = "textured (700 nm)")
-
-    PyPlot.xlim(0.1, 1.40)
-    PyPlot.ylim(-2, 25)
-    yticks([0, 5, 15, 25])
-    PyPlot.legend(fontsize = 18)
-    PyPlot.xlabel("Appl. voltage [V]", fontsize=18)
-    PyPlot.ylabel("\$ J \$ [mA cm\$^{-2} \$]", fontsize=18)
-    PyPlot.tick_params(which ="both", labelsize=18)
-    PyPlot.tight_layout()
-    PyPlot.xticks([0.6, 1.0, 1.4])
-
-    if saveFig
-        savefig(datadir("IV-planar-nanotexture-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
-    end
-
-    figure()
-    IVPL  = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-radiative$(textIons).dat"))
-    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-$generation-reco-radiative$(textIons).dat"))
-    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-$generation-reco-radiative$(textIons).dat"))
-    IVNT3 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl3-generation-$generation-reco-radiative$(textIons).dat"))
-
-    PyPlot.plot(IVPL[:, 1],  -IVPL[:, 2].*(cm^2).*1.0e3./heightDev,  linewidth = 5, color = Blues(251), alpha = 0.8)
-    PyPlot.plot(IVNT1[:, 1], -IVNT1[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Blues(211), alpha = 0.8)
-    PyPlot.plot(IVNT2[:, 1], -IVNT2[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Blues(161), alpha = 0.8)
-    PyPlot.plot(IVNT3[:, 1], -IVNT3[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Blues(101), alpha = 0.8)
-
-    IVPL  = readdlm(datadir("IV", "$path/IV-2D-forw-planar-generation-$generation-reco-all$(textIons).dat"))
-    IVNT1 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl1-generation-$generation-reco-all$(textIons).dat"))
-    IVNT2 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl2-generation-$generation-reco-all$(textIons).dat"))
-    IVNT3 = readdlm(datadir("IV", "$path/IV-2D-forw-nanotextured-ampl-$textampl3-generation-$generation-reco-all$(textIons).dat"))
-
-    PyPlot.plot(IVPL[:, 1],  -IVPL[:, 2].*(cm^2).*1.0e3./heightDev,  linewidth = 5, color = Greens(251), label = "planar")
-    PyPlot.plot(IVNT1[:, 1], -IVNT1[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Greens(211), label = "textured (300 nm)")
-    PyPlot.plot(IVNT2[:, 1], -IVNT2[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Greens(161), label = "textured (500 nm)")
-    PyPlot.plot(IVNT3[:, 1], -IVNT3[:, 2].*(cm^2).*1.0e3./heightDev, linewidth = 5, color = Greens(101), label = "textured (700 nm)")
-
-    PyPlot.xlim(1.05, 1.40)
-    if generation == "uniform"
-        PyPlot.ylim(-2, 10)
-        yticks([0, 5, 10])
-    else
-        PyPlot.ylim(-2, 16)
-        yticks([0, 5, 10, 15])
-    end
-    PyPlot.legend(fontsize = 18)
-    PyPlot.xlabel("Appl. voltage [V]", fontsize=18)
-    PyPlot.ylabel("\$ J \$ [mA cm\$^{-2} \$]", fontsize=18)
-    PyPlot.tick_params(which ="both", labelsize=18)
-    PyPlot.tight_layout()
-    PyPlot.xticks([1.1, 1.3])
-
-    if saveFig
-        savefig(datadir("IV-planar-nanotexture-zoom-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
-    end
-
-    # figure()
-    # A = rand(20,20)
-    # figure()
-    # PyPlot.pcolor(A, cmap="Greys")
-    # colorbar(ticks = [0.0, 0.25, 0.5, 0.75, 1.0])
-
-    # if saveFig
-    #     savefig(datadir("colorbar-grey.pdf"))
-    # end
 
     #################################################################
     #################################################################
 
     JSCOptical = readdlm(datadir("Max-PhotoCurrent-Optical.dat"))
 
-    figure()
-    if generation == "Maxwell"
-        PyPlot.plot(ampl./nm, JSCOptical[1:end-1], "o", markersize = MKsize, color = [255/255, 118/255, 118/255], label = "optical maximum")
-    end
-    PyPlot.plot(ampl./nm, JSCVecRad,           "o", markersize = MKsize, color = ColBlue,   label = "ideal")
-    PyPlot.plot(ampl./nm, JSCVec,              "o", markersize = MKsize, color = ColGold,   label = "realistic")
+    figure(figsize = figsize)
+    PyPlot.plot(ampl ./ nm, JSCOptical, "o", markersize = MKsize, color = [255 / 255, 108 / 255, 108 / 255], label = "optical maximum")
+    PyPlot.plot(ampl ./ nm, JSCVec1, "o", markersize = MKsize, color = ColBlue, label = "ETL = 2000, HTL = 500")
+    PyPlot.plot(ampl ./ nm, JSCVec2, "o", markersize = 1.4 * MKsize, color = Oranges(121), label = "HTL = 10")
+    PyPlot.plot(ampl ./ nm, JSCVec3, "o", markersize = MKsize, color = ColGold, label = "ETL = 10")
+    PyPlot.plot(ampl ./ nm, JSCVec4, "o", markersize = MKsize, color = "dodgerblue", label = "HTL = ETL = 10")
 
     PyPlot.xticks([0, 300, 600])
     PyPlot.xlim(-20.0, 770)
-    PyPlot.ylim(21, 24)
-    PyPlot.xlabel("Texture height [nm]", fontsize=18)
-    PyPlot.ylabel("\$ J_{\\mathrm{SC}}\$ [mA cm\$^{-2} \$]", fontsize=18)
-    PyPlot.tick_params(which ="both", labelsize=18)
-    PyPlot.legend(fontsize = 18)
-    PyPlot.tight_layout()
+    #PyPlot.ylim(21, 24)
+    PyPlot.xlabel("Texture height [nm]", fontsize = fontsize)
+    PyPlot.ylabel("\$ J_{\\mathrm{SC}}\$ [mA cm\$^{-2} \$]", fontsize = fontsize)
+    PyPlot.tick_params(which = "both", labelsize = fontsize)
+    PyPlot.legend(fontsize = 12)
+    subplots_adjust(left = 0.27, right = 0.97, top = 0.97, bottom = 0.15)
 
     if saveFig
-        savefig(datadir("ampl-JSC-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
+        savefig(datadir("ampl-JSC-generation-Maxwell.pdf"))
     end
 
     if printText
         println(".................................................")
         println(" ")
-        println("Planar (realistic): JSC is $(JSCVec[1]) mA/cm^2.")
-        println("Planar (ideal):     JSC is $(JSCVecRad[1]) mA/cm^2.")
-
+        println("Planar (standard):       JSC is $(round(JSCVec1[1], digits = 3)) mA/cm^2.")
+        println("Planar (HTL = 10):       JSC is $(round(JSCVec2[1], digits = 3)) mA/cm^2.")
+        println("Planar (ETL = 10):       JSC is $(round(JSCVec3[1], digits = 3)) mA/cm^2.")
+        println("Planar (HTL = ETL = 10): JSC is $(round(JSCVec4[1], digits = 3)) mA/cm^2.")
         println(" ")
-
-        println("Realistic: JSC is $(JSCVec[Max2]) mA/cm^2.")
-        println("Ideal:     JSC is $(JSCVecRad[Max2Rad]) mA/cm^2.")
+        println("Realistic (standard):       Maximum JSC is $(round(JSCVec1[ArgMax1], digits = 3)) mA/cm^2.")
+        println("Realistic (HTL = 10):       Maximum JSC is $(round(JSCVec2[ArgMax2], digits = 3)) mA/cm^2.")
+        println("Realistic (ETL = 10):       Maximum JSC is $(round(JSCVec3[ArgMax3], digits = 3)) mA/cm^2.")
+        println("Realistic (HTL = ETL = 10): Maximum JSC is $(round(JSCVec4[ArgMax4], digits = 3)) mA/cm^2.")
     end
 
     ##################################################################
-    figure()
-    PyPlot.plot(ampl./nm, FFVecRad, "o", markersize = MKsize, color = ColBlue, label = "ideal")
-    PyPlot.plot(ampl./nm, FFVec,    "o", markersize = MKsize, color = ColGold, label = "realistic")
+    figure(figsize = figsize)
+    PyPlot.plot(ampl ./ nm, FFVec1, "o", markersize = MKsize, color = ColBlue, label = "ETL = 2000, HTL = 500")
+    PyPlot.plot(ampl ./ nm, FFVec2, "o", markersize = MKsize, color = Oranges(121), label = "HTL = 10")
+    PyPlot.plot(ampl ./ nm, FFVec3, "o", markersize = MKsize, color = ColGold, label = "ETL = 10")
+    PyPlot.plot(ampl ./ nm, FFVec4, "o", markersize = MKsize, color = "dodgerblue", label = "HTL = ETL = 10")
 
     PyPlot.xticks([0, 300, 600])
     PyPlot.xlim(-20.0, 770)
-    PyPlot.xlabel("Texture height [nm]", fontsize=18)
-    PyPlot.ylabel("FF [%]", fontsize=18)
-    PyPlot.tick_params(which ="both", labelsize=18)
-    PyPlot.legend(fontsize = 18)
-    PyPlot.tight_layout()
+    PyPlot.ylim(65, 85)
+    PyPlot.yticks([70, 80])
+    PyPlot.xlabel("Texture height [nm]", fontsize = fontsize)
+    PyPlot.ylabel("FF [%]", fontsize = fontsize)
+    PyPlot.tick_params(which = "both", labelsize = fontsize)
+    PyPlot.legend(fontsize = 12)
+    subplots_adjust(left = 0.27, right = 0.97, top = 0.97, bottom = 0.15)
 
     if saveFig
-        savefig(datadir("ampl-FF-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
+        savefig(datadir("ampl-FF-generation-Maxwell.pdf"))
     end
 
     if printText
         println(".................................................")
         println(" ")
-        println("Planar (realistic): FF is $(FFVec[1]) %.")
-        println("Planar (ideal):     FF is $(FFVecRad[1]) %.")
-
+        println("Planar (standard):       FF is $(round(FFVec1[1], digits = 3))  %.")
+        println("Planar (HTL = 10):       FF is $(round(FFVec2[1], digits = 3))  %.")
+        println("Planar (ETL = 10):       FF is $(round(FFVec3[1], digits = 3)) %.")
+        println("Planar (HTL = ETL = 10): FF is $(round(FFVec4[1], digits = 3))  %.")
         println(" ")
-
-        println("Realistic: FF is $(FFVec[Max2]) %.")
-        println("Ideal:     FF is $(FFVecRad[Max2Rad]) %.")
+        println("Realistic (standard):       Maximum FF is $(round(FFVec1[ArgMax1], digits = 3))  %.")
+        println("Realistic (HTL = 10):       Maximum FF is $(round(FFVec2[ArgMax2], digits = 3))  %.")
+        println("Realistic (ETL = 10):       Maximum FF is $(round(FFVec3[ArgMax3], digits = 3))  %.")
+        println("Realistic (HTL = ETL = 10): Maximum FF is $(round(FFVec4[ArgMax4], digits = 3)) %.")
     end
 
     #################################
 
-    figure()
-    PyPlot.plot(ampl./nm, VOCVecRad, "o", markersize = MKsize, color = ColBlue, label = "ideal")
-    PyPlot.plot(ampl./nm, VOCVec,    "o", markersize = MKsize, color = ColGold, label = "realistic")
+    figure(figsize = figsize)
+    PyPlot.plot(ampl ./ nm, VOCVec1, "o", markersize = MKsize, color = ColBlue, label = "ETL = 2000, HTL = 500")
+    PyPlot.plot(ampl ./ nm, VOCVec2, "o", markersize = MKsize, color = Oranges(121), label = "HTL = 10")
+    PyPlot.plot(ampl ./ nm, VOCVec3, "o", markersize = MKsize, color = ColGold, label = "ETL = 10")
+    PyPlot.plot(ampl ./ nm, VOCVec4, "o", markersize = MKsize, color = "dodgerblue", label = "HTL = ETL = 10")
 
     PyPlot.xticks([0, 300, 600])
     PyPlot.xlim(-20.0, 770)
-    PyPlot.ylim(1.16, 1.37)
-    PyPlot.xlabel("Texture height [nm]", fontsize=18)
-    PyPlot.ylabel("\$ V_{\\mathrm{OC}} \$ [V]", fontsize=18)
-    PyPlot.tick_params(which ="both", labelsize=18)
-    PyPlot.legend(fontsize = 18)
-    PyPlot.tight_layout()
+    PyPlot.ylim(1.0, 1.27)
+    PyPlot.yticks([1.0, 1.1, 1.2])
+    PyPlot.xlabel("Texture height [nm]", fontsize = fontsize)
+    PyPlot.ylabel("\$ V_{\\mathrm{OC}} \$ [V]", fontsize = fontsize)
+    PyPlot.tick_params(which = "both", labelsize = fontsize)
+    PyPlot.legend(fontsize = 12)
+    subplots_adjust(left = 0.27, right = 0.97, top = 0.97, bottom = 0.15)
 
     if saveFig
-        savefig(datadir("ampl-VOC-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
+        savefig(datadir("ampl-VOC-generation-Maxwell.pdf"))
     end
 
     if printText
         println(".................................................")
         println(" ")
-        println("Planar (realistic): VOC is $(VOCVec[1]) V.")
-        println("Planar (ideal):     VOC is $(VOCVecRad[1]) V.")
-
+        println("Planar (standard):       VOC is $(round(VOCVec1[1], digits = 3))  V.")
+        println("Planar (HTL = 10):       VOC is $(round(VOCVec2[1], digits = 3))  V.")
+        println("Planar (ETL = 10):       VOC is $(round(VOCVec3[1], digits = 3)) V.")
+        println("Planar (HTL = ETL = 10): VOC is $(round(VOCVec4[1], digits = 3))  V.")
         println(" ")
-
-        println("Realistic: VOC is $(VOCVec[Max2]) V.")
-        println("Ideal:     VOC is $(VOCVecRad[Max2Rad]) V.")
+        println("Realistic (standard):       Maximum VOC is $(round(VOCVec1[ArgMax1], digits = 3))  V.")
+        println("Realistic (HTL = 10):       Maximum VOC is $(round(VOCVec2[ArgMax2], digits = 3))  V.")
+        println("Realistic (ETL = 10):       Maximum VOC is $(round(VOCVec3[ArgMax3], digits = 3))  V.")
+        println("Realistic (HTL = ETL = 10): Maximum VOC is $(round(VOCVec4[ArgMax4], digits = 3)) V.")
     end
 
     #################################
-    VOCDiff = zeros(0); VOCDiffRad = zeros(0)
+    VOCDiff1 = zeros(0)
+    VOCDiff2 = zeros(0)
+    VOCDiff3 = zeros(0)
+    VOCDiff4 = zeros(0)
 
-    for ii = 2:length(VOCVec)
-        VOCdiff    = VOCVec[ii]    - VOCVec[1]
-        VOCdiffRad = VOCVecRad[ii] - VOCVecRad[1]
+    for ii in 2:length(VOCVec1)
 
-        push!(VOCDiff, VOCdiff); push!(VOCDiffRad, VOCdiffRad)
+        VOCdiff1 = 1.0e3 * (VOCVec1[ii] - VOCVec1[1])
+        VOCdiff2 = 1.0e3 * (VOCVec2[ii] - VOCVec2[1])
+        VOCdiff3 = 1.0e3 * (VOCVec3[ii] - VOCVec3[1])
+        VOCdiff4 = 1.0e3 * (VOCVec4[ii] - VOCVec4[1])
+
+        push!(VOCDiff1, VOCdiff1)
+        push!(VOCDiff2, VOCdiff2)
+        push!(VOCDiff3, VOCdiff3)
+        push!(VOCDiff4, VOCdiff4)
+
     end
 
-    figure()
-    PyPlot.plot(ampl[2:end]./nm, VOCDiffRad.*1.0e3, "o", markersize = MKsize, color = ColBlue, label = "ideal")
-    PyPlot.plot(ampl[2:end]./nm, VOCDiff.*1.0e3,    "o", markersize = MKsize, color = ColGold, label = "realistic")
+    figure(figsize = figsize)
+    PyPlot.plot(ampl[2:end] ./ nm, VOCDiff1, "o", markersize = MKsize, color = ColBlue, label = "ETL = 2000, HTL = 500")
+    PyPlot.plot(ampl[2:end] ./ nm, VOCDiff2, "o", markersize = MKsize, color = Oranges(121), label = "HTL = 10")
+    PyPlot.plot(ampl[2:end] ./ nm, VOCDiff3, "o", markersize = MKsize, color = ColGold, label = "ETL = 10")
+    PyPlot.plot(ampl[2:end] ./ nm, VOCDiff4, "o", markersize = MKsize, color = "dodgerblue", label = "HTL = ETL = 10")
 
     PyPlot.xticks([0, 300, 600])
     PyPlot.xlim(-20.0, 770)
-    if enableIons
-        PyPlot.ylim(-1, 21)
-    else
-        PyPlot.ylim(-0.4, 10.0)
-    end
-    PyPlot.xlabel("Texture height [nm]", fontsize=18)
-    PyPlot.ylabel("\$ V_{\\mathrm{OC, NT}} - V_{\\mathrm{OC, PL}} \$ [mV]", fontsize=18)
-    PyPlot.tick_params(which ="both", labelsize=18)
-    PyPlot.legend(fontsize = 18)
-    PyPlot.tight_layout()
+    PyPlot.ylim(-95, 25)
+    PyPlot.yticks([-80, -40, -20, 0, 20])
+    PyPlot.xlabel("Texture height [nm]", fontsize = fontsize)
+    PyPlot.ylabel("\$ V_{\\mathrm{OC, NT}} - V_{\\mathrm{OC, PL}} \$ [mV]", fontsize = fontsize)
+    PyPlot.tick_params(which = "both", labelsize = fontsize)
+    PyPlot.legend(fontsize = 12)
+    subplots_adjust(left = 0.27, right = 0.97, top = 0.97, bottom = 0.15)
 
     if saveFig
-        savefig(datadir("ampl-VOC-difference-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
+        savefig(datadir("ampl-VOC-difference-generation-Maxwell.pdf"))
     end
-
-    # #################################
-    # JMPVMPDiff = zeros(0); JSCVOCDiff = zeros(0)
-
-    # for ii = 1:length(JMP)
-    #     JMPVMPdiff = JMP[ii] * VMP[ii] #- JMP[1] * VMP[1]
-    #     JSCVOCdiff = JSCVec[ii] * VOCVec[ii] #- JSCVec[1] * VOCVec[1]
-
-    #     push!(JMPVMPDiff, JMPVMPdiff); push!(JSCVOCDiff, JSCVOCdiff)
-
-    # end
-
-    # figure()
-    # PyPlot.plot(ampl./nm, 1.0e-1.*JSCVOCDiff, "o", markersize = MKsize, color = "midnightblue", label = "\$ J_{\\mathrm{SC}} V_{\\mathrm{OC}} \$")
-    # PyPlot.plot(ampl./nm, 1.0e-1.*JMPVMPDiff, "o", markersize = MKsize, color = "dodgerblue", label = "\$ J_{\\mathrm{MP}} V_{\\mathrm{MP}} \$")
-
-    # PyPlot.xticks([0, 300, 600])
-    # PyPlot.xlim(-20.0, 770)
-    # #PyPlot.ylim(18, 21)
-    # PyPlot.xlabel("Texture height [nm]", fontsize=18)
-    # PyPlot.ylabel("Power [W]", fontsize=18)
-    # PyPlot.tick_params(which ="both", labelsize=18)
-    # PyPlot.legend(fontsize = 18)
-    # PyPlot.tight_layout()
-
-    # if saveFig
-    #     savefig(datadir("ampl-JMP-VMP-JSC-VOC-params-$paramsname-generation-$generation-scanrate-$scanrate$(textIons).pdf"))
-    # end
-
 
     return nothing
 end

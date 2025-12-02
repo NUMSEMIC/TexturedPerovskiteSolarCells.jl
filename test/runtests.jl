@@ -2,7 +2,6 @@ using Aqua
 using Test
 using TexturedPerovskiteSolarCells
 
-
 @testset "Aqua - Quality Test" begin
     Aqua.test_all(
         TexturedPerovskiteSolarCells;
@@ -27,22 +26,18 @@ end
         for Fig in [
                 :Fig2Photogeneration,
                 :Fig3CharacteristicsStudy,
-                :Fig4Recombination,
                 :Fig4RecombinationCurrents,
-                :Fig5,
-                :FigS1VacancyDensity,
-                :FigS2FieldStrength,
-                :FigS3ElectronAndHoleDensity,
-                :FigS5BandEdges,
-                :FigS6QuasiFermiLevel,
-                :FigS7ChangingVacancyDensity,
-                :FigS8RatioElectronsAndHoles,
+                :Fig5Density1D,
+                :Fig5ElectricField,
+                :Fig5RatioElectronsAndHoles,
+                :FigS5VacancyDensity,
+                :FigS6ElectronAndHoleDensity,
             ]
-    
+
             @info "plot $Fig"
-    
+
             include(joinpath("..", "PostProcess", string(Fig) * ".jl"))
-    
+
             @eval begin
                 @test $(Fig).main(printText = false, saveFig = true) === nothing
             end

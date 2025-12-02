@@ -1,24 +1,24 @@
-
-function MaxwellPhotogeneration(;gridDim = 1,
-                                ########################
-                                typeGrid  = "nanotextured", # "planar"
-                                ########################
-                                amplitude = 4.0e-7,
-                                parameter_set, demo_run
-                                )
+function MaxwellPhotogeneration(;
+        gridDim = 1,
+        ########################
+        typeGrid = "nanotextured", # "planar"
+        ########################
+        amplitude = 4.0e-7,
+        parameter_set, demo_run
+    )
 
     # use the destructuring operator to extract all the necessary parameters
-    (; regionPero ) = parameter_set()
+    (; regionPero) = parameter_set()
 
     G_interpol = calc_interpol_photogen(typeGrid = typeGrid, amplitude = amplitude)
 
-    grid       = generate_grid(gridDim = gridDim, type = typeGrid, amplitude = amplitude, parameter_set = parameter_set, demo_run = demo_run)
+    grid = generate_grid(gridDim = gridDim, type = typeGrid, amplitude = amplitude, parameter_set = parameter_set, demo_run = demo_run)
 
-    G          = zeros(length(grid[Coordinates][1,:]))
+    G = zeros(length(grid[Coordinates][1, :]))
 
-    coord      = grid[Coordinates]
-    subg       = subgrid(grid, [regionPero])
-    iNode      = subg[NodeParents]
+    coord = grid[Coordinates]
+    subg = subgrid(grid, [regionPero])
+    iNode = subg[NodeParents]
 
     if gridDim == 2
 
@@ -45,14 +45,15 @@ function MaxwellPhotogeneration(;gridDim = 1,
 end
 
 
-function calc_interpol_photogen(;typeGrid = "nanotextured", # "planar", #
-                                amplitude = 4.0e-7
-                                )
+function calc_interpol_photogen(;
+        typeGrid = "nanotextured", # "planar", #
+        amplitude = 4.0e-7
+    )
     ####################################################
-	### read in JCMSuite generation profile
-	####################################################
+    ### read in JCMSuite generation profile
+    ####################################################
 
-    helpampl = collect(string(amplitude));  helpampl[ findall(x -> x == '.', helpampl)[1] ] = 'p'
+    helpampl = collect(string(amplitude));  helpampl[findall(x -> x == '.', helpampl)[1]] = 'p'
     textampl = join(helpampl)
 
     if typeGrid == "nanotextured"
@@ -82,27 +83,28 @@ function calc_interpol_photogen(;typeGrid = "nanotextured", # "planar", #
 end
 
 
-function test(;gridDim = 2, typeGrid = "planar", # "nanotextured", #
-              #######################
-              amplitude = 4.0e-7,
-              parameter_file, demo_run
-            )
+function test(;
+        gridDim = 2, typeGrid = "planar", # "nanotextured", #
+        #######################
+        amplitude = 4.0e-7,
+        parameter_file, demo_run
+    )
 
-    PyPlot.rc("font", family="serif", size=14)
-    PyPlot.rc("mathtext", fontset="dejavuserif")
+    PyPlot.rc("font", family = "serif", size = 14)
+    PyPlot.rc("mathtext", fontset = "dejavuserif")
     PyPlot.close("all")
 
     grid = generate_grid(gridDim = gridDim, type = typeGrid, amplitude = amplitude, parameter_file = parameter_file, demo_run = demo_run)
-    G    = MaxwellPhotogeneration(gridDim = gridDim, typeGrid = typeGrid, amplitude = amplitude, parameter_file = parameter_file, demo_run = demo_run)
+    G = MaxwellPhotogeneration(gridDim = gridDim, typeGrid = typeGrid, amplitude = amplitude, parameter_file = parameter_file, demo_run = demo_run)
 
-    if gridDim == 1
+    return if gridDim == 1
         coord = grid[Coordinates]'
 
         plot(coord, G)
         PyPlot.grid()
         xlabel("position [nm]")
         ylabel("photogeneration [(m\$^3\$s)\$^{-1}\$]")
-        PyPlot.tick_params(which ="both", labelsize=18)
+        PyPlot.tick_params(which = "both", labelsize = 18)
         PyPlot.tight_layout()
 
     elseif gridDim == 2
@@ -110,12 +112,12 @@ function test(;gridDim = 2, typeGrid = "planar", # "nanotextured", #
         XX = grid[Coordinates][1, :]
         YY = grid[Coordinates][2, :]
 
-        tricontourf(XX./nm, YY./nm, G, levels = 40)#, norm=matplotlib.colors.LogNorm(vmin=minimum(G_interpol_eval), vmax=maximum(G_interpol_eval)))
+        tricontourf(XX ./ nm, YY ./ nm, G, levels = 40) #, norm=matplotlib.colors.LogNorm(vmin=minimum(G_interpol_eval), vmax=maximum(G_interpol_eval)))
 
         colorbar(orientation = "horizontal", label = "photogeneration [(m\$^3\$s)\$^{-1}\$]")
-        PyPlot.xlabel("width [nm]", fontsize=17)
-        PyPlot.ylabel("length [nm]", fontsize=17)
-        PyPlot.tick_params(which ="both", labelsize=18)
+        PyPlot.xlabel("width [nm]", fontsize = 17)
+        PyPlot.ylabel("length [nm]", fontsize = 17)
+        PyPlot.tick_params(which = "both", labelsize = 18)
         PyPlot.tight_layout()
 
     end
