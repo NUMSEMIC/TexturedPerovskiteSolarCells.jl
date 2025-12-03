@@ -1,6 +1,6 @@
 name = "TexturedPerovskiteSolarCells"
 uuid = "25b13238-729e-4bd4-a261-8345ff999ea8"
-version = "1.0.0"
+version = "2.0.0"
 authors = ["Dilara Abdel <dilara.abdel@wias-berlin.de>", "Patrick Jaap <patrick.jaap@wias-berlin.de>", "Jürgen Fuhrmann <juergen.fuhrmann@wias-berlin.de>", "Patricio Farrell <patricio.farrell@wias-berlin.de>"]
 
 [deps]
