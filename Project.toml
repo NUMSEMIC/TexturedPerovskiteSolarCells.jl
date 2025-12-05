@@ -21,7 +21,7 @@ VoronoiFVM = "82b139dc-5afc-11e9-35da-9b9bdfd336f3"
 
 [compat]
 Aqua = "0.8.12"
-ChargeTransport = "1.1.1"
+ChargeTransport = "1.2.0"
 DelimitedFiles = "1.9.1"
 ExtendableGrids = "1.13.1"
 GridVisualize = "1.12.0"
