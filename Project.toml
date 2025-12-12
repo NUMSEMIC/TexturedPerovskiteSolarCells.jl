@@ -1,6 +1,6 @@
 name = "TexturedPerovskiteSolarCells"
 uuid = "25b13238-729e-4bd4-a261-8345ff999ea8"
-version = "1.0.0"
+version = "2.0.0"
 authors = ["Dilara Abdel <dilara.abdel@wias-berlin.de>", "Patrick Jaap <patrick.jaap@wias-berlin.de>", "Jürgen Fuhrmann <juergen.fuhrmann@wias-berlin.de>", "Patricio Farrell <patricio.farrell@wias-berlin.de>"]
 
 [deps]
@@ -21,7 +21,7 @@ VoronoiFVM = "82b139dc-5afc-11e9-35da-9b9bdfd336f3"
 
 [compat]
 Aqua = "0.8.12"
-ChargeTransport = "1.1.1"
+ChargeTransport = "1.2.0"
 DelimitedFiles = "1.9.1"
 ExtendableGrids = "1.13.1"
 GridVisualize = "1.12.0"

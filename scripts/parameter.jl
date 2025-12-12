@@ -1,9 +1,15 @@
+# Parameters for a single-junction perovskite solar cell
+# with the composition C60 -- triple cation -- PTAA
+# The parameters follow: https://doi.org/10.25446/oxford.24359959
+# from the publication Thiesbrummel et al., nature energy, 2024.
+
 #####################################################################
 ############################ parameters ############################
 
 @kwdef struct ParamsSingleJunction
 
     # unit factors
+    cm = ufac"cm"
     nm = ufac"nm"
     K = ufac"K"
     m = ufac"m"
@@ -15,8 +21,6 @@
 
     eV = q * V
 
-    paramsname = "2"
-
     ## set indices of the quasi Fermi potentials
     iphin = 1 # electron quasi Fermi potential
     iphip = 2 # hole quasi Fermi potential
@@ -27,11 +31,11 @@
 
     ########## device geometry ##########
     # region numbers
-    regionETL1 = 1
+    regionETL = 1
     regionPero = 2
     regionHTL = 3
 
-    regions = [regionETL1, regionPero, regionHTL]
+    regions = [regionETL, regionPero, regionHTL]
     numberOfRegions = length(regions)
 
     # boundary region numbers
@@ -44,11 +48,11 @@
     heightDev = 750.0 * nm
 
     ## length of regions
-    h_ETL1 = 30.0 * nm # C60
+    h_ETL = 30.0 * nm # C60
     h_activePL = 400.0 * nm # perovskite
     h_HTL = 10.0 * nm # PTAA
 
-    heightLayersPL = [h_ETL1, h_ETL1 + h_activePL, h_ETL1 + h_activePL + h_HTL]
+    heightLayersPL = [h_ETL, h_ETL + h_activePL, h_ETL + h_activePL + h_HTL]
     h_totalPL = heightLayersPL[end]
 
     ########## physical values ##########
@@ -64,48 +68,32 @@
     ## relative dielectric permittivity
     εr = [5.0, 22.0, 3.5] .* 1.0
 
+    ΔEFLeft = 0.05 * eV # offset between metal and ETL
+    ΔEFRight = 0.05 * eV # offset between metal and HTL
+
     ## band edge energies
     En = [-3.9, -3.9, -2.5] .* eV
     Ep = [-5.9, -5.53, -5.5] .* eV
 
-    Ea1D = [0.0, -5.361, 0.0] .* eV
-
+    Ea1D = [0.0, -5.267, 0.0] .* eV
     ###################################################################
-    ## for different amplitude lengths
-    # EaLoop = -5.365 # int Ea cal: 5.997578454738973e22 # (int - Ca) / Ca = -0.0004035908768378476
-    EaPlanar = [0.0, -5.365, 0.0] .* eV
-    # EaLoop = -5.368 # int Ea cal: 5.9982616585419165e22 # (int - Ca) / Ca = -0.0002897235763472455
-    EaAmpl0p5e7 = [0.0, -5.368, 0.0] .* eV
-    # EaLoop = -5.378 # int Ea cal: 5.997072291536053e22 # (int - Ca) / Ca = -0.0004879514106577901
-    EaAmpl1p0e7 = [0.0, -5.378, 0.0] .* eV
-    # EaLoop = -5.392 # int Ea cal: 6.003544241339036e22 # (int - Ca) / Ca = 0.0005907068898393456
-    EaAmpl1p5e7 = [0.0, -5.392, 0.0] .* eV
-    # EaLoop = -5.41 # int Ea cal: 5.998555990281471e22 # (int - Ca) / Ca = -0.00024066828642154797
-    EaAmpl2p0e7 = [0.0, -5.41, 0.0] .* eV
-    # EaLoop = -5.425 # int Ea cal: 6.004910764089687e22 # (int - Ca) / Ca = 0.0008184606816145332
-    EaAmpl2p5e7 = [0.0, -5.425, 0.0] .* eV
-    # EaLoop = -5.441 # int Ea cal: 6.006807857887035e22 # (int - Ca) / Ca = 0.0011346429811724648
-    EaAmpl3p0e7 = [0.0, -5.441, 0.0] .* eV
-    # EaLoop = -5.457 # int Ea cal: 5.998931157924821e22 # (int - Ca) / Ca = -0.00017814034586320678
-    EaAmpl3p5e7 = [0.0, -5.457, 0.0] .* eV
-    # EaLoop = -5.471 # int Ea cal: 5.996443836847383e22 # (int - Ca) / Ca = -0.0005926938587694455
-    EaAmpl4p0e7 = [0.0, -5.471, 0.0] .* eV
-    # EaLoop = -5.482 # int Ea cal: 6.0043888554251045e22 # (int - Ca) / Ca = 0.000731475904184084
-    EaAmpl4p5e7 = [0.0, -5.482, 0.0] .* eV
-    # EaLoop = -5.493 # int Ea cal: 6.0002047196495195e22 # (int - Ca) / Ca = 3.4119941586577e-5
-    EaAmpl5p0e7 = [0.0, -5.493, 0.0] .* eV
-    # EaLoop = -5.503 # int Ea cal: 6.006123717439521e22 # (int - Ca) / Ca = 0.0010206195732534614
-    EaAmpl5p5e7 = [0.0, -5.503, 0.0] .* eV
-    # EaLoop = -5.513 # int Ea cal: 6.009538163397028e22 # (int - Ca) / Ca = 0.0015896938995047028
-    EaAmpl6p0e7 = [0.0, -5.513, 0.0] .* eV
-    # EaLoop = -5.523 # int Ea cal: 6.004118957467857e22 # (int - Ca) / Ca = 0.0006864929113094751
-    EaAmpl6p5e7 = [0.0, -5.523, 0.0] .* eV
-    # EaLoop = -5.533 # int Ea cal: 5.989365556878181e22 # (int - Ca) / Ca = -0.001772407186969784
-    EaAmpl7p0e7 = [0.0, -5.533, 0.0] .* eV
-    # EaLoop = -5.541 # int Ea cal: 6.010879247846272e22 # (int - Ca) / Ca = 0.0018132079743787336
-    EaAmpl7p5e7 = [0.0, -5.541, 0.0] .* eV
-    # EaLoop = -5.55 # int Ea cal: 5.988885681337782e22 # (int - Ca) / Ca = -0.0018523864437030037
-    EaAmpl8p0e7 = [0.0, -5.55, 0.0] .* eV
+    ## for different amplitude lengths, save the energy for faster calculations (also post-processing more convenient with them)
+    EaPlanar = [0.0, -5.28, 0.0] .* eV
+    EaAmpl0p5e7 = [0.0, -5.286, 0.0] .* eV
+    EaAmpl1p0e7 = [0.0, -5.303, 0.0] .* eV
+    EaAmpl1p5e7 = [0.0, -5.327, 0.0] .* eV
+    EaAmpl2p0e7 = [0.0, -5.355, 0.0] .* eV
+    EaAmpl2p5e7 = [0.0, -5.384, 0.0] .* eV
+    EaAmpl3p0e7 = [0.0, -5.412, 0.0] .* eV
+    EaAmpl3p5e7 = [0.0, -5.436, 0.0] .* eV
+    EaAmpl4p0e7 = [0.0, -5.459, 0.0] .* eV
+    EaAmpl4p5e7 = [0.0, -5.478, 0.0] .* eV
+    EaAmpl5p0e7 = [0.0, -5.495, 0.0] .* eV
+    EaAmpl5p5e7 = [0.0, -5.51, 0.0] .* eV
+    EaAmpl6p0e7 = [0.0, -5.523, 0.0] .* eV
+    EaAmpl6p5e7 = [0.0, -5.535, 0.0] .* eV
+    EaAmpl7p0e7 = [0.0, -5.547, 0.0] .* eV
+    EaAmpl7p5e7 = [0.0, -5.558, 0.0] .* eV
 
     ## effective densities of density of states
     Nn1 = 1.0e26 / (m^3)
@@ -122,10 +110,11 @@
     Np = [Np1, Np2, Np3]
     Na = [0.0, Na2, 0.0]
 
+    Da = 5.0e-14
     ## mobilities
-    μn = [1.0e-6, 5.0e-4, 1.0e-8] .* (m^2) / (V * s)
-    μp = [1.0e-6, 5.0e-4, 1.0e-8] .* (m^2) / (V * s)
-    μa = [0.0, 1.9e-12, 0.0] .* (m^2) / (V * s)
+    μn = [1.0e-6, 1.0e-4, 1.0e-8] .* (m^2) / (V * s)
+    μp = [1.0e-6, 1.0e-4, 1.0e-8] .* (m^2) / (V * s)
+    μa = [0.0, Da / (k_B * T / q), 0.0] .* (m^2) / (V * s) # 1.9e-12
 
     ## statistics functions
     Fcc = [Boltzmann, Boltzmann, FermiDiracMinusOne]
@@ -133,16 +122,9 @@
     ## radiative recombination
     r0 = [0.0, 3.0e-17, 0.0] .* m^3 / s
 
-    ## recombination velocities
-    SRHvelocityETLn = 1.0e5 * m / s
-    SRHvelocityETLp = 20.0 * m / s
-
-    SRHvelocityHTLn = 1.0 * m / s
-    SRHvelocityHTLp = 1.0e5 * m / s
-
     ## life times
-    τn = [1.0e100, 4.0e-8, 1.0e100] .* s
-    τp = [1.0e100, 4.0e-8, 1.0e100] .* s
+    τn = [1.0e100, 2.0e-7, 1.0e100] .* s
+    τp = [1.0e100, 2.0e-7, 1.0e100] .* s
 
     ## trap densities
     ni1 = sqrt(Nn1 * Np1 * exp(- (En[1] - Ep[1]) / (k_B * T)))
@@ -153,15 +135,15 @@
     pτ = [ni1, ni2, ni3]
 
     ## doping
-    Cn1 = 2.09e24 / (m^3)
-    # DA: Ea values available for 1.0e21, 1.0e22, 1.0e23, 1.0e24
+    ## doping of transport layers are just for numerical stability, they are so small, they count as undoped.
+    Cn = 1.0e20 / (m^3)
     Ca = 6.0e22 / (m^3)
-    Cp = 2.09e24 / (m^3)
+    Cp = 1.0e20 / (m^3)
 
     ## generation
-    incidentPhotonFlux = [0.0, 1.4e21, 0.0] ./ (m^2 * s)
-    absorption = [0.0, 1.3e7, 0.0] ./ m
-    generationPeak = h_ETL1 + h_activePL
+    incidentPhotonFlux = [0.0, 1.42e21, 0.0] ./ (m^2 * s)
+    absorption = [0.0, 6.34e6, 0.0] ./ m
+    generationPeak = h_ETL + h_activePL
     invertedIllumination = -1
 
     #####################################################################
