@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15594168.svg)](https://doi.org/10.5281/zenodo.15594168)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17908999.svg)](https://doi.org/10.5281/zenodo.17908999)
 
 # TexturedPerovskiteSolarCells.jl -- Numerical examples to analyse the opto-electronic behaviour of textured perovskite solar cells
 
