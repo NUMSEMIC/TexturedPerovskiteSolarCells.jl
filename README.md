@@ -2,7 +2,7 @@
 
 # TexturedPerovskiteSolarCells.jl -- Numerical examples to analyse the opto-electronic behaviour of textured perovskite solar cells
 
-**TexturedPerovskiteSolarCells.jl** contains all scripts and data needed to reproduce the numerical results and figures from the manuscript:
+**TexturedPerovskiteSolarCells.jl** contains all scripts and data needed to reproduce the numerical results and figures from the article published in [*EES Solar*](https://doi.org/10.1039/d5el00208g):
 > *How nanotextured interfaces influence the electronics in perovskite solar cells*
 >
 > Dilara Abdel, Jacob Relle, Thomas Kirchartz, Patrick Jaap, Jürgen Fuhrmann, Sven Burger, Christiane Becker, Klaus Jäger, and Patricio Farrell.
