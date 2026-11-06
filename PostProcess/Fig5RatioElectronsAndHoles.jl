@@ -62,15 +62,18 @@ function main(;
     helpampl2 = collect(string(amplitude2));  helpampl2[findall(x -> x == '.', helpampl2)[1]] = 'p'
     textampl2 = join(helpampl2)
 
-    grid1, ctsys1 = SingleJunction.main(gridDim = 2, typeGrid = "planar", generation = true, plotPostProcess = true, printText = false, plotting = false)
+    gridx, ctsys1 = SingleJunction.main(gridDim = 2, typeGrid = "planar", generation = true, plotPostProcess = true, printText = false, plotting = false)
+    grid1 = simplexgrid(datadir("grid", "grid-2D-planar.sg"))
     subg1 = subgrid(grid1, [regionPero])
     data1 = ctsys1.fvmsys.physics.data
     ########
-    grid2, ctsys2 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude, generation = true, plotPostProcess = true, printText = false, plotting = false)
+    gridy, ctsys2 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude, generation = true, plotPostProcess = true, printText = false, plotting = false)
+    grid2 = simplexgrid(datadir("grid", "grid-2D-nanotextured-ampl-$textampl.sg"))
     subg2 = subgrid(grid2, [regionPero])
     data2 = ctsys2.fvmsys.physics.data
     ########
-    grid3, ctsys3 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude2, generation = true, plotPostProcess = true, printText = false, plotting = false)
+    gridx, ctsys3 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude2, generation = true, plotPostProcess = true, printText = false, plotting = false)
+    grid3 = simplexgrid(datadir("grid", "grid-2D-nanotextured-ampl-$textampl2.sg"))
     subg3 = subgrid(grid3, [regionPero])
     data3 = ctsys3.fvmsys.physics.data
 

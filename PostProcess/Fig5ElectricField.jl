@@ -159,13 +159,16 @@ function main(;
     helpampl2 = collect(string(amplitude2));  helpampl2[findall(x -> x == '.', helpampl2)[1]] = 'p'
     textampl2 = join(helpampl2)
 
-    grid1, ctsys1 = SingleJunction.main(gridDim = 2, typeGrid = "planar", generation = true, plotPostProcess = true, printText = false, plotting = false)
+    gridx, ctsys1 = SingleJunction.main(gridDim = 2, typeGrid = "planar", generation = true, plotPostProcess = true, printText = false, plotting = false)
+    grid1 = simplexgrid(datadir("grid", "grid-2D-planar.sg"))
     subg1 = subgrid(grid1, [regionPero])
     ########
-    grid2, ctsys2 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude, generation = true, plotPostProcess = true, printText = false, plotting = false)
+    gridy, ctsys2 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude, generation = true, plotPostProcess = true, printText = false, plotting = false)
+    grid2 = simplexgrid(datadir("grid", "grid-2D-nanotextured-ampl-$textampl.sg"))
     subg2 = subgrid(grid2, [regionPero])
     ########
-    grid3, ctsys3 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude2, generation = true, plotPostProcess = true, printText = false, plotting = false)
+    gridx, ctsys3 = SingleJunction.main(gridDim = 2, typeGrid = "nanotextured", amplitude = amplitude2, generation = true, plotPostProcess = true, printText = false, plotting = false)
+    grid3 = simplexgrid(datadir("grid", "grid-2D-nanotextured-ampl-$textampl2.sg"))
     subg3 = subgrid(grid3, [regionPero])
 
     #################################################################
@@ -214,7 +217,6 @@ function main(;
     nft3 = VoronoiFVM.nodeflux(ctsys3.fvmsys, sol3)
     jPsi3 = nft3[:, ipsi, nodes3] ./ (ε_0 * εr[regionPero]); jPsi3Abs = norm.(eachcol(jPsi3))
 
-    # println("  ")
     if printText
         @show minimum(jPsi1Abs), maximum(jPsi1Abs)
         @show minimum(jPsi2Abs), maximum(jPsi2Abs)
