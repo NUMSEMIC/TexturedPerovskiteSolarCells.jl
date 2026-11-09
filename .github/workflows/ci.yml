@@ -32,6 +32,8 @@ jobs:
             arch: aarch64
           - os: macOS-latest
             arch: aarch64
+    env:
+      PYTHON: "" # force PyPlot to install matplotlib on its own
     steps:
       - uses: actions/checkout@v4
       - uses: julia-actions/setup-julia@v2
